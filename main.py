@@ -6,6 +6,6 @@ client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
-    print("pleaseeeeeeeeeeeeeeeeeeeeeeeeee")
+    print(f'Logged in as {client.user.name} ({client.user.id})')
 
 client.run(os.getenv("econtoken"))
