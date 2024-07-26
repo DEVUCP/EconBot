@@ -70,10 +70,11 @@ async def InvokeEcon(message : discord.Message) -> None: # The Root Function of 
             await crime(message=message)
         case "beg":
             await beg(message=message)
+        case "rob":
+            await rob(message=message, command=command)
 
 async def help(message : discord.Message) -> None:
     await message.reply(HELP_MSG)
-
 
 async def work(message : discord.Message) -> None:
     await message.reply("Work Command Invoked!")
@@ -92,11 +93,33 @@ async def crime(message : discord.Message) -> None:
     await message.reply(user.bank_acc.GetBankDisplay())
 
 async def beg(message : discord.Message) -> None:
-    await message.reply("Crime Command Invoked!")
+    await message.reply("Beg Command Invoked!")
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
 
     user.bank_acc.AddCash(cash=50)
     await message.reply(user.bank_acc.GetBankDisplay())
+
+async def rob(message : discord.Message, command : list[str]) -> None:
+    await message.reply("Rob Command Invoked!")
+
+    user = FindUser(uid=message.author.id, sid=message.guild.id)
+    user_robbed_id = int(command[1].strip("<@>"))
+
+    try: 
+        client.fetch_user(user_robbed_id)
+    except:
+        await message.reply("Invalid user!")
+        return
+    
+    user_robbed = FindUser(uid=user_robbed_id, sid=message.guild.id)
+
+    if user_robbed.bank_acc.cash_on_hand < 50:
+        await message.reply("This user is too poor!")
+        return
+    
+    user.bank_acc.AddCash(cash=50)
+    user_robbed.bank_acc.RemoveCash(cash=50)
+    await message.reply(f"You have successfully robbed <@{user_robbed_id}>")
 
 client.run(os.getenv("econtoken"))
