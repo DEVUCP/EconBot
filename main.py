@@ -10,7 +10,7 @@ client = discord.Client(intents=intents)
 # Constants
 
 PREFIX = "$"
-HELP_MSG ="```COMMANDS :\n$balance\n$work\n$rob\n$crime\n$beg\n```"
+HELP_MSG ="```COMMANDS :\n$balance\n$withdraw\n$deposit\n$work\n$rob\n$crime\n$beg\n```"
 
 # Variables
 
@@ -70,7 +70,7 @@ async def on_message(message : discord.Message):
 #
 
 async def InvokeEcon(message : discord.Message) -> None: # The Root Function of User-bot Interaction.
-    await message.reply("Invoked Me!")
+    #await message.reply("Invoked Me!") # Uncomment when debugging.
 
     command = GetCommand(message=message.content)
     action = command[0]
@@ -80,6 +80,10 @@ async def InvokeEcon(message : discord.Message) -> None: # The Root Function of 
             await help(message=message)
         case "balance":
             await Balance(message=message, command=command)
+        case "withdraw":
+            await Withdraw(message=message, command=command)
+        case "deposit":
+            await Deposit(message=message, command=command)
         case "work":
             await Work(message=message)
         case "crime":
@@ -89,11 +93,12 @@ async def InvokeEcon(message : discord.Message) -> None: # The Root Function of 
         case "rob":
             await Rob(message=message, command=command)
 
+
 async def Help(message : discord.Message) -> None:
     await message.reply(HELP_MSG)
 
 async def Balance(message : discord.Message, command : list[str]) -> None:
-    await message.reply("Balance Command Invoked!")
+   # await message.reply("Balance Command Invoked!") # Uncomment when debugging.
 
     # If no user is mentioned, then the balance of the user who invoked the command is displayed.
     if len(command) == 1:
@@ -114,19 +119,69 @@ async def Balance(message : discord.Message, command : list[str]) -> None:
     embed = await GetEmbedBalance(user=mentioned_user)
     await message.reply(embed=embed)
 
+async def Withdraw(message : discord.Message, command : list[str]) -> None:
+    # await message.reply("Withdraw Command Invoked!") # Uncomment when debugging.
+    user = FindUser(uid=message.author.id, sid=message.guild.id)
+    if len(command) == 1:
+        embed = discord.Embed(title=f"Succesfully withdrawn {user.bank_acc.GetDeposit():,.2f}")
+        user.bank_acc.WithdrawAmount(user.bank_acc.GetDeposit())
+        await message.reply(embed=embed)
+        return
+    if len(command) == 2:
+        command[1] = command[1].replace(",", "") # Replaces commas to be format independent.
+        try:
+            float(command[1])
+        except:
+            embed = discord.Embed(title="Invalid funds provided.") 
+            await message.reply(embed=embed)
+            return
+        funds = float(command[1])
+        if user.bank_acc.GetDeposit() >= funds and funds > 0.00:
+            user.bank_acc.WithdrawAmount(funds)
+            embed = discord.Embed(title=f"Succesfully withdrawn {funds:,.2f}")
+            await message.reply(embed=embed)
+        else:
+            embed = discord.Embed(title="Insufficient funds.")  
+            await message.reply(embed=embed)
 
+async def Deposit(message : discord.Message, command : list[str]) -> None:
+    # await message.reply("Deposit Command Invoked!") # Uncomment when debugging.
+    user = FindUser(uid=message.author.id, sid=message.guild.id)
+    if len(command) == 1:
+        embed = discord.Embed(title=f"Succesfully deposited {user.bank_acc.GetCashOnHand():,.2f}")
+        user.bank_acc.DepositAmount(user.bank_acc.GetCashOnHand())
+        await message.reply(embed=embed)
+        return
+    if len(command) == 2:
+        command[1] = command[1].replace(",", "") # Replaces commas to be format independent.
+        try:
+            float(command[1])
+        except:
+            embed = discord.Embed(title="Invalid funds provided.") 
+            await message.reply(embed=embed)
+            return
+        funds = float(command[1])
+        if user.bank_acc.GetCashOnHand() >= funds and funds > 0.00:
+            user.bank_acc.DepositAmount(funds)
+            embed = discord.Embed(title=f"Succesfully Deposited {funds:,.2f}")
+            await message.reply(embed=embed)
+        else:
+            embed = discord.Embed(title="Insufficient funds.")  
+            await message.reply(embed=embed)
+    
 
 async def Work(message : discord.Message) -> None:
-    await message.reply("Work Command Invoked!")
+    # await message.reply("Work Command Invoked!") # Uncomment when debugging.
+
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
 
-    user.bank_acc.AddCash(cash=100)
+    user.bank_acc.AddCash(cash=1300)
     embed = await GetEmbedBalance(user=user)
     await message.reply(embed=embed)
 
 async def Crime(message : discord.Message) -> None:
-    await message.reply("Crime Command Invoked!")
+    # await message.reply("Crime Command Invoked!") # Uncomment when debugging.
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
 
@@ -136,7 +191,7 @@ async def Crime(message : discord.Message) -> None:
 
 
 async def Beg(message : discord.Message) -> None:
-    await message.reply("Beg Command Invoked!")
+    # await message.reply("Beg Command Invoked!") # Uncomment when debugging.
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
 
@@ -146,7 +201,7 @@ async def Beg(message : discord.Message) -> None:
 
 async def Rob(message : discord.Message, command : list[str]) -> None:
     amount = 50
-    await message.reply("Rob Command Invoked!")
+    # await message.reply("Rob Command Invoked!") # Uncomment when debugging.
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
     user_robbed_id = int(command[1].strip("<@>"))
