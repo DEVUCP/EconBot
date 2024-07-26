@@ -10,9 +10,10 @@ client = discord.Client(intents=intents)
 # Constants
 
 PREFIX = "$"
-HELP_MSG ="```COMMANDS :\n$work\n$rob\n$crime\n$beg\n```"
+HELP_MSG ="```COMMANDS :\n$balance\n$work\n$rob\n$crime\n$beg\n```"
 
 # Variables
+
 
 user_dict = {} # 1067541126518677664: serverid, list[econessentials.User]
 
@@ -44,6 +45,14 @@ def FindUser(uid : int, sid: int) -> econessentials.User:
     user_dict[sid].append(econessentials.User(uid=uid))
     return user_dict[sid][-1]
 
+async def GetEmbedBalance(user : econessentials.User) -> discord.Embed:
+    message_author = await client.fetch_user(user.uid)
+    embed = discord.Embed(title=f"{message_author.display_name}",color=discord.Color.brand_green())
+    embed.set_thumbnail(url=message_author.display_avatar.url)
+    embed.add_field(name="Cash:",value=f"${user.bank_acc.GetCashOnHand():,.2f}")
+    embed.add_field(name="Bank:",value=f"${user.bank_acc.GetDeposit():,.2f}")
+    return embed
+
 # Client Event Functions
 @client.event
 async def on_ready():
@@ -51,9 +60,10 @@ async def on_ready():
 
 @client.event
 async def on_message(message : discord.Message):
-    if message.author.id == client.user.id:
+    if message.author.id == client.user.id: # This ignores bot's own messages.
         return
-    
+    if len(message.content) == 0: # This ignores any gif or image messages.
+        return
     if message.content[0] == PREFIX:
         await InvokeEcon(message=message)
 
@@ -88,21 +98,23 @@ async def Balance(message : discord.Message, command : list[str]) -> None:
     # If no user is mentioned, then the balance of the user who invoked the command is displayed.
     if len(command) == 1:
         user = FindUser(uid=message.author.id, sid=message.guild.id) # Find the user who invoked the command.
-        await message.reply(f"<@{user.uid}>'s Account:\n{user.bank_acc.GetBankDisplay()}")
+        embed = await GetEmbedBalance(user=user)
+        await message.reply(embed=embed)
         return
     # If a user is mentioned, then the balance of the mentioned user is displayed.
-    user_balance_id = int(command[1].strip("<@>"))
-
+    mentioned_user_id = int(command[1].strip("<@>"))
     # Check if the user is valid.
     try: 
-        await client.fetch_user(user_balance_id)
+        await client.fetch_user(mentioned_user_id)
     except:
         await message.reply("Invalid user!")
         return
-    
     # Display the balance of the mentioned user.
-    user_balance = FindUser(uid=user_balance_id, sid=message.guild.id)
-    await message.reply(user_balance.bank_acc.GetBankDisplay())
+    mentioned_user = FindUser(uid=mentioned_user_id, sid=message.guild.id)
+    embed = await GetEmbedBalance(user=mentioned_user)
+    await message.reply(embed=embed)
+
+
 
 async def Work(message : discord.Message) -> None:
     await message.reply("Work Command Invoked!")
@@ -110,7 +122,8 @@ async def Work(message : discord.Message) -> None:
     user = FindUser(uid=message.author.id, sid=message.guild.id)
 
     user.bank_acc.AddCash(cash=100)
-    await message.reply(user.bank_acc.GetBankDisplay())
+    embed = await GetEmbedBalance(user=user)
+    await message.reply(embed=embed)
 
 async def Crime(message : discord.Message) -> None:
     await message.reply("Crime Command Invoked!")
@@ -118,7 +131,9 @@ async def Crime(message : discord.Message) -> None:
     user = FindUser(uid=message.author.id, sid=message.guild.id)
 
     user.bank_acc.AddCash(cash=250)
-    await message.reply(user.bank_acc.GetBankDisplay())
+    embed = await GetEmbedBalance(user=user)
+    await message.reply(embed=embed)
+
 
 async def Beg(message : discord.Message) -> None:
     await message.reply("Beg Command Invoked!")
@@ -126,7 +141,8 @@ async def Beg(message : discord.Message) -> None:
     user = FindUser(uid=message.author.id, sid=message.guild.id)
 
     user.bank_acc.AddCash(cash=50)
-    await message.reply(user.bank_acc.GetBankDisplay())
+    embed = await GetEmbedBalance(user=user)
+    await message.reply(embed=embed)
 
 async def Rob(message : discord.Message, command : list[str]) -> None:
     amount = 50

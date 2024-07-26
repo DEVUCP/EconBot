@@ -34,8 +34,6 @@ class BankAccount:
     def GetDeposit(self) -> float:
         return self.deposit
 
-    def GetBankDisplay(self) -> str:
-        return f"Cash on hand :\n{self.cash_on_hand}\nBank :\n{self.deposit}"
 
     def SetDeposit(self, newdep : float):
         self.deposit = newdep
