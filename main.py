@@ -26,17 +26,21 @@ def GetCommand(message : str) -> list[str]:
     return command
 
 def FindServer(sid : int) -> list[econessentials.User]:
+    # If the server is already in the dictionary, return the list of users.
     for i in user_dict.keys():
         if i == sid:
             return user_dict[i]
+    # If the server is not in the dictionary, add the server to the dictionary and return an empty list.
     user_dict[sid] = []
     return user_dict[sid]
 
 def FindUser(uid : int, sid: int) -> econessentials.User:
+    # If the user is already in the list, return the user.
     server = FindServer(sid=sid)
     for i in server:
         if i.uid == uid:
             return i
+    # If the user is not in the list, add the user to the list and return the user.
     user_dict[sid].append(econessentials.User(uid=uid))
     return user_dict[sid][-1]
 
@@ -65,38 +69,42 @@ async def InvokeEcon(message : discord.Message) -> None: # The Root Function of 
         case "help":
             await help(message=message)
         case "balance":
-            await balance(message=message, command=command)
+            await Balance(message=message, command=command)
         case "work":
-            await work(message=message)
+            await Work(message=message)
         case "crime":
-            await crime(message=message)
+            await Crime(message=message)
         case "beg":
-            await beg(message=message)
+            await Beg(message=message)
         case "rob":
-            await rob(message=message, command=command)
+            await Rob(message=message, command=command)
 
-async def help(message : discord.Message) -> None:
+async def Help(message : discord.Message) -> None:
     await message.reply(HELP_MSG)
 
-async def balance(message : discord.Message, command : list[str]) -> None:
+async def Balance(message : discord.Message, command : list[str]) -> None:
     await message.reply("Balance Command Invoked!")
 
+    # If no user is mentioned, then the balance of the user who invoked the command is displayed.
     if len(command) == 1:
-        user = FindUser(uid=message.author.id, sid=message.guild.id)
+        user = FindUser(uid=message.author.id, sid=message.guild.id) # Find the user who invoked the command.
         await message.reply(user.bank_acc.GetBankDisplay())
         return
+    # If a user is mentioned, then the balance of the mentioned user is displayed.
     user_balance_id = int(command[1].strip("<@>"))
 
+    # Check if the user is valid.
     try: 
         await client.fetch_user(user_balance_id)
     except:
         await message.reply("Invalid user!")
         return
     
+    # Display the balance of the mentioned user.
     user_balance = FindUser(uid=user_balance_id, sid=message.guild.id)
     await message.reply(user_balance.bank_acc.GetBankDisplay())
 
-async def work(message : discord.Message) -> None:
+async def Work(message : discord.Message) -> None:
     await message.reply("Work Command Invoked!")
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
@@ -104,7 +112,7 @@ async def work(message : discord.Message) -> None:
     user.bank_acc.AddCash(cash=100)
     await message.reply(user.bank_acc.GetBankDisplay())
 
-async def crime(message : discord.Message) -> None:
+async def Crime(message : discord.Message) -> None:
     await message.reply("Crime Command Invoked!")
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
@@ -112,7 +120,7 @@ async def crime(message : discord.Message) -> None:
     user.bank_acc.AddCash(cash=250)
     await message.reply(user.bank_acc.GetBankDisplay())
 
-async def beg(message : discord.Message) -> None:
+async def Beg(message : discord.Message) -> None:
     await message.reply("Beg Command Invoked!")
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
@@ -120,12 +128,13 @@ async def beg(message : discord.Message) -> None:
     user.bank_acc.AddCash(cash=50)
     await message.reply(user.bank_acc.GetBankDisplay())
 
-async def rob(message : discord.Message, command : list[str]) -> None:
+async def Rob(message : discord.Message, command : list[str]) -> None:
     await message.reply("Rob Command Invoked!")
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
     user_robbed_id = int(command[1].strip("<@>"))
 
+    # Check if the user is valid.
     try: 
         await client.fetch_user(user_robbed_id)
     except:
@@ -134,10 +143,12 @@ async def rob(message : discord.Message, command : list[str]) -> None:
     
     user_robbed = FindUser(uid=user_robbed_id, sid=message.guild.id)
 
+    # Check if the user has enough money to rob.
     if user_robbed.bank_acc.cash_on_hand < 50:
         await message.reply("This user is too poor!")
         return
     
+    # Rob the user.
     user.bank_acc.AddCash(cash=50)
     user_robbed.bank_acc.RemoveCash(cash=50)
     await message.reply(f"You have successfully robbed <@{user_robbed_id}>")
