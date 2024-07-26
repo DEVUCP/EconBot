@@ -88,7 +88,7 @@ async def Balance(message : discord.Message, command : list[str]) -> None:
     # If no user is mentioned, then the balance of the user who invoked the command is displayed.
     if len(command) == 1:
         user = FindUser(uid=message.author.id, sid=message.guild.id) # Find the user who invoked the command.
-        await message.reply(user.bank_acc.GetBankDisplay())
+        await message.reply(f"<@{user.uid}>'s Account:\n{user.bank_acc.GetBankDisplay()}")
         return
     # If a user is mentioned, then the balance of the mentioned user is displayed.
     user_balance_id = int(command[1].strip("<@>"))
@@ -129,6 +129,7 @@ async def Beg(message : discord.Message) -> None:
     await message.reply(user.bank_acc.GetBankDisplay())
 
 async def Rob(message : discord.Message, command : list[str]) -> None:
+    amount = 50
     await message.reply("Rob Command Invoked!")
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
@@ -144,13 +145,13 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     user_robbed = FindUser(uid=user_robbed_id, sid=message.guild.id)
 
     # Check if the user has enough money to rob.
-    if user_robbed.bank_acc.cash_on_hand < 50:
+    if user_robbed.bank_acc.cash_on_hand < amount:
         await message.reply("This user is too poor!")
         return
     
     # Rob the user.
-    user.bank_acc.AddCash(cash=50)
-    user_robbed.bank_acc.RemoveCash(cash=50)
-    await message.reply(f"You have successfully robbed <@{user_robbed_id}>")
+    user.bank_acc.AddCash(cash=amount)
+    user_robbed.bank_acc.RemoveCash(cash=amount)
+    await message.reply(f"You have successfully robbed {amount} from <@{user_robbed_id}>")
 
 client.run(os.getenv("econtoken"))
