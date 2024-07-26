@@ -66,12 +66,14 @@ async def InvokeEcon(message : discord.Message) -> None: # The Root Function of 
             await help(message=message)
         case "work":
             await work(message=message)
+        case "crime":
+            await crime(message=message)
 
 async def help(message : discord.Message) -> None:
     await message.reply(HELP_MSG)
 
 
-async def work(message: discord.Message) -> None:
+async def work(message : discord.Message) -> None:
     await message.reply("Work Command Invoked!")
 
     user = FindUser(uid=message.author.id, sid=message.guild.id)
@@ -79,4 +81,12 @@ async def work(message: discord.Message) -> None:
     user.bank_acc.AddCash(cash=100)
     await message.reply(user.bank_acc.GetBankDisplay())
 
+async def crime(message : discord.Message) -> None:
+    await message.reply("Crime Command Invoked!")
+
+    user = FindUser(uid=message.author.id, sid=message.guild.id)
+
+    user.bank_acc.AddCash(cash=250)
+    await message.reply(user.bank_acc.GetBankDisplay())
+    
 client.run(os.getenv("econtoken"))

@@ -8,7 +8,7 @@ class BankAccount:
 
     def __init__(self, cash : float = 0, dep : float = 0):
         self.cash_on_hand = cash
-        self.deposit = cash
+        self.deposit = dep
     
     def DepositAmount(self, amount : float):
         # Check if cash on hand is enough to deposit.
@@ -17,7 +17,7 @@ class BankAccount:
             self.cash_on_hand -= amount
     
     def WithdrawAmount(self, amount : float):
-        # Check if deposit is enough to deposit.
+        # Check if deposit is enough to withdraw.
         if amount <= self.deposit and amount > 0:
             self.cash_on_hand += amount
             self.deposit -= amount
