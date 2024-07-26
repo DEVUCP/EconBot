@@ -10,7 +10,7 @@ client = discord.Client(intents=intents)
 # Constants
 
 PREFIX = "$"
-HELP_MSG ="```COMMANDS :\n$work\n$rob\n None of these work for now.. ```"
+HELP_MSG ="```COMMANDS :\n$work\n$rob\n$crime\n$beg\n```"
 
 # Variables
 
@@ -68,6 +68,8 @@ async def InvokeEcon(message : discord.Message) -> None: # The Root Function of 
             await work(message=message)
         case "crime":
             await crime(message=message)
+        case "beg":
+            await beg(message=message)
 
 async def help(message : discord.Message) -> None:
     await message.reply(HELP_MSG)
@@ -88,5 +90,13 @@ async def crime(message : discord.Message) -> None:
 
     user.bank_acc.AddCash(cash=250)
     await message.reply(user.bank_acc.GetBankDisplay())
-    
+
+async def beg(message : discord.Message) -> None:
+    await message.reply("Crime Command Invoked!")
+
+    user = FindUser(uid=message.author.id, sid=message.guild.id)
+
+    user.bank_acc.AddCash(cash=50)
+    await message.reply(user.bank_acc.GetBankDisplay())
+
 client.run(os.getenv("econtoken"))
