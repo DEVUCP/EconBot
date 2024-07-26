@@ -64,6 +64,8 @@ async def InvokeEcon(message : discord.Message) -> None: # The Root Function of 
     match action:
         case "help":
             await help(message=message)
+        case "balance":
+            await balance(message=message, command=command)
         case "work":
             await work(message=message)
         case "crime":
@@ -75,6 +77,24 @@ async def InvokeEcon(message : discord.Message) -> None: # The Root Function of 
 
 async def help(message : discord.Message) -> None:
     await message.reply(HELP_MSG)
+
+async def balance(message : discord.Message, command : list[str]) -> None:
+    await message.reply("Balance Command Invoked!")
+
+    if len(command) == 1:
+        user = FindUser(uid=message.author.id, sid=message.guild.id)
+        await message.reply(user.bank_acc.GetBankDisplay())
+        return
+    user_balance_id = int(command[1].strip("<@>"))
+
+    try: 
+        await client.fetch_user(user_balance_id)
+    except:
+        await message.reply("Invalid user!")
+        return
+    
+    user_balance = FindUser(uid=user_balance_id, sid=message.guild.id)
+    await message.reply(user_balance.bank_acc.GetBankDisplay())
 
 async def work(message : discord.Message) -> None:
     await message.reply("Work Command Invoked!")
@@ -107,7 +127,7 @@ async def rob(message : discord.Message, command : list[str]) -> None:
     user_robbed_id = int(command[1].strip("<@>"))
 
     try: 
-        client.fetch_user(user_robbed_id)
+        await client.fetch_user(user_robbed_id)
     except:
         await message.reply("Invalid user!")
         return
