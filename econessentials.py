@@ -49,4 +49,11 @@ class User:
     uid : discord.User.id #( int )
     bank_acc : BankAccount
 
+    def __init__(self, uid) -> None:
+        self.uid = uid
+        self.bank_acc = BankAccount()
+    
+
+    
+
 
