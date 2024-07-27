@@ -33,3 +33,4 @@ Install The Following Libraries
 - Add comments to the code that explain the purpose of the code, not what it does.
 - All `const` variables should be in `MACRO_CASE`.
 - All Classes and Methods should be in `PascalCase`. Example: `GetAccountID()`.
+- Make sure to use XML documentation with every function.
