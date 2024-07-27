@@ -53,6 +53,16 @@ async def GetEmbedBalance(user : econessentials.User) -> discord.Embed:
     embed.add_field(name="Bank:",value=f"${user.bank_acc.GetDeposit():,.2f}")
     return embed
 
+def StripEmpty(_list : list[str]) -> list[str]:
+    """Removes empty elements."""
+    i = 0
+    while i < len(_list):
+        if len(_list[i]) == 0:
+            _list.pop(i)
+        else:
+            i += 1
+    return _list
+
 # Client Event Functions
 @client.event
 async def on_ready():
@@ -69,12 +79,13 @@ async def on_message(message : discord.Message):
 
 #
 
-async def InvokeEcon(message : discord.Message) -> None: # The Root Function of User-bot Interaction.
+async def InvokeEcon(message : discord.Message) -> None:
+    """The Root Function of User-bot Interaction."""
     #await message.reply("Invoked Me!") # Uncomment when debugging.
 
     command = GetCommand(message=message.content)
     action = command[0]
-
+    command = StripEmpty(_list=command)
     match action:
         case "help":
             await help(message=message)
@@ -84,6 +95,8 @@ async def InvokeEcon(message : discord.Message) -> None: # The Root Function of 
             await Withdraw(message=message, command=command)
         case "deposit":
             await Deposit(message=message, command=command)
+        case "pay":
+            await Pay(message=message, command=command)
         case "work":
             await Work(message=message)
         case "crime":
@@ -106,14 +119,14 @@ async def Balance(message : discord.Message, command : list[str]) -> None:
         embed = await GetEmbedBalance(user=user)
         await message.reply(embed=embed)
         return
-    # If a user is mentioned, then the balance of the mentioned user is displayed.
-    mentioned_user_id = int(command[1].strip("<@>"))
     # Check if the user is valid.
-    try: 
+    try:
+        mentioned_user_id = int(command[1].strip("<@>"))
         await client.fetch_user(mentioned_user_id)
     except:
         await message.reply("Invalid user!")
         return
+    mentioned_user_id = int(command[1].strip("<@>"))
     # Display the balance of the mentioned user.
     mentioned_user = FindUser(uid=mentioned_user_id, sid=message.guild.id)
     embed = await GetEmbedBalance(user=mentioned_user)
@@ -169,6 +182,50 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
             embed = discord.Embed(title="Insufficient funds.")  
             await message.reply(embed=embed)
     
+async def Pay(message : discord.Message, command : list[str]) -> None:
+    # await message.reply("Pay Command Invoked!") # Uncomment when debugging.
+
+    if len(command) == 1:
+        embed = discord.Embed(title=f"Missing User and pay amount.")
+        await message.reply(embed=embed)
+        return
+    if len(command) == 2:
+        embed = discord.Embed(title=f"Missing User or pay amount.")
+        await message.reply(embed=embed)
+        return
+    if len(command) == 3:
+        command[2] = command[2].replace(",", "") # Replaces commas to be format independent.
+        try:
+            float(command[2])
+        except:
+            embed = discord.Embed(title="Invalid funds provided.") 
+            await message.reply(embed=embed)
+            return
+    # Check if the user is valid.
+    try:
+        user_paid_id = int(command[1].strip("<@>"))
+        await client.fetch_user(user_paid_id)
+    except:
+        await message.reply("Invalid user!")
+        return
+    
+    user = FindUser(uid=message.author.id, sid=message.guild.id)
+    user_paid_id = int(command[1].strip("<@>"))
+    user_paid = FindUser(uid=user_paid_id, sid=message.guild.id)
+
+    amount = float(command[2])
+    # Check if the user has enough money to pay.
+    if user.bank_acc.GetCashOnHand() < amount and amount > 0.00:
+        embed = discord.Embed(title="Insufficient funds.")  
+        await message.reply(embed=embed)
+        return
+    
+    # Pay the user.
+    user.bank_acc.RemoveCash(cash=amount)
+    user_paid.bank_acc.AddCash(cash=amount)
+    paid_user = await client.fetch_user(user_paid_id)
+    embed = discord.Embed(title=f"You have successfully Paid ${amount} to {paid_user.display_name}")
+    await message.reply(embed=embed)
 
 async def Work(message : discord.Message) -> None:
     # await message.reply("Work Command Invoked!") # Uncomment when debugging.
@@ -202,17 +259,17 @@ async def Beg(message : discord.Message) -> None:
 async def Rob(message : discord.Message, command : list[str]) -> None:
     amount = 50
     # await message.reply("Rob Command Invoked!") # Uncomment when debugging.
-
-    user = FindUser(uid=message.author.id, sid=message.guild.id)
-    user_robbed_id = int(command[1].strip("<@>"))
-
+    
     # Check if the user is valid.
     try: 
+        user_robbed_id = int(command[1].strip("<@>"))
         await client.fetch_user(user_robbed_id)
     except:
         await message.reply("Invalid user!")
         return
     
+    user = FindUser(uid=message.author.id, sid=message.guild.id)
+    user_robbed_id = int(command[1].strip("<@>"))
     user_robbed = FindUser(uid=user_robbed_id, sid=message.guild.id)
 
     # Check if the user has enough money to rob.
@@ -224,5 +281,6 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     user.bank_acc.AddCash(cash=amount)
     user_robbed.bank_acc.RemoveCash(cash=amount)
     await message.reply(f"You have successfully robbed {amount} from <@{user_robbed_id}>")
+
 
 client.run(os.getenv("econtoken"))
