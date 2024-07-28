@@ -28,7 +28,7 @@ async def InvokeEcon(message : discord.Message) -> None:
     #await message.reply("Invoked Me!") # Uncomment when debugging.
 
     command = utils.GetCommand(message=message.content)
-    action = command[0]
+    action = command[0].lower()
     command = utils.StripEmpty(_list=command)
     match action:
         case "help":

@@ -4,6 +4,7 @@ import econessentials
 import utils
 import global_variables
 import constants
+import random
 
 async def Help(message : discord.Message) -> None:
     await message.reply(constants.HELP_MSG)
@@ -135,9 +136,15 @@ async def Work(message : discord.Message) -> None:
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
 
-    user.bank_acc.AddCash(cash=1300)
+    outcome = random.choice(list(constants.OUTCOMES_WORK.keys()))
+    value_1, value_2 = constants.OUTCOMES_WORK[outcome]
+
+    cash = random.uniform(value_1, value_2)
+    cash = float(f"{cash:,.2f}")
+    user.bank_acc.AddCash(cash=cash)
+    
     embed = await utils.GetEmbedBalance(user=user)
-    await message.reply(embed=embed)
+    await message.reply(content=outcome.replace("#", str(cash)), embed=embed)
 
 async def Crime(message : discord.Message) -> None:
     """Commits a crime for money."""
@@ -145,9 +152,15 @@ async def Crime(message : discord.Message) -> None:
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
 
-    user.bank_acc.AddCash(cash=250)
+    outcome = random.choice(list(constants.OUTCOMES_CRIME.keys()))
+    value_1, value_2 = constants.OUTCOMES_CRIME[outcome]
+
+    cash = random.uniform(value_1, value_2)
+    cash = float(f"{cash:,.2f}")
+    user.bank_acc.AddCash(cash=cash)
+
     embed = await utils.GetEmbedBalance(user=user)
-    await message.reply(embed=embed)
+    await message.reply(content=outcome.replace("#", str(cash)), embed=embed)
 
 
 async def Beg(message : discord.Message) -> None:
@@ -156,13 +169,18 @@ async def Beg(message : discord.Message) -> None:
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
 
-    user.bank_acc.AddCash(cash=50)
+    outcome = random.choice(list(constants.OUTCOMES_BEG.keys()))
+    value_1, value_2 = constants.OUTCOMES_BEG[outcome]
+
+    cash = random.uniform(value_1, value_2)
+    cash = float(f"{cash:,.2f}")
+    user.bank_acc.AddCash(cash=cash)
+
     embed = await utils.GetEmbedBalance(user=user)
-    await message.reply(embed=embed)
+    await message.reply(content=outcome.replace("#", str(cash)), embed=embed)
 
 async def Rob(message : discord.Message, command : list[str]) -> None:
     """Rob another user for money."""
-    amount = 50
     # await message.reply("Rob Command Invoked!") # Uncomment when debugging.
     
     # Check if the user is valid.
@@ -177,10 +195,13 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     user_robbed_id = int(command[1].strip("<@>"))
     user_robbed = utils.FindUser(uid=user_robbed_id, sid=message.guild.id)
 
+    amount = random.uniform(user_robbed.bank_acc.cash_on_hand/4, user_robbed.bank_acc.cash_on_hand/2)
+    amount = float(f"{amount:,.2f}")
     # Check if the user has enough money to rob.
     if user_robbed.bank_acc.cash_on_hand < amount:
         await message.reply("This user is too poor!")
         return
+    
     
     # Rob the user.
     user.bank_acc.AddCash(cash=amount)
