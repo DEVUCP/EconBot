@@ -9,6 +9,7 @@ async def Help(message : discord.Message) -> None:
     await message.reply(constants.HELP_MSG)
 
 async def Balance(message : discord.Message, command : list[str]) -> None:
+    """Displays the balance of the user."""
    # await message.reply("Balance Command Invoked!") # Uncomment when debugging.
 
     # If no user is mentioned, then the balance of the user who invoked the command is displayed.
@@ -31,6 +32,7 @@ async def Balance(message : discord.Message, command : list[str]) -> None:
     await message.reply(embed=embed)
 
 async def Withdraw(message : discord.Message, command : list[str]) -> None:
+    """Withdraws money from the bank account."""
     # await message.reply("Withdraw Command Invoked!") # Uncomment when debugging.
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
     if len(command) == 1:
@@ -56,6 +58,7 @@ async def Withdraw(message : discord.Message, command : list[str]) -> None:
             await message.reply(embed=embed)
 
 async def Deposit(message : discord.Message, command : list[str]) -> None:
+    """Deposits money into the bank account."""
     # await message.reply("Deposit Command Invoked!") # Uncomment when debugging.
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
     if len(command) == 1:
@@ -81,6 +84,7 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
             await message.reply(embed=embed)
     
 async def Pay(message : discord.Message, command : list[str]) -> None:
+    """Pays money to another user."""
     # await message.reply("Pay Command Invoked!") # Uncomment when debugging.
 
     if len(command) == 1:
@@ -126,8 +130,8 @@ async def Pay(message : discord.Message, command : list[str]) -> None:
     await message.reply(embed=embed)
 
 async def Work(message : discord.Message) -> None:
+    """Works for money."""
     # await message.reply("Work Command Invoked!") # Uncomment when debugging.
-
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
 
@@ -136,6 +140,7 @@ async def Work(message : discord.Message) -> None:
     await message.reply(embed=embed)
 
 async def Crime(message : discord.Message) -> None:
+    """Commits a crime for money."""
     # await message.reply("Crime Command Invoked!") # Uncomment when debugging.
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
@@ -146,6 +151,7 @@ async def Crime(message : discord.Message) -> None:
 
 
 async def Beg(message : discord.Message) -> None:
+    """Begs for money."""
     # await message.reply("Beg Command Invoked!") # Uncomment when debugging.
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
@@ -155,6 +161,7 @@ async def Beg(message : discord.Message) -> None:
     await message.reply(embed=embed)
 
 async def Rob(message : discord.Message, command : list[str]) -> None:
+    """Rob another user for money."""
     amount = 50
     # await message.reply("Rob Command Invoked!") # Uncomment when debugging.
     
