@@ -1,5 +1,5 @@
 import discord
-import global_variables
+import singletons
 import econessentials
 
 def GetCommand(message : str) -> list[str]:
@@ -13,12 +13,12 @@ def GetCommand(message : str) -> list[str]:
 def FindServer(sid : int) -> list[econessentials.User]:
     """Returns the User List from the User Dictionary."""
     # If the server is already in the dictionary, return the list of users.
-    for i in global_variables.user_dict.keys():
+    for i in singletons.user_dict.keys():
         if i == sid:
-            return global_variables.user_dict[i]
+            return singletons.user_dict[i]
     # If the server is not in the dictionary, add the server to the dictionary and return an empty list.
-    global_variables.user_dict[sid] = []
-    return global_variables.user_dict[sid]
+    singletons.user_dict[sid] = []
+    return singletons.user_dict[sid]
 
 def FindUser(uid : int, sid: int) -> econessentials.User:
     """Returns the User Object from the User Dictionary."""
@@ -28,12 +28,12 @@ def FindUser(uid : int, sid: int) -> econessentials.User:
         if i.uid == uid:
             return i
     # If the user is not in the list, add the user to the list and return the user.
-    global_variables.user_dict[sid].append(econessentials.User(uid=uid))
-    return global_variables.user_dict[sid][-1]
+    singletons.user_dict[sid].append(econessentials.User(uid=uid))
+    return singletons.user_dict[sid][-1]
 
 async def GetEmbedBalance(user : econessentials.User) -> discord.Embed:
     """Returns an Embed with the User's Balance."""
-    message_author = await global_variables.client.fetch_user(user.uid)
+    message_author = await singletons.client.fetch_user(user.uid)
     embed = discord.Embed(title=f"{message_author.display_name}",color=discord.Color.brand_green())
     embed.set_thumbnail(url=message_author.display_avatar.url)
     embed.add_field(name="Cash:",value=f"${user.bank_acc.GetCashOnHand():,.2f}")

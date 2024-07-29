@@ -2,20 +2,20 @@
 import discord
 import os
 import econessentials
-import global_variables
+import singletons
 import constants
 import utils
 import commands
 
 
 # Client Event Functions
-@global_variables.client.event
+@singletons.client.event
 async def on_ready():
-    print(f'--- LOGGED IN AS {global_variables.client.user.name} ({global_variables.client.user.id}) ---')
+    print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
 
-@global_variables.client.event
+@singletons.client.event
 async def on_message(message : discord.Message):
-    if message.author.id == global_variables.client.user.id: # This ignores bot's own messages.
+    if message.author.id == singletons.client.user.id: # This ignores bot's own messages.
         return
     if len(message.content) == 0: # This ignores any gif or image messages.
         return
@@ -52,4 +52,4 @@ async def InvokeEcon(message : discord.Message) -> None:
 
 
 
-global_variables.client.run(os.getenv("econtoken"))
+singletons.client.run(os.getenv("econtoken"))

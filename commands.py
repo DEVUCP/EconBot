@@ -2,7 +2,7 @@ import discord
 import os
 import econessentials
 import utils
-import global_variables
+import singletons
 import constants
 import random
 
@@ -22,7 +22,7 @@ async def Balance(message : discord.Message, command : list[str]) -> None:
     # Check if the user is valid.
     try:
         mentioned_user_id = int(command[1].strip("<@>"))
-        await global_variables.client.fetch_user(mentioned_user_id)
+        await singletons.client.fetch_user(mentioned_user_id)
     except:
         await message.reply("Invalid user!")
         return
@@ -107,7 +107,7 @@ async def Pay(message : discord.Message, command : list[str]) -> None:
     # Check if the user is valid.
     try:
         user_paid_id = int(command[1].strip("<@>"))
-        await global_variables.client.fetch_user(user_paid_id)
+        await singletons.client.fetch_user(user_paid_id)
     except:
         await message.reply("Invalid user!")
         return
@@ -126,7 +126,7 @@ async def Pay(message : discord.Message, command : list[str]) -> None:
     # Pay the user.
     user.bank_acc.RemoveCash(cash=amount)
     user_paid.bank_acc.AddCash(cash=amount)
-    paid_user = await global_variables.client.fetch_user(user_paid_id)
+    paid_user = await singletons.client.fetch_user(user_paid_id)
     embed = discord.Embed(title=f"You have successfully Paid ${amount} to {paid_user.display_name}")
     await message.reply(embed=embed)
 
@@ -186,7 +186,7 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     # Check if the user is valid.
     try: 
         user_robbed_id = int(command[1].strip("<@>"))
-        await global_variables.client.fetch_user(user_robbed_id)
+        await singletons.client.fetch_user(user_robbed_id)
     except:
         await message.reply("Invalid user!")
         return
@@ -195,12 +195,12 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     user_robbed_id = int(command[1].strip("<@>"))
     user_robbed = utils.FindUser(uid=user_robbed_id, sid=message.guild.id)
 
+    if user_robbed.bank_acc.cash_on_hand < 0.5:
+        await message.reply("This user is too poor!")
+        return
     amount = random.uniform(user_robbed.bank_acc.cash_on_hand/4, user_robbed.bank_acc.cash_on_hand/2)
     amount = float(f"{amount:,.2f}")
     # Check if the user has enough money to rob.
-    if user_robbed.bank_acc.cash_on_hand < amount:
-        await message.reply("This user is too poor!")
-        return
     
     
     # Rob the user.
