@@ -1,48 +1,6 @@
 import os
 import discord
 
-class Item:
-    name : str
-    quantity : int
-    cost : float
-
-    def __init__(self, name : str, quantity : int, cost : float):
-        self.name = name
-        self.quantity = quantity
-        self.cost = cost
-    
-    def Use(self, quantity : int = 0):
-        if self.quantity < quantity:
-            print(f"Cannot use {quantity}, you only have {self.quantity} in your Inventory.")
-            return
-        self.CustomUse()
-        print(f"{self.name} Used {quantity}.")
-        self.DecrQuantity(quantity)
-
-    def CustomUse(self):
-        pass
-
-    def DecrQuantity(self, decramount : int = 1): # Decrements quantity
-        self.quantity -= decramount
-
-    def SetName(self, name : str):
-        self.name = name    
-    
-    def SetQuantity(self, quantity : int):
-        self.quantity = quantity
-
-    def SetCost(self, cost : float):
-        self.cost = cost        
-
-    def GetName(self) -> str:
-        return self.name
-    
-    def GetQuantity(self) -> int:
-        return self.quantity
-    
-    def GetCost(self) -> float:
-        return self.cost
-
 
 class BankAccount:
     cash_on_hand : float # Money that's avaliable for immediate use.
@@ -95,11 +53,53 @@ class BankAccount:
 class User:
     uid : discord.User.id #( int )
     bank_acc : BankAccount
-    inventory : list[Item]
+    inventory : list
 
     def __init__(self, uid) -> None:
         self.uid = uid
         self.bank_acc = BankAccount()
     
+class Item:
+    name : str
+    quantity : int
+    cost : float
+
+    def __init__(self, name : str, quantity : int, cost : float):
+        self.name = name
+        self.quantity = quantity
+        self.cost = cost
+    
+    def Use(self, user : User, quantity : int = 0) -> any:
+        if self.quantity < quantity:
+            print(f"Cannot use {quantity}, you only have {self.quantity} in your Inventory.")
+            return
+        print(f"{self.name} Used {quantity}.")
+        use = self.CustomUse(user)
+        self.DecrQuantity(quantity)
+        return use
+
+    def CustomUse(self, user : User) -> None:
+        pass
+
+    def DecrQuantity(self, decramount : int = 1): # Decrements quantity
+        self.quantity -= decramount
+
+    def SetName(self, name : str):
+        self.name = name    
+    
+    def SetQuantity(self, quantity : int):
+        self.quantity = quantity
+
+    def SetCost(self, cost : float):
+        self.cost = cost        
+
+    def GetName(self) -> str:
+        return self.name
+    
+    def GetQuantity(self) -> int:
+        return self.quantity
+    
+    def GetCost(self) -> float:
+        return self.cost
 
 
