@@ -3,10 +3,6 @@ import econessentials
 import random
 
 # All items
-'''
-Insult Bag
-
-'''
 
 class InsultBag(econessentials.Item):
     insults = [
@@ -14,9 +10,24 @@ class InsultBag(econessentials.Item):
         "You smell bad.",
         "You are uninteresting.",
     ] # add funny insult lists
-
+    name = "Insult Bag"
+    description="Feeling too happy? This will definitely fix that!"
     def __init__(self, quantity : int = 1, cost : float = 0):
-        super().__init__(self, name="Insult Bag", quantity=quantity, cost=cost) # Initilize parent.
+        super().__init__(quantity=quantity, cost=cost) # Initilize parent.
     
-    def CustomUse(self, user : User) -> str:
+    def CustomUse(self, user : econessentials.User) -> str:
         return random.choice(self.insults)
+
+class ComplementBag(econessentials.Item):
+    complements = [
+        "You Rock!",
+        "You smell great!",
+        "You are a very interesting person!",
+    ] # add funny complement lists
+    name = "Complement Bag"
+    description="Feeling too sad? This will definitely fix that!"
+    def __init__(self, quantity : int = 1, cost : float = 0):
+        super().__init__(quantity=quantity, cost=cost) # Initilize parent.
+    
+    def CustomUse(self, user : econessentials.User) -> str:
+        return random.choice(self.complements)

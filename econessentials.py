@@ -61,11 +61,11 @@ class User:
     
 class Item:
     name : str
+    description : str
     quantity : int
     cost : float
 
-    def __init__(self, name : str, quantity : int, cost : float):
-        self.name = name
+    def __init__(self, quantity : int, cost : float):
         self.quantity = quantity
         self.cost = cost
     
