@@ -38,6 +38,10 @@ async def Withdraw(message : discord.Message, command : list[str]) -> None:
     # await message.reply("Withdraw Command Invoked!") # Uncomment when debugging.
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
     if len(command) == 1:
+        if user.bank_acc.GetDeposit() == 0.0:
+            embed = discord.Embed(title="You have no money to withdraw.",color=discord.Color.red())
+            await message.reply(embed=embed)
+            return
         embed = discord.Embed(title=f"Succesfully withdrawn {user.bank_acc.GetDeposit():,.2f}")
         user.bank_acc.WithdrawAmount(user.bank_acc.GetDeposit())
         await message.reply(embed=embed)
@@ -64,6 +68,10 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
     # await message.reply("Deposit Command Invoked!") # Uncomment when debugging.
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
     if len(command) == 1:
+        if user.bank_acc.GetCashOnHand() == 0.0:
+            embed = discord.Embed(title="You have no cash on hand to deposit.",color=discord.Color.red())
+            await message.reply(embed=embed)
+            return
         embed = discord.Embed(title=f"Succesfully deposited {user.bank_acc.GetCashOnHand():,.2f}")
         user.bank_acc.DepositAmount(user.bank_acc.GetCashOnHand())
         await message.reply(embed=embed)
