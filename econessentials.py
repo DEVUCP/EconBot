@@ -56,6 +56,7 @@ class User:
     inventory : list
 
     def __init__(self, uid) -> None:
+        self.inventory = []
         self.uid = uid
         self.bank_acc = BankAccount()
     

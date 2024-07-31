@@ -1,6 +1,7 @@
 import discord
 import econessentials
 import random
+import singletons
 
 # All items
 
@@ -13,7 +14,7 @@ class InsultBag(econessentials.Item):
     name = "Insult Bag"
     description="Feeling too happy? This will definitely fix that!"
     def __init__(self, quantity : int = 1, cost : float = 0):
-        super().__init__(quantity=quantity, cost=cost) # Initilize parent.
+        super().__init__(quantity=quantity, cost=singletons.INSULT_BAG_COST) # Initilize parent.
     
     def CustomUse(self, user : econessentials.User) -> str:
         return random.choice(self.insults)
@@ -27,7 +28,7 @@ class ComplementBag(econessentials.Item):
     name = "Complement Bag"
     description="Feeling too sad? This will definitely fix that!"
     def __init__(self, quantity : int = 1, cost : float = 0):
-        super().__init__(quantity=quantity, cost=cost) # Initilize parent.
+        super().__init__(quantity=quantity, cost=singletons.COMPLEMENT_BAG_COST) # Initilize parent.
     
     def CustomUse(self, user : econessentials.User) -> str:
         return random.choice(self.complements)

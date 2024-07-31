@@ -47,7 +47,7 @@ async def Withdraw(message : discord.Message, command : list[str]) -> None:
         try:
             float(command[1])
         except:
-            embed = discord.Embed(title="Invalid funds provided.") 
+            embed = discord.Embed(title="Invalid funds provided.",color=0xff0000) 
             await message.reply(embed=embed)
             return
         funds = float(command[1])
@@ -56,7 +56,7 @@ async def Withdraw(message : discord.Message, command : list[str]) -> None:
             embed = discord.Embed(title=f"Succesfully withdrawn {funds:,.2f}")
             await message.reply(embed=embed)
         else:
-            embed = discord.Embed(title="Insufficient funds.")  
+            embed = discord.Embed(title="Insufficient funds.",color=0xff0000)  
             await message.reply(embed=embed)
 
 async def Deposit(message : discord.Message, command : list[str]) -> None:
@@ -73,7 +73,7 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
         try:
             float(command[1])
         except:
-            embed = discord.Embed(title="Invalid funds provided.") 
+            embed = discord.Embed(title="Invalid funds provided.",color=0xff0000) 
             await message.reply(embed=embed)
             return
         funds = float(command[1])
@@ -82,7 +82,7 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
             embed = discord.Embed(title=f"Succesfully Deposited {funds:,.2f}")
             await message.reply(embed=embed)
         else:
-            embed = discord.Embed(title="Insufficient funds.")  
+            embed = discord.Embed(title="Insufficient funds.",color=0xff0000)  
             await message.reply(embed=embed)
     
 async def Pay(message : discord.Message, command : list[str]) -> None:
@@ -90,11 +90,11 @@ async def Pay(message : discord.Message, command : list[str]) -> None:
     # await message.reply("Pay Command Invoked!") # Uncomment when debugging.
 
     if len(command) == 1:
-        embed = discord.Embed(title=f"Missing User and pay amount.")
+        embed = discord.Embed(title=f"Missing User and pay amount.",color=0xff0000)
         await message.reply(embed=embed)
         return
     if len(command) == 2:
-        embed = discord.Embed(title=f"Missing User or pay amount.")
+        embed = discord.Embed(title=f"Missing User or pay amount.",color=0xff0000)
         await message.reply(embed=embed)
         return
     if len(command) == 3:
@@ -102,7 +102,7 @@ async def Pay(message : discord.Message, command : list[str]) -> None:
         try:
             float(command[2])
         except:
-            embed = discord.Embed(title="Invalid funds provided.") 
+            embed = discord.Embed(title="Invalid funds provided.",color=0xff0000) 
             await message.reply(embed=embed)
             return
     # Check if the user is valid.
@@ -219,6 +219,55 @@ async def DisplayShop(message : discord.Message) -> None:
         embed.add_field(name=f"${item.cost}", value=" ", inline=True) # Right alligned field for cost.
         embed.add_field(name=" ", value=" ", inline=False) # Empty field as a seperator to make market more readable.
     await message.reply(embed=embed)
-    # TODO : DISPLAY MARKET (CORE)
+    
     # TODO : DROP DOWN MARKETS
     # TODO : NEXT-PREVIOUS PAGE BUTTONS
+
+async def Buy(message : discord.Message, command : list[str]) -> None:
+    """Buys a specified Item with a quantity."""
+    # await message.reply("Buy Command Invoked!") # Uncomment when debugging.
+
+    command.pop(0) # Removes Prefix and action.
+    command = " ".join(command)
+    command = command.split("|")
+
+    if command[0] == "": # Checks if empty.
+        command.pop(0)
+    
+    if command.__len__() < 1: # Checks if command is with given arguments.
+        embed = discord.Embed(title="No Item provided.. what do you want to buy?",color=0xff0000)
+        await message.reply(embed=embed)
+        return
+    
+    if utils.FindMarketItem(command[0]) == None: # Tries to find item.
+        embed = discord.Embed(title="Item Not found in market. Recheck your spelling?",color=0xff0000)
+        await message.reply(embed=embed)
+        return
+
+    buy_item = utils.FindMarketItem(command[0])
+    quantity = 1
+
+    try:
+        quantity = int(command[1])
+    except TypeError: # Quantity argument given wasn't an int.
+        embed = discord.Embed(title="Invalid quantity provided. Must be a whole number.",color=0xff0000)
+        await message.reply(embed=embed)
+        return
+    except IndexError: # This means that no quantity argument was even given, so just use the default (1).
+        pass
+        
+    user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
+    item_price = buy_item.GetCost()*quantity
+    
+    if user.bank_acc.GetCashOnHand() < item_price : # Checks if user has enough cash on hand for item(s).
+        embed = discord.Embed(title=f"Insufficient funds!",description=f"You are ${item_price-user.bank_acc.GetCashOnHand()} short.",color=0xff0000)
+        await message.reply(embed=embed)
+        return
+    
+    buy_item.SetQuantity(quantity) # Set quantity based on user specification.
+    user.inventory.append(buy_item) # Add to User Inventory.
+    user.bank_acc.RemoveCash(item_price) # Takes cost from user.
+    
+    embed = discord.Embed(title=f"Succesfully bought {quantity} {buy_item.GetName()}s " if quantity > 1 else f"Succesfully bought one {buy_item.GetName()}")
+    await message.reply(embed=embed)
+

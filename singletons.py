@@ -13,8 +13,8 @@ COMPLEMENT_BAG_COST = 300.0
 
 # Market
 market = [
-    items.InsultBag(quantity=1,cost=INSULT_BAG_COST),
-    items.ComplementBag(quantity=1,cost=COMPLEMENT_BAG_COST),
+    items.InsultBag(quantity=1),
+    items.ComplementBag(quantity=1),
     ]
 
 

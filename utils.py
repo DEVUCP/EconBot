@@ -1,6 +1,7 @@
 import discord
 import singletons
 import econessentials
+import items
 
 def GetCommand(message : str) -> list[str]:
     """Returns a list of words from the message."""
@@ -30,6 +31,12 @@ def FindUser(uid : int, sid: int) -> econessentials.User:
     # If the user is not in the list, add the user to the list and return the user.
     singletons.user_dict[sid].append(econessentials.User(uid=uid))
     return singletons.user_dict[sid][-1]
+
+def FindMarketItem(name : str) -> econessentials.Item:
+    """Returns Item object from market list"""
+    for item in singletons.market:
+        if item.GetName().lower().replace(" ","") == name.lower().replace(" ",""):
+            return type(item)() # Returns new instance of the same object type, not the same object.
 
 async def GetEmbedBalance(user : econessentials.User) -> discord.Embed:
     """Returns an Embed with the User's Balance."""
