@@ -1,5 +1,5 @@
 PREFIX = "$"
-HELP_MSG = "```COMMANDS :\n$balance\n$withdraw\n$deposit\n$work\n$rob\n$crime\n$beg\n```"
+HELP_MSG = "```COMMANDS :\n$balance\n$withdraw\n$deposit\n$work\n$rob\n$crime\n$beg\n$shop```"
 OUTCOMES_WORK = {
     "You found a hidden treasure chest at work and earned $#": (50.0, 100.0),
     "Your boss gave you a surprise bonus of $# for your hard work": (100.0, 150.0),

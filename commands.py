@@ -7,6 +7,7 @@ import constants
 import random
 
 async def Help(message : discord.Message) -> None:
+    """Displays all valid commands."""
     await message.reply(constants.HELP_MSG)
 
 async def Balance(message : discord.Message, command : list[str]) -> None:
@@ -207,3 +208,17 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     user.bank_acc.AddCash(cash=amount)
     user_robbed.bank_acc.RemoveCash(cash=amount)
     await message.reply(f"You have successfully robbed {amount} from <@{user_robbed_id}>")
+
+
+async def DisplayShop(message : discord.Message) -> None:
+    """Displays Shop's Items."""
+    # await message.reply("Shop Command Invoked!") # Uncomment when debugging.
+    embed = discord.Embed(title="Market",description="You can buy stuff here.",color=0xffff00) # Create Shop Embed.
+    for item in singletons.market: # Iterates through to retrieve and use items on market.
+        embed.add_field(name=f"• {item.name}", value=item.description, inline=True) # Left alligned field for Item name and description.
+        embed.add_field(name=f"${item.cost}", value=" ", inline=True) # Right alligned field for cost.
+        embed.add_field(name=" ", value=" ", inline=False) # Empty field as a seperator to make market more readable.
+    await message.reply(embed=embed)
+    # TODO : DISPLAY MARKET (CORE)
+    # TODO : DROP DOWN MARKETS
+    # TODO : NEXT-PREVIOUS PAGE BUTTONS

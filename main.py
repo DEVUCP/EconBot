@@ -8,6 +8,7 @@ import utils
 import commands
 
 
+
 # Client Event Functions
 @singletons.client.event
 async def on_ready():
@@ -55,6 +56,8 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.Beg(message=message)
         case "rob":
             await commands.Rob(message=message, command=command)
+        case "shop":
+            await commands.DisplayShop(message=message)
 
 
 
