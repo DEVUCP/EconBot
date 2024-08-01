@@ -2,6 +2,7 @@ import discord
 import singletons
 import econessentials
 import items
+import constants
 
 def GetCommand(message : str) -> list[str]:
     """Returns a list of words from the message."""
@@ -32,16 +33,33 @@ def FindUser(uid : int, sid: int) -> econessentials.User:
     singletons.user_dict[sid].append(econessentials.User(uid=uid))
     return singletons.user_dict[sid][-1]
 
+async def ReplyWithException(message: discord.Message, exception_msg: str = "Exception!", exception_desc: str = "") -> None:
+    """Replies to message that caused an exception with exception detail."""
+    embed = discord.Embed(
+        title=exception_msg,
+        color=constants.EXCEPTION_COLOR,
+        description=exception_desc
+    )
+    await message.reply(embed=embed)
+
 def FindMarketItem(name : str) -> econessentials.Item:
     """Returns Item object from market list"""
     for item in singletons.market:
         if item.GetName().lower().replace(" ","") == name.lower().replace(" ",""):
             return type(item)() # Returns new instance of the same object type, not the same object.
 
+def GetEmbedItemList(item_list : list[econessentials.Item], embed : discord.Embed, shop : bool = False) -> discord.Embed:
+    """Adds a neat item list to embed."""
+    for item in item_list: # Iterates through to retrieve and use items on market.
+        embed.add_field(name=f"• {item.name}" if shop else f"• {item.name}\t({item.quantity})" , value=item.description, inline=True) # Field for Item name and description.
+        embed.add_field(name=f"${item.cost}" if shop else f"value ${item.cost}", value=" ", inline=True) # Field for cost.
+        embed.add_field(name=" ", value=" ", inline=False) # Empty field as a seperator to make market more readable.
+    return embed
+
 async def GetEmbedBalance(user : econessentials.User) -> discord.Embed:
     """Returns an Embed with the User's Balance."""
     message_author = await singletons.client.fetch_user(user.uid)
-    embed = discord.Embed(title=f"{message_author.display_name}",color=discord.Color.brand_green())
+    embed = discord.Embed(title=f"{message_author.display_name}",color=discord.Color.dark_green())
     embed.set_thumbnail(url=message_author.display_avatar.url)
     embed.add_field(name="Cash:",value=f"${user.bank_acc.GetCashOnHand():,.2f}")
     embed.add_field(name="Bank:",value=f"${user.bank_acc.GetDeposit():,.2f}")
