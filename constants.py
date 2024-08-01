@@ -1,5 +1,25 @@
 PREFIX = "$"
-HELP_MSG = "```COMMANDS :\n$balance\n$withdraw\n$deposit\n$work\n$rob\n$crime\n$beg\n$shop```"
+
+
+EXCEPTION_COLOR = 0xff0000 # Exception Embed color
+
+COMMANDS = {
+    "work": "Work to earn some money",
+    "crime": "Commit a crime to earn money illegally",
+    "beg": "Beg for money on the streets",
+    "balance": "Check your current balance",
+    "deposit": "Deposit money into your bank account",
+    "withdraw": "Withdraw money from your bank account",
+    "send": "Send money to another user",
+    "rob": "Attempt to rob another user",
+    "shop": "View the available items in the shop",
+    "buy": "Purchase an item from the shop",
+    "inventory": "View your inventory",
+    # "use": "Use an item from your inventory",
+    # "leaderboard": "View the richest users",
+    # "daily": "Claim your daily reward",
+    # "profile": "View your or another user's profile"
+}
 OUTCOMES_WORK = {
     "You found a hidden treasure chest at work and earned $#": (50.0, 100.0),
     "Your boss gave you a surprise bonus of $# for your hard work": (100.0, 150.0),
