@@ -137,49 +137,63 @@ async def Work(message : discord.Message) -> None:
     # await message.reply("Work Command Invoked!") # Uncomment when debugging.
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
+    
+    outcome = random.choice(list(constants.OUTCOMES_WORK.keys())) # Get outcome string.
+    value_1, value_2 = constants.OUTCOMES_WORK[outcome] # Get outcome money range.
 
-    outcome = random.choice(list(constants.OUTCOMES_WORK.keys()))
-    value_1, value_2 = constants.OUTCOMES_WORK[outcome]
-
+    # Randomize cash.
     cash = random.uniform(value_1, value_2)
     cash = float(f"{cash:,.2f}")
+
+    # Add cash to user.
     user.bank_acc.AddCash(cash=cash)
-    
-    embed = await utils.GetEmbedBalance(user=user)
-    await message.reply(content=outcome.replace("#", str(cash)), embed=embed)
+
+    final_outcome = outcome.replace("#", str(cash))
+
+    embed = discord.Embed(title=final_outcome,color=discord.Color.brand_green())
+    await message.reply(embed=embed)
 
 async def Crime(message : discord.Message) -> None:
     """Commits a crime for money."""
     # await message.reply("Crime Command Invoked!") # Uncomment when debugging.
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
+    
+    outcome = random.choice(list(constants.OUTCOMES_CRIME.keys())) # Get outcome string.
+    value_1, value_2 = constants.OUTCOMES_CRIME[outcome] # Get outcome money range.
 
-    outcome = random.choice(list(constants.OUTCOMES_CRIME.keys()))
-    value_1, value_2 = constants.OUTCOMES_CRIME[outcome]
-
+    # Randomize cash.
     cash = random.uniform(value_1, value_2)
     cash = float(f"{cash:,.2f}")
+
+    # Add cash to user.
     user.bank_acc.AddCash(cash=cash)
 
-    embed = await utils.GetEmbedBalance(user=user)
-    await message.reply(content=outcome.replace("#", str(cash)), embed=embed)
+    final_outcome = outcome.replace("#", str(cash))
 
+    embed = discord.Embed(title=final_outcome,color=discord.Color.brand_green())
+    await message.reply(embed=embed)
 
 async def Beg(message : discord.Message) -> None:
     """Begs for money."""
     # await message.reply("Beg Command Invoked!") # Uncomment when debugging.
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
+    
+    outcome = random.choice(list(constants.OUTCOMES_BEG.keys())) # Get outcome string.
+    value_1, value_2 = constants.OUTCOMES_BEG[outcome] # Get outcome money range.
 
-    outcome = random.choice(list(constants.OUTCOMES_BEG.keys()))
-    value_1, value_2 = constants.OUTCOMES_BEG[outcome]
-
+    # Randomize cash.
     cash = random.uniform(value_1, value_2)
     cash = float(f"{cash:,.2f}")
+
+    # Add cash to user.
     user.bank_acc.AddCash(cash=cash)
 
-    embed = await utils.GetEmbedBalance(user=user)
-    await message.reply(content=outcome.replace("#", str(cash)), embed=embed)
+    final_outcome = outcome.replace("#", str(cash))
+
+    embed = discord.Embed(title=final_outcome,color=discord.Color.brand_green())
+    await message.reply(embed=embed)
 
 async def Rob(message : discord.Message, command : list[str]) -> None:
     """Rob another user for money."""
