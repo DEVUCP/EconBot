@@ -70,19 +70,12 @@ class Item:
         self.quantity = quantity
         self.cost = cost
     
-    def Use(self, user : User, quantity : int = 0) -> any:
+    def Use(self, user : User) -> any:
         """Uses the item."""
-        if self.quantity < quantity: # Check if quantity is less than quantity to use.
-            print(f"Cannot use {quantity}, you only have {self.quantity} in your Inventory.")
-            return
-        print(f"{self.name} Used {quantity}.")
 
         use = self.CustomUse(user) # Custom use for each item.
 
-        if self.quantity == 0: # If quantity is 0, remove item from inventory.
-            self.inventory.remove(self)
-        else:
-            self.DecrQuantity(quantity)
+        self.DecrQuantity()
         
         return use
 

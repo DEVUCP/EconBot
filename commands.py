@@ -272,7 +272,6 @@ async def Buy(message : discord.Message, command : list[str]) -> None:
     if user.bank_acc.GetCashOnHand() < item_price : # Checks if user has enough cash on hand for item(s).
         await utils.ReplyWithException(message=message, exception_msg="Insufficient funds!", exception_desc=f"You are ${item_price-user.bank_acc.GetCashOnHand()} short.")
         return
-    
     buy_item.SetQuantity(quantity) # Set quantity based on user specification.
     user.inventory.append(buy_item) # Add to User Inventory.
     user.bank_acc.RemoveCash(item_price) # Takes cost from user.
@@ -312,7 +311,18 @@ async def UseItem(message : discord.Message, command : list[str]) -> None:
     if utils.FindItem(name=command[0], item_list=user.inventory, user=user) == None: # Tries to find item.
         await utils.ReplyWithException(message=message, exception_msg="Item Not found in Inventory. Recheck your spelling?")
         return
+    
+
     use_item = utils.FindItem(name=command[0], item_list=user.inventory, user=user)
+    item_for_deletion = False
+    print(use_item.GetQuantity(), "bfor use")
+    if use_item.GetQuantity() == 1:
+        item_for_deletion = True
     
     embed = discord.Embed(title=use_item.Use(user=user),color=discord.Color.green())
+    print(use_item.GetQuantity(), "after use")
+    if item_for_deletion:
+        user.inventory.remove(use_item)
+        del use_item
+    
     await message.reply(embed=embed)
