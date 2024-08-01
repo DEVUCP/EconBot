@@ -62,6 +62,7 @@ async def Withdraw(message : discord.Message, command : list[str]) -> None:
             await message.reply(embed=embed)
         else:
             await utils.ReplyWithException(message=message, exception_msg="Insufficient funds.")
+
 async def Deposit(message : discord.Message, command : list[str]) -> None:
     """Deposits money into the bank account."""
     # await message.reply("Deposit Command Invoked!") # Uncomment when debugging.
@@ -250,11 +251,11 @@ async def Buy(message : discord.Message, command : list[str]) -> None:
         await utils.ReplyWithException(message=message, exception_msg="No Item provided.. what do you want to buy?")
         return
     
-    if utils.FindMarketItem(command[0]) == None: # Tries to find item.
+    if utils.FindItem(name=command[0], item_list=singletons.market) == None: # Tries to find item.
         await utils.ReplyWithException(message=message, exception_msg="Item Not found in market. Recheck your spelling?")
         return
 
-    buy_item = utils.FindMarketItem(command[0])
+    buy_item = utils.FindItem(name=command[0], item_list=singletons.market)
     quantity = 1
 
     try:
@@ -290,4 +291,28 @@ async def DisplayInventory(message : discord.Message) -> None:
     
     embed = discord.Embed(title="Inventory",description="All your items.",color=discord.Color.green()) # Create Shop Embed.
     embed = utils.GetEmbedItemList(item_list=user.inventory, embed=embed, shop=False) # Iterates through to retrieve and use items on market.e.
+    await message.reply(embed=embed)
+
+async def UseItem(message : discord.Message, command : list[str]) -> None:
+    """Uses a specified Item."""
+    # await message.reply("Use Command Invoked!") # Uncomment when debugging.
+    command.pop(0) # Removes Prefix and action.
+    command = " ".join(command)
+    command = command.split("|")
+
+    user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
+
+    if command[0] == "": # Checks if empty.
+        command.pop(0)
+    
+    if command.__len__() < 1: # Checks if command is with given arguments.
+        await utils.ReplyWithException(message=message, exception_msg="No Item provided.. what do you want to use?")
+        return
+    
+    if utils.FindItem(name=command[0], item_list=user.inventory, user=user) == None: # Tries to find item.
+        await utils.ReplyWithException(message=message, exception_msg="Item Not found in Inventory. Recheck your spelling?")
+        return
+    use_item = utils.FindItem(name=command[0], item_list=user.inventory, user=user)
+    
+    embed = discord.Embed(title=use_item.Use(user=user),color=discord.Color.green())
     await message.reply(embed=embed)

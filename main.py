@@ -64,6 +64,8 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.DisplayInventory(message=message)
         case "inv":
             await commands.DisplayInventory(message=message)
+        case "use":
+            await commands.UseItem(message=message, command=command)
         case _: # None of the above.
             embed = discord.Embed(title="Invalid Command.. Here are a list of all the valid commands.",color=0xff0000)
             await message.reply(embed=embed)

@@ -42,11 +42,14 @@ async def ReplyWithException(message: discord.Message, exception_msg: str = "Exc
     )
     await message.reply(embed=embed)
 
-def FindMarketItem(name : str) -> econessentials.Item:
-    """Returns Item object from market list"""
-    for item in singletons.market:
+def FindItem(name : str, item_list : list[econessentials.Item], user : econessentials.User = None) -> econessentials.Item:
+    """Returns Item object from item list."""
+    for item in item_list:
         if item.GetName().lower().replace(" ","") == name.lower().replace(" ",""):
-            return type(item)() # Returns new instance of the same object type, not the same object.
+            if user is None: # in this case its for shop.
+                return type(item)() # Returns new instance of the same object type, not the same object.
+            elif user is not None: # in this case its for inventory.
+                return item
 
 def GetEmbedItemList(item_list : list[econessentials.Item], embed : discord.Embed, shop : bool = False) -> discord.Embed:
     """Adds a neat item list to embed."""
