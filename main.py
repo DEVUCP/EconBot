@@ -6,12 +6,42 @@ import singletons
 import constants
 import utils
 import commands
+import math
 
+# Loading
 
+def LoadMarketPages() -> bool:
+    """Loads market item list into market pages."""
+    print(f"Loading market ...")
+    pages = math.ceil(singletons.market.__len__() / constants.MARKET_PAGE_LEN)
+    #singletons.market_pages.append(pages)
+    for i in range(pages):
+        for j in range(constants.MARKET_PAGE_LEN):
+            try:
+                singletons.market_pages[i].append(singletons.market[(constants.MARKET_PAGE_LEN*i)+j])
+                print(singletons.market_pages[i])
+            except IndexError:
+                return True
+            except Exception as e:
+                print(e,singletons.market_pages[i])
+                return False
+        singletons.market_pages.append([]) # Adds new empty page list
+    else:
+        if singletons.market_pages[-1] is []:
+            singletons.market_pages[-1].remove()
+        return True
+    
 
 # Client Event Functions
 @singletons.client.event
 async def on_ready():
+    # Load market in pages
+    if LoadMarketPages():
+        print(f"[Market Loaded Successfully !]")
+        # for page in singletons.market_pages: debugging
+        #    for item in page:
+        #        print(item)
+
     print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
 
 @singletons.client.event

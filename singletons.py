@@ -17,5 +17,8 @@ market = [
     items.ComplementBag(quantity=1),
     ]
 
+market_pages = [
+    [], # Page 0
+]
 
 user_dict = {} # 1067541126518677664: serverid, list[econessentials.User]
