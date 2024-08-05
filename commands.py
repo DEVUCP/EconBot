@@ -5,6 +5,7 @@ import utils
 import singletons
 import constants
 import random
+import itemlistview
 
 async def Help(message : discord.Message) -> None:
     """Displays all valid commands."""
@@ -226,15 +227,33 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     embed = discord.Embed(description=f"You have successfully robbed ${amount} from <@{user_robbed_id}>",color=discord.Color.green())
     await message.reply(embed=embed)
 
-async def DisplayShop(message : discord.Message) -> None:
+async def DisplayShop(message : discord.Message, command : list[str]) -> None:
     """Displays Shop's Items."""
     # await message.reply("Shop Command Invoked!") # Uncomment when debugging.
-    embed = discord.Embed(title="Market",description="You can buy stuff here.",color=0xffff00) # Create Shop Embed.
-    embed = utils.GetEmbedItemList(item_list=singletons.market, embed=embed, shop=True) # Iterates through to retrieve and use items on market.e.
-    await message.reply(embed=embed)
+    page = 0
+    print(command)
+    command.pop(0) # removes prefix.
+
+    if command != []:
+        try: # If given valid page number will use it.
+            if singletons.market_pages.__len__()-1 <= page:
+                page = int(command[0])
+            else:
+                page = -1
+        except TypeError:
+            pass
+        except IndexError:
+            pass
+
     
+    initial_embed = itemlistview.CreateListEmbed(page=page, item_list=singletons.market_pages, shop=True) # Makes Initial Embed from page 0.
+    view = itemlistview.ItemListView(message.author,item_list=singletons.market_pages, shop=True) # Creates New ItemListView
+
+    # Set the current page, ensuring it's within valid range (0 to last page of market)
+    view.current_page = page if page <= singletons.market_pages.__len__()-1 and page >= 0 else singletons.market_pages.__len__()-1
+
+    await message.reply(embed=initial_embed, view=view)
     # TODO : DROP DOWN MARKETS
-    # TODO : NEXT-PREVIOUS PAGE BUTTONS
 
 async def Buy(message : discord.Message, command : list[str]) -> None:
     """Buys a specified Item with a quantity."""
@@ -272,25 +291,48 @@ async def Buy(message : discord.Message, command : list[str]) -> None:
     if user.bank_acc.GetCashOnHand() < item_price : # Checks if user has enough cash on hand for item(s).
         await utils.ReplyWithException(message=message, exception_msg="Insufficient funds!", exception_desc=f"You are ${item_price-user.bank_acc.GetCashOnHand()} short.")
         return
-    buy_item.SetQuantity(quantity) # Set quantity based on user specification.
-    user.inventory.append(buy_item) # Add to User Inventory.
+    
+    if utils.FindItem(name=command[0], item_list=user.inventory, user=user): # if Object already exists in inventory will just increment quantity
+        item = utils.FindItem(name=command[0], item_list=user.inventory, user=user)
+        item.IncrQuantity(quantity)
+    else: # Else add new item.
+        buy_item.SetQuantity(quantity) # Set quantity based on user specification.
+        user.AddNewItemInventory(buy_item)
     user.bank_acc.RemoveCash(item_price) # Takes cost from user.
     
     embed = discord.Embed(title=f"Succesfully bought {quantity} {buy_item.GetName()}s " if quantity > 1 else f"Succesfully bought one {buy_item.GetName()}",color=discord.Color.green())
     await message.reply(embed=embed)
 
-async def DisplayInventory(message : discord.Message) -> None:
+async def DisplayInventory(message : discord.Message, command : list[str]) -> None:
     """Display's User's Items."""
     # await message.reply("Inventory Command Invoked!") # Uncomment when debugging.
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
 
-    if user.inventory.__len__() == 0: # Empty Inventory exception.
+    if user.inventory[0].__len__() == 0: # Empty Inventory exception.
         await utils.ReplyWithException(message=message,exception_msg="No Items in inventory.")
         return 
     
-    embed = discord.Embed(title="Inventory",description="All your items.",color=discord.Color.green()) # Create Shop Embed.
-    embed = utils.GetEmbedItemList(item_list=user.inventory, embed=embed, shop=False) # Iterates through to retrieve and use items on market.e.
-    await message.reply(embed=embed)
+    page = 0
+    command.pop(0) # removes prefix.
+
+    if command != []:
+        try: # If given valid page number will use it.
+            if user.inventory.__len__()-1 <= page:
+                page = int(command[0])
+            else:
+                page = -1
+        except TypeError:
+            pass
+        except IndexError:
+            pass
+    
+    initial_embed = itemlistview.CreateListEmbed(page=page, item_list=user.inventory, shop=False) # Makes Initial Embed from page 0.
+    view = itemlistview.ItemListView(message.author,item_list=user.inventory, shop=False) # Creates New ItemListView
+
+    # Set the current page, ensuring it's within valid range (0 to last page of inventory)
+    view.current_page = page if page <= user.inventory.__len__()-1 and page >= 0 else user.inventory.__len__()-1
+
+    await message.reply(embed=initial_embed, view=view)
 
 async def UseItem(message : discord.Message, command : list[str]) -> None:
     """Uses a specified Item."""
@@ -322,7 +364,14 @@ async def UseItem(message : discord.Message, command : list[str]) -> None:
     embed = discord.Embed(title=use_item.Use(user=user),color=discord.Color.green())
     # print(use_item.GetQuantity(), "after use") Debugging
     if item_for_deletion:
-        user.inventory.remove(use_item)
-        del use_item
+        for page in user.inventory:
+            for item in page:
+                if item.GetName() == use_item.GetName():
+                    page.remove(item)
+                    del use_item
+                    item_for_deletion = False
+                    break
+            if not item_for_deletion:
+                break
     
     await message.reply(embed=embed)

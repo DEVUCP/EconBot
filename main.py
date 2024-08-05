@@ -87,13 +87,13 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "rob":
             await commands.Rob(message=message, command=command)
         case "shop":
-            await commands.DisplayShop(message=message)
+            await commands.DisplayShop(message=message, command=command)
         case "buy":
             await commands.Buy(message=message,command=command)
         case "inventory":
             await commands.DisplayInventory(message=message)
         case "inv":
-            await commands.DisplayInventory(message=message)
+            await commands.DisplayInventory(message=message, command=command)
         case "use":
             await commands.UseItem(message=message, command=command)
         case _: # None of the above.

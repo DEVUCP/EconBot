@@ -15,6 +15,21 @@ COMPLEMENT_BAG_COST = 300.0
 market = [
     items.InsultBag(quantity=1),
     items.ComplementBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.ComplementBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.ComplementBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.ComplementBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.ComplementBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.ComplementBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
     ]
 
 market_pages = [
