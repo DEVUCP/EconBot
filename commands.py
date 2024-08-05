@@ -315,12 +315,12 @@ async def UseItem(message : discord.Message, command : list[str]) -> None:
 
     use_item = utils.FindItem(name=command[0], item_list=user.inventory, user=user)
     item_for_deletion = False
-    print(use_item.GetQuantity(), "bfor use")
+    # print(use_item.GetQuantity(), "before use") Debugging
     if use_item.GetQuantity() == 1:
         item_for_deletion = True
     
     embed = discord.Embed(title=use_item.Use(user=user),color=discord.Color.green())
-    print(use_item.GetQuantity(), "after use")
+    # print(use_item.GetQuantity(), "after use") Debugging
     if item_for_deletion:
         user.inventory.remove(use_item)
         del use_item
