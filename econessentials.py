@@ -1,5 +1,7 @@
 import os
 import discord
+import constants
+
 
 
 class BankAccount:
@@ -49,16 +51,24 @@ class BankAccount:
         self.cash_on_hand = newcash
 
 
-
 class User:
     uid : discord.User.id #( int )
     bank_acc : BankAccount
     inventory : list
 
     def __init__(self, uid) -> None:
-        self.inventory = []
+        self.inventory = [[]]
         self.uid = uid
         self.bank_acc = BankAccount()
+    
+    def AddNewItemInventory(self, item) -> None:
+        if self.inventory[-1].__len__() == constants.MARKET_PAGE_LEN:
+            self.inventory.append([item])
+        else:
+            self.inventory[-1].append(item)
+        print(self.inventory)
+
+        
     
 class Item:
     name : str
@@ -88,6 +98,10 @@ class Item:
     def SetName(self, name : str):
         self.name = name    
     
+    def IncrQuantity(self, incramount : int = 1): # Increments quantity
+        self.quantity += incramount
+
+
     def SetQuantity(self, quantity : int):
         self.quantity = quantity
 
