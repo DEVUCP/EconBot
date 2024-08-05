@@ -1,6 +1,6 @@
 PREFIX = "$"
 
-MARKET_PAGE_LEN = 5 # Max number of items in a market page
+PAGE_LEN = 5 # Max number of items in a market page
 EXCEPTION_COLOR = 0xff0000 # Exception Embed color
 
 COMMANDS = {

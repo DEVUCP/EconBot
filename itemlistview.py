@@ -1,10 +1,6 @@
 # In shop_view.py
 import discord
-import singletons
 import utils
-import econessentials
-import items
-import constants
 
 class ItemListView(discord.ui.View):
     def __init__(self, original_user, item_list, shop = False, timeout=180):
@@ -60,7 +56,7 @@ class ItemListView(discord.ui.View):
         if not self.IsOriginalUser(user=interaction.user):
             return
         
-        self.current_page = self.item_list.__len__()-1
+        self.current_page = len(self.item_list) - 1
         await self.UpdateList(interaction)
 
     async def UpdateList(self, interaction) -> None:
@@ -72,7 +68,7 @@ class ItemListView(discord.ui.View):
 def CreateListEmbed(page : int, item_list, shop : bool = False) -> discord.Embed:
     embed = discord.Embed(title="Market" if shop else "Inventory",description="You can buy stuff here." if shop else "All your items.",color=0xffff00) # Create list Embed.
     embed = utils.GetEmbedItemList(item_list=item_list[page], embed=embed, shop=shop) # Iterates through to retrieve and use items in list.
-    embed.set_footer(text=f"Page {page}" if page >= 0 else f"Page {item_list.__len__()-1}")
+    embed.set_footer(text=f"Page {page}" if page >= 0 else f"Page {len(item_list) - 1}")
     return embed
     # Create and return the list embed for the given page
     # Use the existing logic from GetEmbedItemList, but paginate the items

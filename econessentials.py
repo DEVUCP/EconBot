@@ -1,8 +1,5 @@
-import os
 import discord
 import constants
-
-
 
 class BankAccount:
     cash_on_hand : float # Money that's avaliable for immediate use.
@@ -62,11 +59,12 @@ class User:
         self.bank_acc = BankAccount()
     
     def AddNewItemInventory(self, item) -> None:
-        if self.inventory[-1].__len__() == constants.MARKET_PAGE_LEN:
+        """Adds a new item to the inventory."""
+        if len(self.inventory[-1]) == constants.PAGE_LEN:
             self.inventory.append([item])
+
         else:
             self.inventory[-1].append(item)
-        print(self.inventory)
 
         
     
@@ -82,7 +80,6 @@ class Item:
     
     def Use(self, user : User) -> any:
         """Uses the item."""
-
         use = self.CustomUse(user) # Custom use for each item.
 
         self.DecrQuantity()
@@ -93,14 +90,15 @@ class Item:
         pass
 
     def DecrQuantity(self, decramount : int = 1): # Decrements quantity
+        """Decrements the quantity of the item"""
         self.quantity -= decramount
+
+    def IncrQuantity(self, incramount : int = 1): # Increments quantity
+        """Increments the quantity of the item"""
+        self.quantity += incramount
 
     def SetName(self, name : str):
         self.name = name    
-    
-    def IncrQuantity(self, incramount : int = 1): # Increments quantity
-        self.quantity += incramount
-
 
     def SetQuantity(self, quantity : int):
         self.quantity = quantity

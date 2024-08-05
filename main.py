@@ -1,7 +1,6 @@
 # Libraries
 import discord
 import os
-import econessentials
 import singletons
 import constants
 import utils
@@ -13,13 +12,11 @@ import math
 def LoadMarketPages() -> bool:
     """Loads market item list into market pages."""
     print(f"Loading market ...")
-    pages = math.ceil(singletons.market.__len__() / constants.MARKET_PAGE_LEN)
-    #singletons.market_pages.append(pages)
+    pages = math.ceil(len(singletons.market) / constants.PAGE_LEN)
     for i in range(pages):
-        for j in range(constants.MARKET_PAGE_LEN):
+        for j in range(constants.PAGE_LEN):
             try:
-                singletons.market_pages[i].append(singletons.market[(constants.MARKET_PAGE_LEN*i)+j])
-                print(singletons.market_pages[i])
+                singletons.market_pages[i].append(singletons.market[(constants.PAGE_LEN*i)+j])
             except IndexError:
                 return True
             except Exception as e:
@@ -27,7 +24,7 @@ def LoadMarketPages() -> bool:
                 return False
         singletons.market_pages.append([]) # Adds new empty page list
     else:
-        if singletons.market_pages[-1] is []:
+        if singletons.market_pages[-1] == []:
             singletons.market_pages[-1].remove()
         return True
     
@@ -38,9 +35,6 @@ async def on_ready():
     # Load market in pages
     if LoadMarketPages():
         print(f"[Market Loaded Successfully !]")
-        # for page in singletons.market_pages: debugging
-        #    for item in page:
-        #        print(item)
 
     print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
 
@@ -89,7 +83,9 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "shop":
             await commands.DisplayShop(message=message, command=command)
         case "buy":
-            await commands.Buy(message=message,command=command)
+            await commands.Buy(message=message, command=command)
+        case "sell":
+            await commands.Sell(message=message, command=command)
         case "inventory":
             await commands.DisplayInventory(message=message)
         case "inv":
@@ -100,7 +96,6 @@ async def InvokeEcon(message : discord.Message) -> None:
             embed = discord.Embed(title="Invalid Command.. Here are a list of all the valid commands.",color=0xff0000)
             await message.reply(embed=embed)
             await commands.Help(message=message)
-
 
 
 singletons.client.run(os.getenv("econtoken"))
