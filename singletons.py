@@ -11,11 +11,32 @@ COMPLEMENT_BAG_COST = 300.0
 
 # Market
 market = [
+    # items.InsultBag(quantity=1),
+    items.ComplementBag(quantity=1),
+    items.ComplementBag(quantity=1),
     items.InsultBag(quantity=1),
     items.ComplementBag(quantity=1),
 ]
 
 market_pages = [
+    [], # Page 0
+]
+
+# Black Market
+black_market = [
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    items.InsultBag(quantity=1),
+    # items.ComplementBag(quantity=1),
+]
+
+black_market_pages = [
     [], # Page 0
 ]
 

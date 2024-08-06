@@ -62,11 +62,11 @@ def FindItem(name : str, item_list : list[econessentials.Item], user : econessen
         return None
 
 
-def GetEmbedItemList(item_list : list[econessentials.Item], embed : discord.Embed, shop : bool = False) -> discord.Embed:
+def GetEmbedItemList(item_list : list[econessentials.Item], embed : discord.Embed, market : bool = False) -> discord.Embed:
     """Adds a neat item list to embed."""
     for item in item_list: # Iterates through to retrieve and use items on market.
-        embed.add_field(name=f"• {item.name}" if shop else f"• {item.name}\t({item.quantity})" , value=item.description, inline=True) # Field for Item name and description.
-        embed.add_field(name=f"${item.cost}" if shop else f"value ${item.cost}", value=" ", inline=True) # Field for cost.
+        embed.add_field(name=f"• {item.name}" if market else f"• {item.name}\t({item.quantity})" , value=item.description, inline=True) # Field for Item name and description.
+        embed.add_field(name=f"${item.cost}" if market else f"value ${item.cost}", value=" ", inline=True) # Field for cost.
         embed.add_field(name=" ", value=" ", inline=False) # Empty field as a seperator to make market more readable.
 
     return embed
