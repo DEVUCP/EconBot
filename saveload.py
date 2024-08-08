@@ -1,7 +1,4 @@
-import json
 import os
-import econessentials
-import items
 import singletons
 import math
 import constants
@@ -29,6 +26,8 @@ def SaveUserDict() -> bool:
         return True
 
 def LoadUserDict() -> bool:
+    if not os.path.exists("userdata.pkl"):
+        os.mknod("userdata.pkl")
     with open('userdata.pkl','rb') as file:
        singletons.user_dict = pickle.load(file=file)
        return True

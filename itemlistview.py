@@ -80,7 +80,7 @@ class MarketView(discord.ui.View):
         """Returns True if user is the same as the original user."""
         return user.id == self.original_user.id
 
-    @discord.ui.select(placeholder="Market", options=[
+    @discord.ui.select(placeholder="Choose market: ", options=[
         discord.SelectOption(label="Market"),
         discord.SelectOption(label="Black Market")
     ])

@@ -1,12 +1,16 @@
 # Libraries
 import discord
 import os
+import commands.bank
+import commands.display
+import commands.earnings
+import commands.inventory
+import commands.misc
 import singletons
 import constants
 import utils
 import saveload
 import commands
-import math
 
 # Client Event Functions
 @singletons.client.event
@@ -36,41 +40,41 @@ async def InvokeEcon(message : discord.Message) -> None:
     command = utils.StripEmpty(_list=command)
     match action:
         case "help":
-            await commands.Help(message=message)
+            await commands.misc.Help(message=message)
         case "balance":
-            await commands.Balance(message=message, command=command)
+            await commands.bank.Balance(message=message, command=command)
         case "bal":
-            await commands.Balance(message=message, command=command)
+            await commands.bank.Balance(message=message, command=command)
         case "withdraw":
-            await commands.Withdraw(message=message, command=command)
+            await commands.bank.Withdraw(message=message, command=command)
         case "with":
-            await commands.Withdraw(message=message, command=command)
+            await commands.bank.Withdraw(message=message, command=command)
         case "deposit":
-            await commands.Deposit(message=message, command=command)
+            await commands.bank.Deposit(message=message, command=command)
         case "dep":
-            await commands.Deposit(message=message, command=command)
+            await commands.bank.Deposit(message=message, command=command)
         case "pay":
-            await commands.Pay(message=message, command=command)
+            await commands.bank.Pay(message=message, command=command)
         case "work":
-            await commands.Work(message=message)
+            await commands.earnings.Work(message=message)
         case "crime":
-            await commands.Crime(message=message)
+            await commands.earnings.Crime(message=message)
         case "beg":
-            await commands.Beg(message=message)
+            await commands.earnings.Beg(message=message)
         case "rob":
-            await commands.Rob(message=message, command=command)
+            await commands.earnings.Rob(message=message, command=command)
         case "shop":
-            await commands.DisplayMarket(message=message, command=command)
+            await commands.display.DisplayMarket(message=message, command=command)
         case "market":
-            await commands.DisplayMarket(message=message, command=command)
+            await commands.display.DisplayMarket(message=message, command=command)
         case "buy":
-            await commands.Buy(message=message, command=command)
+            await commands.inventory.Buy(message=message, command=command)
         case "sell":
-            await commands.Sell(message=message, command=command)
+            await commands.inventory.Sell(message=message, command=command)
         case "inventory":
-            await commands.DisplayInventory(message=message)
+            await commands.display.DisplayInventory(message=message)
         case "inv":
-            await commands.DisplayInventory(message=message, command=command)
+            await commands.display.DisplayInventory(message=message, command=command)
         case "use":
             await commands.UseItem(message=message, command=command)
         case _: # None of the above.
