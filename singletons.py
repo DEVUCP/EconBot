@@ -1,9 +1,26 @@
 import discord
 import items
-
+import saveload
 # Discord Essential variables
+
+
+class Client(discord.Client):
+    async def Save(self):
+        # Save accounts before closing
+        saveload.SaveUserDict()
+        print("Saved!")
+
+    async def close(self):
+        # Perform cleanup before closing
+        await self.Save()
+        
+        # Call the parent class's close method
+        await super().close()
+
+
+
 intents =  discord.Intents.all()
-client = discord.Client(intents=intents)
+client = Client(intents=intents)
 
 # Market Item Costs
 INSULT_BAG_COST = 150.0

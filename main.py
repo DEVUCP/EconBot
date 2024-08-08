@@ -4,64 +4,21 @@ import os
 import singletons
 import constants
 import utils
+import saveload
 import commands
 import math
-
-# Loading
-
-def LoadMarketPages() -> bool:
-    """Loads market item list into market pages."""
-    print(f"Loading market ...")
-    pages = math.ceil(len(singletons.market) / constants.PAGE_LEN)
-    for i in range(pages):
-        for j in range(constants.PAGE_LEN):
-            try:
-                singletons.market_pages[i].append(singletons.market[(constants.PAGE_LEN*i)+j])
-            except IndexError:
-                return True
-            except Exception as e:
-                print(e,singletons.market_pages[i])
-                return False
-        singletons.market_pages.append([]) # Adds new empty page list
-    else:
-        if singletons.market_pages[-1] == []:
-            singletons.market_pages[-1].remove()
-        return True
-    
-def LoadBlackMarketPages() -> bool:
-    """Loads blackmarket item list into blackmarket pages."""
-    print(f"Loading blackmarket ...")
-    pages = math.ceil(len(singletons.black_market) / constants.PAGE_LEN)
-    for i in range(pages):
-        for j in range(constants.PAGE_LEN):
-            try:
-                singletons.black_market_pages[i].append(singletons.black_market[(constants.PAGE_LEN*i)+j])
-            except IndexError:
-                return True
-            except Exception as e:
-                print(e,singletons.black_market_pages[i])
-                return False
-        singletons.black_market_pages.append([]) # Adds new empty page list
-    else:
-        if singletons.black_market_pages[-1] == []:
-            singletons.black_market_pages[-1].remove()
-        return True
-    
 
 # Client Event Functions
 @singletons.client.event
 async def on_ready():
-    # Load market in pages
-    if LoadMarketPages():
-        print(f"[Market Loaded Successfully !]")
-
-    if LoadBlackMarketPages():
-        print(f"[Black Market Loaded Successfully !]")
-
-    print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
+    # Loads first
+    if os.path.exists("userdata.pkl") and saveload.LoadAll():
+        print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
 
 @singletons.client.event
 async def on_message(message : discord.Message):
+    if not saveload.loaded:
+        return
     if message.author.id == singletons.client.user.id: # This ignores bot's own messages.
         return
     if len(message.content) == 0: # This ignores any gif or image messages.
