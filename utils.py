@@ -2,6 +2,7 @@ import discord
 import singletons
 import econessentials
 import constants
+import datetime
 
 def GetCommand(message : str) -> list[str]:
     """Returns a list of words from the message."""
@@ -91,3 +92,47 @@ def StripEmpty(_list : list[str]) -> list[str]:
         else:
             i += 1
     return _list
+
+
+def GetClockTime(initial_time : datetime.datetime):
+    """Returns the time delta between the current time and the given time in game clock time and the day of the week in a dictionary."""
+    time_delta = datetime.datetime.now() - initial_time
+
+    hours, remainder = divmod(time_delta.seconds, 3600) 
+    minutes, seconds = divmod(remainder, 60)
+
+    # Shifts every one to the left to convert to in game time.
+    ingame_days = hours
+    ingame_hours = minutes
+    ingame_minutes = seconds
+
+    clocktime = datetime.datetime.strptime(f"{ingame_hours}:{ingame_minutes}", "%H:%M")
+
+    week_day = GetWeekDay(days=ingame_days)
+
+    return {
+    "clock": clocktime,
+    "day":week_day
+    }
+
+def GetWeekDay(days : int ) -> str:
+    """Returns the day of the week from the given number of days elapsed."""
+    match days % 7:
+        case 0:
+            return "Mon"
+        case 1:
+            return "Tue"
+        case 2:
+            return "Wed"
+        case 3:
+            return "Thu"
+        case 4:
+            return "Fri"
+        case 5:
+            return "Sat"
+        case 6:
+            return "Sun"
+        case 0:
+            return "Mon"
+        case _:
+            return "Error"

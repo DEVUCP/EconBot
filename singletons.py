@@ -1,8 +1,10 @@
 import discord
 import items
 import saveload
+import datetime
 # Discord Essential variables
 
+start_time = datetime.datetime.now()
 
 class Client(discord.Client):
     async def Save(self):
