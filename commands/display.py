@@ -2,6 +2,24 @@ import discord
 import utils
 import singletons
 import itemlistview
+import datetime
+import utils
+
+
+
+
+async def DisplayClock(message : discord.Message) -> None:
+    """Displays current in-game time."""
+    # await message.reply("Display Clock Invoked!") # Uncomment when debugging.
+
+    time = utils.GetClockTime(initial_time=singletons.start_time)
+    
+    formatted_time = time["clock"].strftime("%I:%M %p")
+    week_day = time["day"]
+
+    await message.reply(f"{week_day}, {formatted_time}")
+
+
 
 async def DisplayMarket(message : discord.Message, command : list[str]) -> None:
     """Displays Market's Items."""
