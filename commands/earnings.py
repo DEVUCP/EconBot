@@ -10,6 +10,11 @@ async def Work(message : discord.Message) -> None:
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
     
+    # CHECK USER'S ENERGY
+    if user.energy.GetEnergy() <= 0:
+        await utils.ReplyWithException(message=message, exception_msg="Energy insufficient.", exception_desc="Try waiting a bit to replenish your energy.")
+        return
+
     outcome = random.choice(list(constants.OUTCOMES_WORK.keys())) # Get outcome string.
     value_1, value_2 = constants.OUTCOMES_WORK[outcome] # Get outcome money range.
 
@@ -20,9 +25,13 @@ async def Work(message : discord.Message) -> None:
     # Add cash to user.
     user.bank_acc.AddCash(cash=cash)
 
+    # Take energy from user.
+    user.energy.DecrEnergy(amount=1)
+
     final_outcome = outcome.replace("#", str(cash))
 
     embed = discord.Embed(description=final_outcome,color=discord.Color.brand_green())
+    embed.set_footer(text=user.energy.GetEnergyBar())
     await message.reply(embed=embed)
 
 async def Crime(message : discord.Message) -> None:
@@ -31,6 +40,11 @@ async def Crime(message : discord.Message) -> None:
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
     
+    # CHECK USER'S ENERGY
+    if user.energy.GetEnergy() <= 0:
+        await utils.ReplyWithException(message=message, exception_msg="Energy insufficient.", exception_desc="Try waiting a bit to replenish your energy.")
+        return
+
     outcome = random.choice(list(constants.OUTCOMES_CRIME.keys())) # Get outcome string.
     value_1, value_2 = constants.OUTCOMES_CRIME[outcome] # Get outcome money range.
 
@@ -41,9 +55,13 @@ async def Crime(message : discord.Message) -> None:
     # Add cash to user.
     user.bank_acc.AddCash(cash=cash)
 
+    # Take energy from user.
+    user.energy.DecrEnergy(amount=1)
+
     final_outcome = outcome.replace("#", str(cash))
 
     embed = discord.Embed(description=final_outcome,color=discord.Color.brand_green())
+    embed.set_footer(text=user.energy.GetEnergyBar())
     await message.reply(embed=embed)
 
 async def Beg(message : discord.Message) -> None:
@@ -52,6 +70,10 @@ async def Beg(message : discord.Message) -> None:
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
     
+    if user.energy.GetEnergy() <= 0:
+        await utils.ReplyWithException(message=message, exception_msg="Energy insufficient.", exception_desc="Try waiting a bit to replenish your energy.")
+        return
+
     outcome = random.choice(list(constants.OUTCOMES_BEG.keys())) # Get outcome string.
     value_1, value_2 = constants.OUTCOMES_BEG[outcome] # Get outcome money range.
 
@@ -62,9 +84,13 @@ async def Beg(message : discord.Message) -> None:
     # Add cash to user.
     user.bank_acc.AddCash(cash=cash)
 
+    # Take energy from user.
+    user.energy.DecrEnergy(amount=1)
+
     final_outcome = outcome.replace("#", str(cash))
 
     embed = discord.Embed(description=final_outcome,color=discord.Color.brand_green())
+    embed.set_footer(text=user.energy.GetEnergyBar())
     await message.reply(embed=embed)
 
 async def Rob(message : discord.Message, command : list[str]) -> None:
@@ -83,6 +109,10 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     user_robbed_id = int(command[1].strip("<@>"))
     user_robbed = utils.FindUser(uid=user_robbed_id, sid=message.guild.id)
 
+    if user.energy.GetEnergy() <= 0:
+        await utils.ReplyWithException(message=message, exception_msg="Energy insufficient.", exception_desc="Try waiting a bit to replenish your energy.")
+        return
+
     # Check if the user has enough money to rob.
     if user_robbed.bank_acc.cash_on_hand < 0.5:
         await utils.ReplyWithException(message=message, exception_msg="This user is too poor!")
@@ -95,5 +125,9 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     user.bank_acc.AddCash(cash=amount)
     user_robbed.bank_acc.RemoveCash(cash=amount)
 
+    # Take energy from user.
+    user.energy.DecrEnergy(amount=1)
+
     embed = discord.Embed(description=f"You have successfully robbed ${amount} from <@{user_robbed_id}>",color=discord.Color.green())
+    embed.set_footer(text=user.energy.GetEnergyBar())
     await message.reply(embed=embed)
