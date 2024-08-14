@@ -118,8 +118,8 @@ def GetClockTime(initial_time : datetime.datetime):
 
     # Shifts every one to the left to convert to in game time.
     ingame_days = hours
-    ingame_hours = minutes
-    ingame_minutes = seconds
+    ingame_hours = minutes % 24
+    ingame_minutes = seconds % 60
 
     clocktime = datetime.datetime.strptime(f"{ingame_hours}:{ingame_minutes}", "%H:%M")
 
