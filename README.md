@@ -18,7 +18,7 @@
 - Clone the repository
 
    ```bash
-   git clone https://github.com/OH221105/Todo.git
+   git clone https://github.com/OH221105/EconBot
    ```
 
 - Make sure you have Python 3.12 or higher installed.
@@ -29,7 +29,7 @@
 
 - Install the required dependencies:
   ```bash
-   pip install discord pytz
+   pip install discord
    ```
    
 - Create a Discord bot and get the token from the [Discord Developer Portal](https://discord.com/developers/applications)
