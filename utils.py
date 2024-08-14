@@ -94,6 +94,21 @@ def StripEmpty(_list : list[str]) -> list[str]:
     return _list
 
 
+def GetTimeDelta(initial_time : datetime.datetime):
+    """Returns the time delta between the current time and the given time in game time."""
+    time_delta = datetime.datetime.now() - initial_time
+
+    hours, remainder = divmod(time_delta.seconds, 3600) 
+    minutes, seconds = divmod(remainder, 60)
+    
+
+    return {
+        "days": hours,
+        "hours": minutes,
+        "minutes": seconds,
+    }
+
+
 def GetClockTime(initial_time : datetime.datetime):
     """Returns the time delta between the current time and the given time in game clock time and the day of the week in a dictionary."""
     time_delta = datetime.datetime.now() - initial_time
@@ -112,10 +127,11 @@ def GetClockTime(initial_time : datetime.datetime):
 
     return {
     "clock": clocktime,
-    "day":week_day
+    "week day":week_day,
+    "days":ingame_days,
     }
 
-def GetWeekDay(days : int ) -> str:
+def GetWeekDay(days : int) -> str:
     """Returns the day of the week from the given number of days elapsed."""
     match days % 7:
         case 0:
