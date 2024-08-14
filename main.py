@@ -79,8 +79,10 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.inventory.UseItem(message=message, command=command)
         case "clock":
             await commands.display.DisplayClock(message=message)
+        case "energy":
+            await commands.display.DisplayEnergy(message=message)
         case _: # None of the above.
-            embed = discord.Embed(title="Invalid Command.. Here are a list of all the valid commands.",color=0xff0000)
+            embed = discord.Embed(title="Invalid Command.. Here are a list of all the valid commands.", color=constants.EXCEPTION_COLOR)
             await message.reply(embed=embed)
             await commands.misc.Help(message=message)
 
