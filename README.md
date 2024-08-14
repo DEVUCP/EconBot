@@ -66,6 +66,6 @@ py main.py
 
 ## Authors
 
-- [@TheUCP](https://www.github.com/octokatherine)
+- [@TheUCP](https://github.com/OH221105)
 - [@OmarSherif](https://github.com/OmarSherif06)
 - [@CoolEZFoxy](https://github.com/CoolEZFoxy)
