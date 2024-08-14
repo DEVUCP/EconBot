@@ -11,26 +11,61 @@
   </p>
 </div>
 
-### Prerequisites
-- [Python](https://www.python.org/downloads/release/python-3120/)
 
-Install The Following Libraries
 
-- Discord.py
+# Installation & Setup
 
-### Installation
+- Clone the repository
 
-## Discord.py
-1 - Open up the your terminal ( CMD ).
+   ```bash
+   git clone https://github.com/OH221105/Todo.git
+   ```
 
-2 - Make sure you have the right version of python installed by using `python --version`.
+- Make sure you have Python 3.12 or higher installed.
+  You can check your version with :
+  ```bash
+   python --version
+   ```
 
-3 - Install Discord.py by using `pip install discord`.
+- Install the required dependencies:
+  ```bash
+   pip install discord pytz
+   ```
+   
+- Create a Discord bot and get the token from the [Discord Developer Portal](https://discord.com/developers/applications)
 
-# Сoding conventions
+- Set up an environment variable named `econtoken` with your bot token . . .
+
+   [Windows 10](https://www.youtube.com/watch?v=z84UIZy_qgE)
+
+   [Windows 11](https://www.youtube.com/watch?v=ow2jROvxyH4&t=2s)
+
+   [Linux (Ubuntu)](https://www.youtube.com/watch?v=Y6_7xaxkPik)
+
+  ~ *if you can't seem to figure out how to do this, you can always just type your token in the code*
+example: `client.run("your_token_here")`
+
+
+# Running
+
+- Open up terminal
+- Make sure you're in the root directory (the folder you just cloned)
+- Run the bot using
+```base
+py main.py
+```
+
+
+# Coding conventions
 - Folder & file names should be lowercase and `flatcase`.
 - Any non-const variables should be in `snake_case`.
 - Add comments to the code that explain the purpose of the code, not what it does.
 - All `const` variables should be in `MACRO_CASE`.
 - All Classes and Methods should be in `PascalCase`. Example: `GetAccountID()`.
 - Make sure to use XML documentation with every function.
+
+## Authors
+
+- [@TheUCP](https://www.github.com/octokatherine)
+- [@OmarSherif](https://github.com/OmarSherif06)
+- [@CoolEZFoxy](https://github.com/CoolEZFoxy)
