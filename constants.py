@@ -15,10 +15,9 @@ COMMANDS = {
     "shop": "View the available items in the shop",
     "buy": "Purchase an item from the shop",
     "inventory": "View your inventory",
-    # "use": "Use an item from your inventory",
-    # "leaderboard": "View the richest users",
-    # "daily": "Claim your daily reward",
-    # "profile": "View your or another user's profile"
+    "use": "Use an item from your inventory",
+    "clock":"Dislpays current ingame time",
+    "energy":"Displays energy bar"
 }
 OUTCOMES_WORK = {
     "You found a hidden treasure chest at work and earned **$#**": (50.0, 100.0),
