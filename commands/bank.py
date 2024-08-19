@@ -1,4 +1,5 @@
 import singletons
+import econessentials
 import discord
 import utils
 
@@ -41,7 +42,7 @@ async def Withdraw(message : discord.Message, command : list[str]) -> None:
         if user.bank_acc.GetDeposit() == 0.0:
             await utils.ReplyWithException(message=message, exception_msg="You have no money to withdraw.")
             return
-        embed = discord.Embed(title=f"Succesfully withdrawn {user.bank_acc.GetDeposit():,.2f}",color=discord.Color.green())
+        embed = discord.Embed(title=f"Succesfully withdrawn ${user.bank_acc.GetDeposit():,.2f}",color=discord.Color.green())
 
         user.bank_acc.WithdrawAmount(user.bank_acc.GetDeposit())
 
@@ -60,7 +61,7 @@ async def Withdraw(message : discord.Message, command : list[str]) -> None:
 
         if user.bank_acc.GetDeposit() >= funds and funds > 0.00:
             user.bank_acc.WithdrawAmount(funds)
-            embed = discord.Embed(title=f"Succesfully withdrawn {funds:,.2f}",color=discord.Color.green())
+            embed = discord.Embed(title=f"Succesfully withdrawn ${funds:,.2f}",color=discord.Color.green())
             await message.reply(embed=embed)
         else:
             await utils.ReplyWithException(message=message, exception_msg="Insufficient funds.")
@@ -72,13 +73,33 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
 
     if len(command) == 1:
-        if user.bank_acc.GetCashOnHand() == 0.0:
+
+        funds = user.bank_acc.GetCashOnHand()
+
+        if funds == 0.0:
             await utils.ReplyWithException(message=message,exception_msg="You have no cash on hand to deposit.")
             return
-        embed = discord.Embed(title=f"Succesfully deposited {user.bank_acc.GetCashOnHand():,.2f}",color=discord.Color.green())
-        user.bank_acc.DepositAmount(user.bank_acc.GetCashOnHand())
-        await message.reply(embed=embed)
-        return
+        
+        old_dep = user.bank_acc.GetDeposit()
+        
+        deposit_status = user.bank_acc.DepositAmount(funds)
+
+        match deposit_status:
+
+            case econessentials.BankAccount.DepositStatus.SUCCEEDED.value:
+                embed = discord.Embed(title=f"Succesfully deposited ${funds:,.2f}",color=discord.Color.green())
+                await message.reply(embed=embed)
+                return
+
+            case econessentials.BankAccount.DepositStatus.MAXED.value:
+                await utils.ReplyWithException(message=message,exception_msg="You have maxed your card out.")
+                return
+            
+            case econessentials.BankAccount.DepositStatus.DEPOSIT_MAXED.value:
+                funds = user.bank_acc.bank_card.GetCardMax() - old_dep
+                embed = discord.Embed(title=f"Succesfully deposited ${funds:,.2f}",color=discord.Color.green())
+                await message.reply(embed=embed)
+                return
     
     if len(command) == 2:
         command[1] = command[1].replace(",", "") # Replaces commas to be format independent.
@@ -88,14 +109,36 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
         except:
             await utils.ReplyWithException(message=message,exception_msg="Insufficient funds provided.")
             return
+        
         funds = float(command[1])
 
-        if user.bank_acc.GetCashOnHand() >= funds and funds > 0.00:
-            user.bank_acc.DepositAmount(funds)
-            embed = discord.Embed(title=f"Succesfully Deposited {funds:,.2f}",color=discord.Color.green())
-            await message.reply(embed=embed)
-        else:
-            await utils.ReplyWithException(message=message,exception_msg="Insufficient funds.")
+        if funds + user.bank_acc.GetDeposit() > user.bank_acc.bank_card.GetCardMax():
+            await utils.ReplyWithException(message=message,exception_msg=f"Insufficient space in your card. You have ${user.bank_acc.bank_card.GetCardMax() - user.bank_acc.GetDeposit():,.2f} left.")
+            return
+
+        old_dep = user.bank_acc.GetDeposit()
+
+        deposit_status = user.bank_acc.DepositAmount(funds)
+
+        match deposit_status:
+
+            case econessentials.BankAccount.DepositStatus.SUCCEEDED.value:
+                embed = discord.Embed(title=f"Succesfully deposited ${funds:,.2f}", color=discord.Color.green())
+                await message.reply(embed=embed)
+                return
+
+            case econessentials.BankAccount.DepositStatus.MAXED.value:
+                await utils.ReplyWithException(message=message,exception_msg="You have maxed your card out.")
+                return
+            
+            case econessentials.BankAccount.DepositStatus.DEPOSIT_MAXED.value:
+                funds = user.bank_acc.bank_card.GetCardMax() - old_dep
+                embed = discord.Embed(title=f"Succesfully deposited ${funds:,.2f}", color=discord.Color.green())
+                await message.reply(embed=embed)
+                return
+            
+            case econessentials.BankAccount.DepositStatus.FAILED.value:
+                await utils.ReplyWithException(message=message,exception_msg="Insufficient funds.")
     
 async def Pay(message : discord.Message, command : list[str]) -> None:
     """Pays money to another user."""
