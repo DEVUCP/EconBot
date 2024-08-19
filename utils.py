@@ -81,9 +81,6 @@ async def GetEmbedBalance(user : econessentials.User) -> discord.Embed:
     embed.add_field(name=user.bank_acc.bank_card.GetCardName(), value=f"Max -> {user.bank_acc.bank_card.GetCardMax()}", inline=False)
     embed.add_field(name="Cash:",value=f"${user.bank_acc.GetCashOnHand():,.2f}")
     embed.add_field(name="Bank:",value=f"${user.bank_acc.GetDeposit():,.2f}")
-    
-    if user.bank_acc.IsCardMaxxed():
-        embed.add_field(name="")
 
     return embed
 
