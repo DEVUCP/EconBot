@@ -42,9 +42,9 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "help":
             await commands.misc.Help(message=message)
         case "balance":
-            await commands.bank.Balance(message=message, command=command)
+            await commands.display.DisplayBalance(message=message, command=command)
         case "bal":
-            await commands.bank.Balance(message=message, command=command)
+            await commands.display.DisplayBalance(message=message, command=command)
         case "withdraw":
             await commands.bank.Withdraw(message=message, command=command)
         case "with":

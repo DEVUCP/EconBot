@@ -196,6 +196,7 @@ class User:
         self.uid = uid
         self.bank_acc = BankAccount()
         self.energy = EnergyBar(max_energy=10, current_energy=10)
+        self.networth = 0.0
     
     def AddNewItemInventory(self, item) -> None:
         """Adds a new item to the inventory."""

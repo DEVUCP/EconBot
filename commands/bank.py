@@ -3,35 +3,6 @@ import econessentials
 import discord
 import utils
 
-async def Balance(message : discord.Message, command : list[str]) -> None:
-    """Displays the balance of the user."""
-   # await message.reply("Balance Command Invoked!") # Uncomment when debugging.
-
-    # If no user is mentioned, then the balance of the user who invoked the command is displayed.
-    if len(command) == 1:
-        user = utils.FindUser(uid=message.author.id, sid=message.guild.id) # Find the user who invoked the command.
-
-        embed = await utils.GetEmbedBalance(user=user)
-        await message.reply(embed=embed)
-        return
-    
-    # Check if the user is valid.
-    try:
-        mentioned_user_id = int(command[1].strip("<@>"))
-
-        await singletons.client.fetch_user(mentioned_user_id)
-    except:
-        await utils.ReplyWithException(message=message, exception_msg="Invalid user!")
-        return
-    
-    mentioned_user_id = int(command[1].strip("<@>"))
-
-    # Display the balance of the mentioned user.
-    mentioned_user = utils.FindUser(uid=mentioned_user_id, sid=message.guild.id)
-    embed = await utils.GetEmbedBalance(user=mentioned_user)
-
-    await message.reply(embed=embed)
-
 async def Withdraw(message : discord.Message, command : list[str]) -> None:
     """Withdraws money from the bank account."""
     # await message.reply("Withdraw Command Invoked!") # Uncomment when debugging.
