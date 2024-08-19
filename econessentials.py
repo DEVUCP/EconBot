@@ -2,6 +2,7 @@ import discord
 import constants
 import singletons
 import datetime
+import enum
 
 class EnergyBar:
     """Represents the energy bar of a user."""
@@ -50,7 +51,7 @@ class EnergyBar:
             self.current_energy = 0
 
     def LastUsed(self):
-        """Updates Last used"""
+        """Updates Last used."""
         self.last_used = datetime.datetime.now()
 
     def SetEnergy(self, new_energy : int):
@@ -79,30 +80,81 @@ class EnergyBar:
         # Replenish Energy Check
         self.ReplenishEnergy()
         return self.current_energy
+
+class BankCard:
+    name : str # Card title.
+    max_balance : float # Maximum balance that can be deposited.
+
+    def __init__(self, name : str, max_balance : float):
+        self.name = name
+        self.max_balance = max_balance
     
+    def GetCardMax(self) -> float:
+        """Returns the max balance of the card."""
+        return self.max_balance
+    
+    def GetCardName(self) -> str:
+        """Returns the name of the card."""
+        return self.name
 
 class BankAccount:
+    
+    class DepositStatus(enum.Enum):
+        MAXED = -1
+        FAILED = 0
+        SUCCEEDED = 1
+        DEPOSIT_MAXED = 2
+    
+    bank_card : BankCard # Bank card that the account is linked to.
     cash_on_hand : float # Money that's avaliable for immediate use.
     deposit : float # Money thats safe, but not available for immediate use.
 
-    def __init__(self, cash : float = 0, dep : float = 0):
+    import cards
+    def __init__(self, cash : float = 0, dep : float = 0, bank_card : BankCard = cards.StandardCard()) -> None:
         self.cash_on_hand = cash
         self.deposit = dep
+        self.bank_card = bank_card
     
-    def DepositAmount(self, amount : float):
-        """Deposits amount into the bank account."""
+    def DepositAmount(self, amount : float) -> int:
+        """Deposits amount into the bank account.
+            Returns True if successful, False otherwise.
+        """
         # Check if cash on hand is enough to deposit.
+        if self.IsCardMaxxed(amount=amount):
+            amount = self.bank_card.GetCardMax() - self.deposit
+            
+            if amount <= 0:
+                return -1
+            
+            self.deposit += amount
+            self.cash_on_hand -= amount
+
+            return 2
         if amount <= self.cash_on_hand and amount > 0:
             self.deposit += amount
             self.cash_on_hand -= amount
+            return 1
+        else:
+            return 0  
     
     def WithdrawAmount(self, amount : float):
-        """Withdraws amount from the bank account."""
+        """Withdraws amount from the bank account.
+            Returns True if successful, False otherwise.
+        """
         # Check if deposit is enough to withdraw.
         if amount <= self.deposit and amount > 0:
             self.cash_on_hand += amount
             self.deposit -= amount
+            return True
+        return False
     
+    def IsCardMaxxed(self, amount) -> bool:
+        """Returns True if the bank card is maxxed, False otherwise."""
+        if amount + self.deposit > self.bank_card.GetCardMax():
+            return True
+        else:
+            return False
+
     def AddCash(self, cash: float):
         """Adds cash to the cash on hand."""
         self.cash_on_hand += cash
@@ -120,8 +172,13 @@ class BankAccount:
         return self.deposit
 
     def SetDeposit(self, newdep : float):
-        """Sets the deposit"""
+        """Sets the deposit.
+            Returns False if newdep exceeds the max balance of the bank card, True otherwise.
+        """
+        if newdep > self.bank_card.GetCardMax():
+            return False
         self.deposit = newdep
+        return True
 
     def SetCashOnHand(self, newcash : float):
         """Sets the cash on hand"""
