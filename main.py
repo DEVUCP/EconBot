@@ -40,7 +40,7 @@ async def InvokeEcon(message : discord.Message) -> None:
     command = utils.StripEmpty(_list=command)
     match action:
         case "help":
-            await commands.misc.Help(message=message)
+            await commands.misc.Help(message=message, command=command)
         case "balance":
             await commands.display.DisplayBalance(message=message, command=command)
         case "bal":

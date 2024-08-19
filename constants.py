@@ -4,20 +4,39 @@ PAGE_LEN = 5 # Max number of items in a market page
 EXCEPTION_COLOR = 0xff0000 # Exception Embed color
 
 COMMANDS = {
-    "work": "Work to earn some money",
-    "crime": "Commit a crime to earn money illegally",
-    "beg": "Beg for money on the streets",
-    "balance": "Check your current balance",
-    "deposit": "Deposit money into your bank account",
-    "withdraw": "Withdraw money from your bank account",
-    "pay": "Send money to another user",
-    "rob": "Attempt to rob another user",
-    "shop": "View the available items in the shop",
-    "buy": "Purchase an item from the shop",
-    "inventory": "View your inventory",
-    "use": "Use an item from your inventory",
-    "clock":"Dislpays current ingame time",
-    "energy":"Displays energy bar"
+    "earnings": {
+        "description": "Example: `$help Earnings`",
+        "work": "Work to earn some money",
+        "crime": "Commit a crime to earn money illegally",
+        "beg": "Beg for money on the streets",
+        "rob": "Attempt to rob another user",
+    },
+
+    "bank": {
+        "description": "Example: `$help Bank`",
+        "deposit": "Deposit money into your bank account",
+        "withdraw": "Withdraw money from your bank account",
+        "pay": "Send money to another user",
+    },
+    
+    "user": {
+        "description": "Example: `$help User`",
+        "balance": "Check your current balance",
+        "inventory": "View your inventory",
+        "use": "Use an item from your inventory",
+        "energy":"Displays energy bar",
+    },
+
+    "market": {
+        "description": "Example: `$help Market`",
+        "shop": "View the available items in the shop",
+        "buy": "Purchase an item from the shop",
+    },
+
+    "misc": {
+        "description": "Example: `$help Misc`",
+        "clock":"Dislpays current ingame time",
+    },
 }
 OUTCOMES_WORK = {
     "You found a hidden treasure chest at work and earned **$#**": (50.0, 100.0),
