@@ -10,7 +10,7 @@ COMMANDS = {
     "balance": "Check your current balance",
     "deposit": "Deposit money into your bank account",
     "withdraw": "Withdraw money from your bank account",
-    "send": "Send money to another user",
+    "pay": "Send money to another user",
     "rob": "Attempt to rob another user",
     "shop": "View the available items in the shop",
     "buy": "Purchase an item from the shop",
