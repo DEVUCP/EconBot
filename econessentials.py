@@ -187,6 +187,7 @@ class BankAccount:
 class User:
     uid : discord.User.id #( int )
     bank_acc : BankAccount
+    networth : float
     energy : EnergyBar
     inventory : list
 
@@ -200,10 +201,23 @@ class User:
         """Adds a new item to the inventory."""
         if len(self.inventory[-1]) == constants.PAGE_LEN:
             self.inventory.append([item])
-
         else:
             self.inventory[-1].append(item)
 
+    def UpdateNetWorth(self) -> None:
+        """Updates and sets the networth of the user."""
+        networth = self.bank_acc.GetCashOnHand() + self.bank_acc.GetDeposit()
+        for page in self.inventory:
+            for item in page:
+                networth += item.GetCost() * item.GetQuantity()
+        self.SetNetWorth(networth=networth)
+    
+    def GetNetWorth(self) -> float:
+        self.UpdateNetWorth()
+        return self.networth
+    
+    def SetNetWorth(self, networth : float) -> None:
+        self.networth = networth
         
     
 class Item:
