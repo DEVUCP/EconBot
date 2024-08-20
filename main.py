@@ -82,9 +82,8 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "energy":
             await commands.display.DisplayEnergy(message=message)
         case _: # None of the above.
-            embed = discord.Embed(title="Invalid Command.. Here are a list of all the valid commands.", color=constants.EXCEPTION_COLOR)
+            embed = discord.Embed(title="Invalid Command..",description="do ``$help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)
             await message.reply(embed=embed)
-            await commands.misc.Help(message=message)
 
 
 singletons.client.run(os.getenv("econtoken"))
