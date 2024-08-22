@@ -13,7 +13,7 @@ def GetCommand(message : str) -> list[str]:
 
     return command
 
-def FindServer(sid : int) -> list[econessentials.User]:
+def FindServer(sid : int):# -> list[econessentials.User]:
     """Returns the User List from the User Dictionary."""
     # If the server is already in the dictionary, return the list of users.
     for i in singletons.user_dict.keys():
@@ -25,7 +25,7 @@ def FindServer(sid : int) -> list[econessentials.User]:
 
     return singletons.user_dict[sid]
 
-def FindUser(uid : int, sid: int) -> econessentials.User:
+def FindUser(uid : int, sid: int):# -> econessentials.User:
     """Returns the User Object from the User Dictionary."""
     # If the user is already in the list, return the user.
     server = FindServer(sid=sid)
@@ -48,7 +48,7 @@ async def ReplyWithException(message: discord.Message, exception_msg: str = "Exc
     )
     await message.reply(embed=embed)
 
-def FindItem(name : str, item_list : list[econessentials.Item], user : econessentials.User = None) -> econessentials.Item:
+def FindItem(name : str, item_list, user = None):# -> econessentials.Item:
     """Returns Item object from item list."""
     if user != None:
         for page in item_list:
@@ -63,7 +63,7 @@ def FindItem(name : str, item_list : list[econessentials.Item], user : econessen
         return None
 
 
-def GetEmbedItemList(item_list : list[econessentials.Item], embed : discord.Embed, market : bool = False) -> discord.Embed:
+def GetEmbedItemList(item_list, embed : discord.Embed, market : bool = False) -> discord.Embed:
     """Adds a neat item list to embed."""
     for item in item_list: # Iterates through to retrieve and use items on market.
         embed.add_field(name=f"• {item.name}" if market else f"• {item.name}\t({item.quantity})" , value=item.description, inline=True) # Field for Item name and description.
@@ -72,12 +72,14 @@ def GetEmbedItemList(item_list : list[econessentials.Item], embed : discord.Embe
 
     return embed
 
-async def GetEmbedBalance(user : econessentials.User) -> discord.Embed:
+async def GetEmbedBalance(user) -> discord.Embed:
     """Returns an Embed with the User's Balance."""
     message_author = await singletons.client.fetch_user(user.uid)
 
     embed = discord.Embed(title=f"{message_author.display_name}",color=discord.Color.dark_green())
     embed.set_thumbnail(url=message_author.display_avatar.url)
+    print(user.bank_acc.bank_card.GetCardImage())
+    embed.set_image(url=user.bank_acc.bank_card.GetCardImage())
     embed.add_field(name=user.bank_acc.bank_card.GetCardName(), value=f"Max -> {user.bank_acc.bank_card.GetCardMax()}", inline=False)
     embed.add_field(name="Cash:",value=f"${user.bank_acc.GetCashOnHand():,.2f}")
     embed.add_field(name="Bank:",value=f"${user.bank_acc.GetDeposit():,.2f}")

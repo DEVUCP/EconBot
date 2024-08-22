@@ -29,6 +29,9 @@ async def on_message(message : discord.Message):
         return
     if message.content[0] == constants.PREFIX:
         await InvokeEcon(message=message)
+    if message.content == "please??":
+        user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
+        user.bank_acc.AddCash(5000.00)
 
 
 async def InvokeEcon(message : discord.Message) -> None:

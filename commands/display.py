@@ -4,16 +4,22 @@ import singletons
 import itemlistview
 import utils
 
+from cards import CardView
+
 async def DisplayBalance(message : discord.Message, command : list[str]) -> None:
     """Displays the balance of the user."""
    # await message.reply("DisplayBalance Command Invoked!") # Uncomment when debugging.
 
     # If no user is mentioned, then the balance of the user who invoked the command is displayed.
     if len(command) == 1:
+        view = None
         user = utils.FindUser(uid=message.author.id, sid=message.guild.id) # Find the user who invoked the command.
 
+        if user.bank_acc.IsCardMaxxed():
+            view = CardView(original_user=message.author, message=message)
+        
         embed = await utils.GetEmbedBalance(user=user)
-        await message.reply(embed=embed)
+        await message.reply(embed=embed, view=view)
         return
     
     # Check if the user is valid.
@@ -30,7 +36,6 @@ async def DisplayBalance(message : discord.Message, command : list[str]) -> None
     # Display the balance of the mentioned user.
     mentioned_user = utils.FindUser(uid=mentioned_user_id, sid=message.guild.id)
     embed = await utils.GetEmbedBalance(user=mentioned_user)
-
     await message.reply(embed=embed)
 
 async def DisplayClock(message : discord.Message) -> None:
@@ -76,7 +81,6 @@ async def DisplayEnergy(message : discord.Message) -> None:
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
     embed = discord.Embed(title=user.energy.GetEnergyBar())
     await message.reply(embed=embed)
-
 
 async def DisplayMarket(message : discord.Message, command : list[str]) -> None:
     """Displays Market's Items."""
