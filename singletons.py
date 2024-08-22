@@ -4,7 +4,7 @@ import saveload
 import datetime
 # Discord Essential variables
 
-start_time = datetime.datetime.now()
+start_time = datetime.datetime.now() # Start time of the bot
 
 class Client(discord.Client):
     async def Save(self):
@@ -28,13 +28,16 @@ client = Client(intents=intents)
 INSULT_BAG_COST = 150.0
 COMPLEMENT_BAG_COST = 300.0
 
+ENERGY_DRINK_COST = 350.0
+COFFEE_COST = 100.0
+
+ADDERAL_COST = 600.0
+
 # Market
 market = [
-    # items.InsultBag(quantity=1),
     items.ComplementBag(quantity=1),
-    items.ComplementBag(quantity=1),
-    items.InsultBag(quantity=1),
-    items.ComplementBag(quantity=1),
+    items.Coffee(quantity=1),
+    items.EnergyDrink(quantity=1),
 ]
 
 market_pages = [
@@ -44,15 +47,7 @@ market_pages = [
 # Black Market
 black_market = [
     items.InsultBag(quantity=1),
-    items.InsultBag(quantity=1),
-    items.InsultBag(quantity=1),
-    items.InsultBag(quantity=1),
-    items.InsultBag(quantity=1),
-    items.InsultBag(quantity=1),
-    items.InsultBag(quantity=1),
-    items.InsultBag(quantity=1),
-    items.InsultBag(quantity=1),
-    # items.ComplementBag(quantity=1),
+    items.Adderall(quantity=1),
 ]
 
 black_market_pages = [
