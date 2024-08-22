@@ -63,7 +63,7 @@ class InventoryView(discord.ui.View):
 
     async def UpdateList(self, interaction) -> None:
         """Update the list embed based on the current page"""
-        new_embed = CreateListEmbed(page=self.current_page, item_list=self.item_list, market=self.market)
+        new_embed = CreateListEmbed(page=self.current_page, item_list=self.item_list)
         await interaction.response.edit_message(embed=new_embed)
 
     
@@ -154,6 +154,7 @@ class MarketView(discord.ui.View):
 
 
 def CreateListEmbed(page : int, item_list, market : str = "Inventory") -> discord.Embed:
+    """Creates a list embed for the given page of the given item list"""
     embed = discord.Embed(title=market,description="You can buy stuff here." if market != "Inventory" else "All your items.",color=0xffff00) # Create list Embed.
     embed = utils.GetEmbedItemList(item_list=item_list[page], embed=embed, market=True if market!="Inventory" else False) # Iterates through to retrieve and use items in list.
     embed.set_footer(text=f"Page {page}" if page >= 0 else f"Page {len(item_list) - 1}")
