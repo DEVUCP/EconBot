@@ -156,6 +156,8 @@ class BankAccount:
     
     def IsCardMaxxed(self, amount=0) -> bool:
         """Returns True if the bank card is maxxed, False otherwise."""
+        if self.bank_card.GetCardMax() == None: # If card has no max, then it is not maxed.
+            return False
         if amount + self.deposit >= int(self.bank_card.GetCardMax()):
             return True
         else:
