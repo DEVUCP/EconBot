@@ -31,6 +31,7 @@ COMMANDS = {
         "description": "Example: `$help Market`",
         "shop": "View the available items in the shop",
         "buy": "Purchase an item from the shop",
+        "sell": "Sell an item from your inventory",
     },
 
     "misc": {
