@@ -4,6 +4,10 @@ import econessentials
 import constants
 import datetime
 
+def ToMoney(amount: float) -> str:
+    """Returns the amount in money format."""
+    return f"${amount:.2f}"
+
 def GetCommand(message : str) -> list[str]:
     """Returns a list of words from the message."""
     command = message
@@ -48,7 +52,7 @@ async def ReplyWithException(message: discord.Message, exception_msg: str = "Exc
     )
     await message.reply(embed=embed)
 
-def FindItem(name : str, item_list, user = None):# -> econessentials.Item:
+def FindItemInList(name : str, item_list, user = None):# -> econessentials.Item:
     """Returns Item object from item list."""
     if user != None:
         for page in item_list:
@@ -62,6 +66,12 @@ def FindItem(name : str, item_list, user = None):# -> econessentials.Item:
                 return type(item)() # Returns new instance of the same object type, not the same object.
         return None
 
+def FindItem(name : str, user = None):
+    for market in [singletons.market, singletons.black_market]:
+        item = FindItemInList(name=name, item_list=market, user=user)
+        if item != None:
+            return item
+    return None
 
 def GetEmbedItemList(item_list, embed : discord.Embed, market : bool = False) -> discord.Embed:
     """Adds a neat item list to embed."""
@@ -78,12 +88,13 @@ async def GetEmbedBalance(user) -> discord.Embed:
 
     embed = discord.Embed(title=f"{message_author.display_name}",color=discord.Color.dark_green())
     embed.set_thumbnail(url=message_author.display_avatar.url)
-    print(user.bank_acc.bank_card.GetCardImage())
     embed.set_image(url=user.bank_acc.bank_card.GetCardImage())
-    embed.add_field(name=user.bank_acc.bank_card.GetCardName(), value=f"Max -> {user.bank_acc.bank_card.GetCardMax()}", inline=False)
-    embed.add_field(name="Cash:",value=f"${user.bank_acc.GetCashOnHand():,.2f}")
-    embed.add_field(name="Bank:",value=f"${user.bank_acc.GetDeposit():,.2f}")
-    embed.set_footer(text=f"Networth: ${user.GetNetWorth():,.2f}")
+
+    embed.add_field(name="Cash:",value=f"{ToMoney(user.bank_acc.GetCashOnHand())}")
+    embed.add_field(name="Bank:",value=f"{ToMoney(user.bank_acc.GetDeposit())}")
+    embed.add_field(name=user.bank_acc.bank_card.GetCardName(), value=f"Max -> {ToMoney(user.bank_acc.bank_card.GetCardMax())}", inline=False)
+
+    embed.set_footer(text=f"Networth: {ToMoney(user.GetNetWorth())}")
 
     return embed
 

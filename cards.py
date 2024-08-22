@@ -18,6 +18,7 @@ class CardView(discord.ui.View):
 
     @discord.ui.button(label="Upgrade Card!", style=discord.ButtonStyle.green)
     async def UpgradeCard(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Upgrades the card."""
         # Checks if the original user.
         if not self.IsOriginalUser(user=interaction.user):
             return
@@ -25,10 +26,10 @@ class CardView(discord.ui.View):
         user = FindUser(uid=self.original_user.id, sid=self.message.guild.id)
 
         if user.bank_acc.GetDeposit() >= user.bank_acc.bank_card.GetCardMax():
-            new_card_index = FindCardIndex(user.bank_acc.bank_card) + 1
+
+            next_card_index = FindCardIndex(user.bank_acc.bank_card) + 1 # Gets the next card index.
         
-    
-            user.bank_acc.bank_card = cards[new_card_index]
+            user.bank_acc.bank_card = cards[next_card_index]
             user.bank_acc.SetDeposit(newdep=0.0)
 
             embed = await GetEmbedBalance(user=user)
