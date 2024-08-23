@@ -37,7 +37,7 @@ class CardView(discord.ui.View):
 
 class StandardCard(econessentials.BankCard):
     def __init__(self, name="Standard Card", max_balance=1250.00):
-        super().__init__(name=name, max_balance=max_balance, image_link='https://github.com/DEVUCP/EconBot/blob/dev-build/assets/standardcard.png?raw=true')
+        super().__init__(name=name, max_balance=max_balance, image_link='https://github.com/DEVUCP/EconBot/blob/dev-build/assets/_standardcard.png?raw=true')
 
 class SignatureCard(econessentials.BankCard):
     def __init__(self, name="Signature Card", max_balance=2500.00):
