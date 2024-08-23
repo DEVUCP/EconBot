@@ -275,5 +275,3 @@ class Item:
     
     def GetCost(self) -> float:
         return self.cost
-
-

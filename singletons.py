@@ -24,14 +24,6 @@ class Client(discord.Client):
 intents =  discord.Intents.all()
 client = Client(intents=intents)
 
-# Market Item Costs
-INSULT_BAG_COST = 150.0
-COMPLEMENT_BAG_COST = 300.0
-
-ENERGY_DRINK_COST = 350.0
-COFFEE_COST = 100.0
-
-ADDERAL_COST = 600.0
 
 # Market
 market = [

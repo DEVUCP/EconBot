@@ -3,6 +3,14 @@ PREFIX = "$"
 PAGE_LEN = 5 # Max number of items in a market page
 EXCEPTION_COLOR = 0xff0000 # Exception Embed color
 
+# Market Item Costs
+COMPLEMENT_BAG_COST = 300.0
+ENERGY_DRINK_COST = 350.0
+COFFEE_COST = 100.0
+
+INSULT_BAG_COST = 150.0
+ADDERAL_COST = 600.0
+
 COMMANDS = {
     "earnings": {
         "description": "Example: `$help Earnings`",

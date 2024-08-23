@@ -73,31 +73,6 @@ def FindItem(name : str, user = None):
             return item
     return None
 
-def GetEmbedItemList(item_list, embed : discord.Embed, market : bool = False) -> discord.Embed:
-    """Adds a neat item list to embed."""
-    for item in item_list: # Iterates through to retrieve and use items on market.
-        embed.add_field(name=f"• {item.name}" if market else f"• {item.name}\t({item.quantity})" , value=item.description, inline=True) # Field for Item name and description.
-        embed.add_field(name=f"${item.cost}" if market else f"value ${item.cost}", value=" ", inline=True) # Field for cost.
-        embed.add_field(name=" ", value=" ", inline=False) # Empty field as a seperator to make market more readable.
-
-    return embed
-
-async def GetEmbedBalance(user) -> discord.Embed:
-    """Returns an Embed with the User's Balance."""
-    message_author = await singletons.client.fetch_user(user.uid)
-
-    embed = discord.Embed(title=f"{message_author.display_name}",color=discord.Color.dark_green())
-    embed.set_thumbnail(url=message_author.display_avatar.url)
-    embed.set_image(url=user.bank_acc.bank_card.GetCardImage())
-
-    embed.add_field(name="Cash:",value=f"{ToMoney(user.bank_acc.GetCashOnHand())}")
-    embed.add_field(name="Bank:",value=f"{ToMoney(user.bank_acc.GetDeposit())}")
-    embed.add_field(name=user.bank_acc.bank_card.GetCardName(), value=f"Max -> {ToMoney(user.bank_acc.bank_card.GetCardMax())}", inline=False)
-
-    embed.set_footer(text=f"Networth: {ToMoney(user.GetNetWorth())}")
-
-    return embed
-
 def StripEmpty(_list : list[str]) -> list[str]:
     """Removes empty elements."""
     i = 0

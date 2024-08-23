@@ -2,38 +2,6 @@ import econessentials
 import random
 import singletons
 import discord
-from utils import GetEmbedBalance, FindUser
-
-
-class CardView(discord.ui.View):
-
-    def __init__(self, original_user, message, timeout=180):
-        super().__init__(timeout=timeout)
-        self.original_user = original_user
-        self.message = message
-        
-    def IsOriginalUser(self, user : discord.User) -> bool:
-        """Returns True if user is the same as the original user."""
-        return user.id == self.original_user.id
-
-    @discord.ui.button(label="Upgrade Card!", style=discord.ButtonStyle.green)
-    async def UpgradeCard(self, interaction: discord.Interaction, button: discord.ui.Button):
-        """Upgrades the card."""
-        # Checks if the original user.
-        if not self.IsOriginalUser(user=interaction.user):
-            return
-
-        user = FindUser(uid=self.original_user.id, sid=self.message.guild.id)
-
-        if user.bank_acc.GetDeposit() >= user.bank_acc.bank_card.GetCardMax():
-
-            next_card_index = FindCardIndex(user.bank_acc.bank_card) + 1 # Gets the next card index.
-        
-            user.bank_acc.bank_card = cards[next_card_index]
-            user.bank_acc.SetDeposit(newdep=0.0)
-
-            embed = await GetEmbedBalance(user=user)
-            await interaction.response.edit_message(embed=embed, view=None)
 
 class StandardCard(econessentials.BankCard):
     def __init__(self, name="Standard Card", max_balance=1250.00):

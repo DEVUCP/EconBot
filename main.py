@@ -1,16 +1,16 @@
 # Libraries
 import discord
 import os
-import commands.bank
-import commands.display
-import commands.earnings
-import commands.inventory
-import commands.misc
+# import sys
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import singletons
 import constants
 import utils
 import saveload
 import commands
+from commands import bank, earnings, inventory, display
+from commands.display import balance, markets, inventory, clock, energy, help
 
 # Client Event Functions
 @singletons.client.event
@@ -43,11 +43,11 @@ async def InvokeEcon(message : discord.Message) -> None:
     command = utils.StripEmpty(_list=command)
     match action:
         case "help":
-            await commands.misc.Help(message=message, command=command)
+            await commands.display.help.Help(message=message, command=command)
         case "balance":
-            await commands.display.DisplayBalance(message=message, command=command)
+            await commands.display.balance.DisplayBalance(message=message, command=command)
         case "bal":
-            await commands.display.DisplayBalance(message=message, command=command)
+            await commands.display.balance.DisplayBalance(message=message, command=command)
         case "withdraw":
             await commands.bank.Withdraw(message=message, command=command)
         case "with":
@@ -67,23 +67,23 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "rob":
             await commands.earnings.Rob(message=message, command=command)
         case "shop":
-            await commands.display.DisplayMarket(message=message, command=command)
+            await commands.display.markets.DisplayMarket(message=message, command=command)
         case "market":
-            await commands.display.DisplayMarket(message=message, command=command)
+            await commands.display.markets.DisplayMarket(message=message, command=command)
         case "buy":
             await commands.inventory.Buy(message=message, command=command)
         case "sell":
             await commands.inventory.Sell(message=message, command=command)
         case "inventory":
-            await commands.display.DisplayInventory(message=message)
+            await commands.display.inventory.DisplayInventory(message=message)
         case "inv":
-            await commands.display.DisplayInventory(message=message, command=command)
+            await commands.display.inventory.DisplayInventory(message=message, command=command)
         case "use":
             await commands.inventory.UseItem(message=message, command=command)
         case "clock":
-            await commands.display.DisplayClock(message=message)
+            await commands.display.clock.DisplayClock(message=message)
         case "energy":
-            await commands.display.DisplayEnergy(message=message)
+            await commands.display.energy.DisplayEnergy(message=message)
         case _: # None of the above.
             embed = discord.Embed(title="Invalid Command..",description="do ``$help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)
             await message.reply(embed=embed)
