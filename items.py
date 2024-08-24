@@ -1,6 +1,6 @@
 import econessentials
 import random
-import singletons
+import constants
 
 # All items
 
@@ -15,7 +15,7 @@ class InsultBag(econessentials.Item):
     description="Feeling too happy? This will definitely fix that!"
     
     def __init__(self, quantity : int = 1, cost : float = 0):
-        super().__init__(quantity=quantity, cost=singletons.INSULT_BAG_COST) # Initilize parent.
+        super().__init__(quantity=quantity, cost=constants.INSULT_BAG_COST) # Initilize parent.
     
     def CustomUse(self, user : econessentials.User) -> str:
         return random.choice(self.insults)
@@ -31,7 +31,7 @@ class ComplementBag(econessentials.Item):
     description="Feeling too sad? This will definitely fix that!"
     
     def __init__(self, quantity : int = 1, cost : float = 0):
-        super().__init__(quantity=quantity, cost=singletons.COMPLEMENT_BAG_COST) # Initilize parent.
+        super().__init__(quantity=quantity, cost=constants.COMPLEMENT_BAG_COST) # Initilize parent.
     
     def CustomUse(self, user : econessentials.User) -> str:
         return random.choice(self.complements)
@@ -41,7 +41,7 @@ class Coffee(econessentials.Item):
     description="Just another day at work."
 
     def __init__(self, quantity : int = 1, cost : float = 0):
-        super().__init__(quantity=quantity, cost=singletons.COFFEE_COST) # Initilize parent.
+        super().__init__(quantity=quantity, cost=constants.COFFEE_COST) # Initilize parent.
 
     def CustomUse(self, user : econessentials.User) -> str:
         user.energy.IncrEnergy(amount=1)
@@ -51,7 +51,7 @@ class EnergyDrink(econessentials.Item):
     name = "Energy Drink"
     description="Not for the faint of heart."
     def __init__(self, quantity : int = 1, cost : float = 0):
-        super().__init__(quantity=quantity, cost=singletons.ENERGY_DRINK_COST) # Initilize parent.
+        super().__init__(quantity=quantity, cost=constants.ENERGY_DRINK_COST) # Initilize parent.
     
     def CustomUse(self, user : econessentials.User) -> str:
         user.energy.IncrEnergy(amount=2)
@@ -61,7 +61,7 @@ class Adderall(econessentials.Item):
     name = "Adderall"
     description="For those who need a little extra help."
     def __init__(self, quantity : int = 1, cost : float = 0):
-        super().__init__(quantity=quantity, cost=singletons.ADDERAL_COST) # Initilize parent.
+        super().__init__(quantity=quantity, cost=constants.ADDERAL_COST) # Initilize parent.
 
     def CustomUse(self, user : econessentials.User) -> str:
         user.energy.IncrEnergy(amount=3)

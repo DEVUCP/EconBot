@@ -42,7 +42,7 @@ async def Buy(message : discord.Message, command : list[str]) -> None:
         return
     
     if FindItemInList(name=command[0], item_list=user.inventory, user=user): # if Object already exists in inventory will just increment quantity
-        item = FindItem(name=command[0], item_list=user.inventory, user=user)
+        item = FindItemInList(name=command[0], item_list=user.inventory, user=user)
         item.IncrQuantity(quantity)
 
     else: # Else add new item.
