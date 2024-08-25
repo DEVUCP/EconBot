@@ -1,6 +1,7 @@
 import discord
 import singletons
-import econessentials
+
+from econ import user
 import constants
 import datetime
 
@@ -17,7 +18,7 @@ def GetCommand(message : str) -> list[str]:
 
     return command
 
-def FindServer(sid : int):# -> list[econessentials.User]:
+def FindServer(sid : int) -> list[user.User]:
     """Returns the User List from the User Dictionary."""
     # If the server is already in the dictionary, return the list of users.
     for i in singletons.user_dict.keys():
@@ -29,7 +30,7 @@ def FindServer(sid : int):# -> list[econessentials.User]:
 
     return singletons.user_dict[sid]
 
-def FindUser(uid : int, sid: int):# -> econessentials.User:
+def FindUser(uid : int, sid: int) -> user.User:
     """Returns the User Object from the User Dictionary."""
     # If the user is already in the list, return the user.
     server = FindServer(sid=sid)
@@ -39,7 +40,7 @@ def FindUser(uid : int, sid: int):# -> econessentials.User:
             return i
         
     # If the user is not in the list, add the user to the list and return the user.
-    singletons.user_dict[sid].append(econessentials.User(uid=uid))
+    singletons.user_dict[sid].append(user.User(uid=uid))
 
     return singletons.user_dict[sid][-1]
 
@@ -66,7 +67,7 @@ def FindItemInList(name : str, item_list, user = None):# -> econessentials.Item:
                 return type(item)() # Returns new instance of the same object type, not the same object.
         return None
 
-def FindItem(name : str, user = None):
+def FindItem(name : str, user : user.User = None):
     for market in [singletons.market, singletons.black_market]:
         item = FindItemInList(name=name, item_list=market, user=user)
         if item != None:

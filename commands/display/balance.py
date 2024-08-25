@@ -1,8 +1,7 @@
 from utils import FindUser , ReplyWithException, ToMoney
-from cards import cards , FindCardIndex
+from econ.cards.cards import cards , FindCardIndex
 import discord
 import singletons
-import econessentials
 
 async def DisplayBalance(message : discord.Message, command : list[str]) -> None:
     """Displays the balance of the user."""

@@ -21,14 +21,14 @@ def LoadAll() -> bool:
 
 
 def SaveUserDict() -> bool:
-    with open('userdata.pkl', 'wb') as file:
+    with open('saveload/userdata.pkl', 'wb') as file:
         pickle.dump(singletons.user_dict, file=file)
         return True
 
 def LoadUserDict() -> bool:
-    if not os.path.exists("userdata.pkl"):
-        os.mknod("userdata.pkl")
-    with open('userdata.pkl','rb') as file:
+    if not os.path.exists("saveload/userdata.pkl"):
+        os.mknod("saveload/userdata.pkl")
+    with open('saveload/userdata.pkl','rb') as file:
        singletons.user_dict = pickle.load(file=file)
        return True
 

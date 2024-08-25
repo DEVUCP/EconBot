@@ -1,5 +1,5 @@
 import singletons
-import econessentials
+from econ import bank
 import discord
 import utils
 
@@ -57,16 +57,16 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
 
         match deposit_status:
 
-            case econessentials.BankAccount.DepositStatus.SUCCEEDED.value:
+            case bank.BankAccount.DepositStatus.SUCCEEDED.value:
                 embed = discord.Embed(title=f"Succesfully deposited ${funds:,.2f}",color=discord.Color.green())
                 await message.reply(embed=embed)
                 return
 
-            case econessentials.BankAccount.DepositStatus.MAXED.value:
+            case bank.BankAccount.DepositStatus.MAXED.value:
                 await utils.ReplyWithException(message=message,exception_msg="You have maxed your card out.")
                 return
             
-            case econessentials.BankAccount.DepositStatus.DEPOSIT_MAXED.value:
+            case bank.BankAccount.DepositStatus.DEPOSIT_MAXED.value:
                 funds = user.bank_acc.bank_card.GetCardMax() - old_dep
                 embed = discord.Embed(title=f"Succesfully deposited ${funds:,.2f}",color=discord.Color.green())
                 await message.reply(embed=embed)
@@ -93,22 +93,22 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
 
         match deposit_status:
 
-            case econessentials.BankAccount.DepositStatus.SUCCEEDED.value:
+            case bank.BankAccount.DepositStatus.SUCCEEDED.value:
                 embed = discord.Embed(title=f"Succesfully deposited ${funds:,.2f}", color=discord.Color.green())
                 await message.reply(embed=embed)
                 return
 
-            case econessentials.BankAccount.DepositStatus.MAXED.value:
+            case bank.BankAccount.DepositStatus.MAXED.value:
                 await utils.ReplyWithException(message=message,exception_msg="You have maxed your card out.")
                 return
             
-            case econessentials.BankAccount.DepositStatus.DEPOSIT_MAXED.value:
+            case bank.BankAccount.DepositStatus.DEPOSIT_MAXED.value:
                 funds = user.bank_acc.bank_card.GetCardMax() - old_dep
                 embed = discord.Embed(title=f"Succesfully deposited ${funds:,.2f}", color=discord.Color.green())
                 await message.reply(embed=embed)
                 return
             
-            case econessentials.BankAccount.DepositStatus.FAILED.value:
+            case bank.BankAccount.DepositStatus.FAILED.value:
                 await utils.ReplyWithException(message=message,exception_msg="Insufficient funds.")
     
 async def Pay(message : discord.Message, command : list[str]) -> None:

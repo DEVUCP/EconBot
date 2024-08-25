@@ -1,13 +1,12 @@
 # Libraries
 import discord
 import os
-# import sys
-# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import singletons
 import constants
 import utils
-import saveload
+from saveload import saveload
+
 import commands
 from commands import bank, earnings, inventory, display
 from commands.display import balance, markets, inventory, clock, energy, help
@@ -16,7 +15,7 @@ from commands.display import balance, markets, inventory, clock, energy, help
 @singletons.client.event
 async def on_ready():
     # Loads first
-    if os.path.exists("userdata.pkl") and saveload.LoadAll():
+    if os.path.exists("saveload/userdata.pkl") and saveload.LoadAll():
         print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
 
 @singletons.client.event

@@ -1,7 +1,8 @@
 import discord
-import items
-import saveload
+from econ.items import items
+from saveload import saveload
 import datetime
+
 # Discord Essential variables
 
 start_time = datetime.datetime.now() # Start time of the bot
@@ -18,7 +19,6 @@ class Client(discord.Client):
         
         # Call the parent class's close method
         await super().close()
-
 
 
 intents =  discord.Intents.all()
@@ -46,4 +46,4 @@ black_market_pages = [
     [], # Page 0
 ]
 
-user_dict = {} # 1067541126518677664: serverid, list[econessentials.User]
+user_dict = {} # {serverid : list[user.User], serverid : list[user.User] }
