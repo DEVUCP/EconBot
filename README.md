@@ -11,7 +11,9 @@
   </p>
 </div>
 
+# Info
 
+class structure can be found in `UML claas diagrams.pdf`
 
 # Installation & Setup
 
