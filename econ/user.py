@@ -1,12 +1,15 @@
-from econ import bank, energy
+from econ import bank, energy, attribute
 from econ.items import item
 import constants
 
 class User:
     uid : int # Unique ID of the user.
+
     bank_acc : bank.BankAccount
     networth : float
+    attributes : dict[str, attribute.Attribute]
     energy : energy.EnergyBar
+
     inventory : list
 
     def __init__(self, uid) -> None:
@@ -15,6 +18,12 @@ class User:
         self.bank_acc = bank.BankAccount()
         self.energy = energy.EnergyBar(max_energy=10, current_energy=10)
         self.networth = 0.0
+        self.attributes = {
+        "Strength" : attribute.Attribute(),
+        "Dexterity" : attribute.Attribute(),
+        "Intelligence" : attribute.Attribute(),
+        "Charisma" : attribute.Attribute(),
+        }
     
     def AddNewItemInventory(self, item) -> None:
         """Adds a new item to the inventory."""
@@ -37,4 +46,7 @@ class User:
     
     def SetNetWorth(self, networth : float) -> None:
         self.networth = networth
+    
+    def __str__(self) -> str:
+        return f"UID: {self.uid}\nBank Account: {self.bank_acc}\nEnergy: {self.energy}\nAttributes: {self.attributes}\nNetworth: {self.networth}"
         
