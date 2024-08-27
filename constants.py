@@ -108,3 +108,13 @@ OUTCOMES_WORKOUT = [
     "You went for a dance class and felt joyful and expressive.",
     "You went for a martial arts class and felt disciplined and focused.",
     ]
+
+OUTCOMES_STUDY = [
+    "You studied for an hour and feel more knowledgeable and confident.",
+    "You read a book and gained new insights and perspectives.",
+    "You attended a lecture and learned something new and interesting.",
+    "You practiced a skill and felt more skilled and capable.",
+    "You attended a workshop and gained new skills and knowledge.",
+    "You watched a documentary and learned something new and interesting.",
+    "You attended a seminar and gained new insights and perspectives.",
+    ]

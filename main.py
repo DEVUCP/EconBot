@@ -69,6 +69,8 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.training.Workout(message=message)
         case "excercise":
             await commands.training.Workout(message=message)
+        case "study":
+            await commands.training.Study(message=message)
         case "shop":
             await commands.display.markets.DisplayMarket(message=message, command=command)
         case "market":

@@ -28,3 +28,28 @@ async def Workout(message : discord.Message) -> None:
     embed = discord.Embed(title=f"+{incr_amount} Strength",description=outcome ,color=discord.Color.green())
     embed.set_footer(text=user.energy.GetEnergyBar())
     await message.reply(embed=embed)
+
+async def Study(message : discord.Message) -> None:
+    """Trains the user."""
+    # await message.reply("Study Command Invoked!") # Uncomment when debugging.
+    user = FindUser(uid=message.author.id, sid=message.guild.id)
+
+    if user.attributes["Intelligence"].IsMaxLevel():
+        await ReplyWithException(message=message, exception_msg="You have already reached the maximum level for Intelligence.")
+        return
+    
+    if user.energy.GetEnergy() <= 0:
+        await ReplyWithException(message=message, exception_msg="Energy insufficient.", exception_desc="Try waiting a bit to replenish your energy.")
+        return
+    
+    outcome = random.choice(constants.OUTCOMES_STUDY) # Get outcome string.
+
+    # Take energy from user.
+    user.energy.DecrEnergy(amount=1)
+
+    # Increase intelligence attribute.
+    incr_amount = 1
+    user.attributes["Intelligence"].IncrLevel(amount=incr_amount)
+    embed = discord.Embed(title=f"+{incr_amount} Intelligence",description=outcome ,color=discord.Color.green())
+    embed.set_footer(text=user.energy.GetEnergyBar())
+    await message.reply(embed=embed)
