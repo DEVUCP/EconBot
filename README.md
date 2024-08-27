@@ -20,7 +20,7 @@ class structure can be found in `UML claas diagrams.pdf`
 - Clone the repository
 
    ```bash
-   git clone https://github.com/OH221105/EconBot
+   git clone https://github.com/DEVUCP/EconBot
    ```
 
 - Make sure you have Python 3.12 or higher installed.
