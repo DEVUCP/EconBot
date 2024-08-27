@@ -8,7 +8,7 @@ import utils
 from saveload import saveload
 
 import commands
-from commands import bank, earnings, inventory, display
+from commands import bank, earnings, inventory, display, training
 from commands.display import balance, markets, inventory, clock, energy, help
 
 # Client Event Functions
@@ -65,6 +65,10 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.earnings.Beg(message=message)
         case "rob":
             await commands.earnings.Rob(message=message, command=command)
+        case "workout":
+            await commands.training.Workout(message=message)
+        case "excercise":
+            await commands.training.Workout(message=message)
         case "shop":
             await commands.display.markets.DisplayMarket(message=message, command=command)
         case "market":

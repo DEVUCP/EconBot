@@ -98,3 +98,13 @@ OUTCOMES_BEG = {
     "You found a $5 bill stuck in a bush": (5.0, 5.0),
     "A kind soul bought you a meal and gave you **$#**": (10.0, 25.0)
 }
+OUTCOMES_WORKOUT = [
+    "You went to the gym and worked out for an hour. You feel stronger and more confident.",
+    "You went for a run and burned some calories. You feel energized and refreshed.",
+    "You went for a swim and felt invigorated and relaxed.",
+    "You went for a hike and felt connected with nature and accomplished.",
+    "You went for a bike ride and felt exhilarated and free.",
+    "You went for a yoga session and felt centered and balanced.",
+    "You went for a dance class and felt joyful and expressive.",
+    "You went for a martial arts class and felt disciplined and focused.",
+    ]
