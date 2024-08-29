@@ -44,6 +44,19 @@ def FindUser(uid : int, sid: int) -> user.User:
 
     return singletons.user_dict[sid][-1]
 
+async def IsValidMention(mention : str) -> bool:
+        # Check if the user is valid.
+    try:
+        mentioned_user_id = int(mention.strip("<@>"))
+        await singletons.client.fetch_user(mentioned_user_id)
+        return True
+    except:
+        return False    
+
+def StripMention(mention : str) -> str:
+    """Returns the user ID from the mention."""
+    return mention.strip("<@>").strip()
+
 async def ReplyWithException(message: discord.Message, exception_msg: str = "Exception!", exception_desc: str = "") -> None:
     """Replies to message that caused an exception with exception detail."""
     embed = discord.Embed(
