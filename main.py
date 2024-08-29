@@ -9,7 +9,7 @@ from saveload import saveload
 
 import commands
 from commands import bank, earnings, inventory, display, training
-from commands.display import balance, markets, inventory, clock, energy, help
+from commands.display import balance, markets, inventory, clock, energy, help, profile
 
 # Client Event Functions
 @singletons.client.event
@@ -47,6 +47,8 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.display.balance.DisplayBalance(message=message, command=command)
         case "bal":
             await commands.display.balance.DisplayBalance(message=message, command=command)
+        case "profile":
+            await commands.display.profile.DisplayProfile(message=message, command=command)
         case "withdraw":
             await commands.bank.Withdraw(message=message, command=command)
         case "with":
@@ -90,7 +92,7 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "energy":
             await commands.display.energy.DisplayEnergy(message=message)
         case _: # None of the above.
-            embed = discord.Embed(title="Invalid Command..",description="do ``$help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)
+            embed = discord.Embed(title="   Invalid Command..",description="do ``$help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)
             await message.reply(embed=embed)
 
 
