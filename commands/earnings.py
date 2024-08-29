@@ -98,11 +98,11 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     # await message.reply("Rob Command Invoked!") # Uncomment when debugging.
     
     # Check if the user is valid.
-    try: 
-        user_robbed_id = int(command[1].strip("<@>"))
-        await singletons.client.fetch_user(user_robbed_id)
-    except:
-        await utils.ReplyWithException(message=message, exception_msg="Invalid user!")
+    
+    if await IsValidMention(command[1]):
+        mentioned_user_id = StripMention(command[1])
+    else:
+        await ReplyWithException(message=message, exception_msg="Invalid user!")
         return
     
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)

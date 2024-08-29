@@ -1,4 +1,4 @@
-from utils import FindUser , ReplyWithException, ToMoney
+from utils import FindUser , ReplyWithException, ToMoney, StripMention, IsValidMention
 from econ.cards.cards import cards , FindCardIndex
 import discord
 import singletons
@@ -19,17 +19,12 @@ async def DisplayBalance(message : discord.Message, command : list[str]) -> None
         await message.reply(embed=embed, view=view)
         return
     
-    # Check if the user is valid.
-    try:
-        mentioned_user_id = int(command[1].strip("<@>"))
-
-        await singletons.client.fetch_user(mentioned_user_id)
-    except:
+    if await IsValidMention(command[1]):
+        mentioned_user_id = StripMention(command[1])
+    else:
         await ReplyWithException(message=message, exception_msg="Invalid user!")
         return
-    
-    mentioned_user_id = int(command[1].strip("<@>"))
-
+        
     # Display the balance of the mentioned user.
     mentioned_user = FindUser(uid=mentioned_user_id, sid=message.guild.id)
     embed = await GetEmbedBalance(user=mentioned_user)
