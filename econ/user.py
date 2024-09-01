@@ -23,10 +23,11 @@ class User:
         self.energy = energy.EnergyBar(max_energy=10, current_energy=10)
         self.networth = 0.0
         self.attributes = {
-        "Strength" : attribute.Attribute(),
-        "Dexterity" : attribute.Attribute(),
-        "Intelligence" : attribute.Attribute(),
-        "Charisma" : attribute.Attribute(),
+        "Strength" : attribute.Attribute(level=10.0),
+        "Dexterity" : attribute.Attribute(level=5.0),
+        "Intelligence" : attribute.Attribute(level=10.0),
+        "Charisma" : attribute.Attribute(level=10.0),
+        "Creativity" : attribute.Attribute(level=10.0),
         "Employability" : attribute.Attribute(level=5.0),
         "Productivity Multiplier" : attribute.Attribute(level=1.0, minimum=1.0, maximum=3.5),
         }
