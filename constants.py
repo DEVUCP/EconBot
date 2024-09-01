@@ -1,6 +1,8 @@
 PREFIX = "$"
 
 PAGE_LEN = 5 # Max number of items in a market page
+LISTING_LEN = 5 # Max number of job listings
+LISTING_UPDATE_TIME = 7 # Time in-game days for the listing to update (24 mins * 7 = real world time)
 EXCEPTION_COLOR = 0xff0000 # Exception Embed color
 
 # Market Item Costs

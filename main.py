@@ -6,15 +6,16 @@ import singletons
 import constants
 import utils
 from saveload import saveload
-
+from econ.jobs import listings
 import commands
 from commands import bank, earnings, inventory, display, training
-from commands.display import balance, markets, inventory, clock, energy, help, profile
+from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs
 
 # Client Event Functions
 @singletons.client.event
 async def on_ready():
     # Loads first
+    listings.GenerateListings()
     if os.path.exists("saveload/userdata.pkl") and saveload.LoadAll():
         print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
 
@@ -77,6 +78,10 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.display.markets.DisplayMarket(message=message, command=command)
         case "market":
             await commands.display.markets.DisplayMarket(message=message, command=command)
+        case "jobs":
+            await commands.display.jobs.DisplayJobs(message=message)
+        case "info":
+            await commands.display.jobs.DisplayJobInfo(message=message, command=command)
         case "buy":
             await commands.inventory.Buy(message=message, command=command)
         case "sell":
