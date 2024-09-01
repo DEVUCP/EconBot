@@ -3,8 +3,8 @@
 class Attribute:
 
     level : float # A float from 0% to 100%
-    maximum = 100
-    minimum = 0
+    maximum : float
+    minimum : float
 
     def __init__(self, level : float = 0.0, minimum : float = 0.0, maximum : float = 100.0) -> None:
         self.level = level
