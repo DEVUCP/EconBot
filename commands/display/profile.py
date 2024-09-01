@@ -24,7 +24,7 @@ async def GetEmbedProfile(user) -> discord.Embed:
     """Returns an Embed with the User's Profile."""
     message_author = await singletons.client.fetch_user(user.uid)
 
-    embed = discord.Embed(title=f"{message_author.display_name}'s Profile", description="", color=discord.Color.green())
+    embed = discord.Embed(title=f"{message_author.display_name}'s Profile", description=f"Occupation : `{user.occupation.GetName()}`", color=discord.Color.green())
     embed.set_thumbnail(url=message_author.avatar.url)
 
     embed.add_field(name="Energy", value=f"{user.energy.GetEnergyBar()}", inline=False)
@@ -35,6 +35,8 @@ async def GetEmbedProfile(user) -> discord.Embed:
     embed.add_field(name="Attributes", value=f"", inline=False)
 
     for attribute in user.attributes:
+        if attribute == "Productivity Multiplier":
+            continue
         embed.add_field(name=attribute, value=f"{user.attributes[attribute].GetLevelPercentage():.0%}", inline=True)
     embed.add_field(name="", value=f"", inline=False)
 
