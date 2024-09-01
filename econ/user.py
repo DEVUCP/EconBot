@@ -48,7 +48,6 @@ class User:
     
     def GetIncome(self) -> float:
         """Returns the income of the user."""
-        print(self.occupation.GetHourlyPay(), self.attributes["Productivity Multiplier"].GetLevel())
         return self.occupation.GetHourlyPay() * self.attributes["Productivity Multiplier"].GetLevel()
 
     def GetNetWorth(self) -> float:
