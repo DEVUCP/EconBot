@@ -35,9 +35,7 @@ async def GetEmbedProfile(user) -> discord.Embed:
     embed.add_field(name="Attributes", value=f"", inline=False)
 
     for attribute in user.attributes:
-        if attribute == "Productivity Multiplier":
-            continue
-        embed.add_field(name=attribute, value=f"{user.attributes[attribute].GetLevelPercentage():.0%}", inline=True)
+        embed.add_field(name=attribute, value=f"{user.attributes[attribute].GetLevelPercentage():.1%}", inline=True)
     embed.add_field(name="", value=f"", inline=False)
 
     return embed

@@ -29,7 +29,6 @@ class User:
         "Charisma" : attribute.Attribute(level=10.0),
         "Creativity" : attribute.Attribute(level=10.0),
         "Employability" : attribute.Attribute(level=5.0),
-        "Productivity Multiplier" : attribute.Attribute(level=1.0, minimum=1.0, maximum=3.5),
         }
     
     def AddNewItemInventory(self, item) -> None:
@@ -49,7 +48,7 @@ class User:
     
     def GetIncome(self) -> float:
         """Returns the income of the user."""
-        return self.occupation.GetHourlyPay() * self.attributes["Productivity Multiplier"].GetLevel()
+        return self.occupation.GetHourlyPay()
 
     def GetNetWorth(self) -> float:
         self.UpdateNetWorth()
