@@ -16,6 +16,9 @@ def GenerateListings() -> None:
 
         new_job = random.choice(list(jobs.jobs.values())) # Generate a random job
 
+        while new_job in new_listing: # If the job is already in the listing, generate a new one
+            new_job = random.choice(list(jobs.jobs.values()))
+        
         if new_job in new_listing: # If the job is already in the listing, generate a new one
             i-=1
             continue
