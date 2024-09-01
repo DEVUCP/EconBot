@@ -120,3 +120,36 @@ OUTCOMES_STUDY = [
     "You watched a documentary and learned something new and interesting.",
     "You attended a seminar and gained new insights and perspectives.",
     ]
+
+OUTCOMES_PAINT = [
+    "You painted a beautiful landscape and felt inspired and creative.",
+    "You sketched a portrait and felt connected and expressive.",
+    "You created an abstract piece and felt free and experimental.",
+    "You painted a still life and felt focused and detailed.",
+    "You drew a cartoon and felt playful and imaginative.",
+    "You designed a logo and felt professional and creative.",
+    "You created a digital artwork and felt tech-savvy and artistic.",
+    "You painted a mural and felt impactful and creative.",
+    ]
+
+OUTCOMES_SOCIALIZE = [
+    "You attended a networking event and made new connections and friends.",
+    "You gave a speech and inspired and motivated others.",
+    "You hosted a party and made people feel welcome and included.",
+    "You volunteered at a charity event and made a difference in the community.",
+    "You mentored a colleague and helped them grow and succeed.",
+    "You led a team project and motivated and empowered your team.",
+    "You mediated a conflict and helped find a peaceful resolution.",
+    "You negotiated a deal and reached a win-win agreement.",
+    ]
+
+OUTCOMES_MEDITATE = [
+    "You meditated for an hour and felt calm and centered.",
+    "You practiced mindfulness and felt present and aware.",
+    "You did a body scan and felt relaxed and grounded.",
+    "You focused on your breath and felt peaceful and focused.",
+    "You visualized a peaceful place and felt serene and tranquil.",
+    "You practiced loving-kindness and felt compassionate and connected.",
+    "You did a walking meditation and felt mindful and aware.",
+    "You practiced gratitude and felt thankful and appreciative.",
+    ]
