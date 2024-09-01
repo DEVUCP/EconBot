@@ -36,8 +36,12 @@ class Attribute:
         return self.level <= self.minimum
 
     def GetLevel(self) -> float:
+        """Returns the attribute as a raw float."""
+        return self.level
+
+    def GetLevelPercentage(self) -> float:
         """Returns the attribute as a percentage."""
-        return self.level / self.maximum
+        return (self.level / self.maximum) *100
 
     def SetLevel(self, attribute : float) -> None:
         """Sets the attribute to the given value."""
