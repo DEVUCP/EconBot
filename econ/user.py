@@ -23,6 +23,8 @@ class User:
         "Dexterity" : attribute.Attribute(),
         "Intelligence" : attribute.Attribute(),
         "Charisma" : attribute.Attribute(),
+        "Employability" : attribute.Attribute(level=5.0),
+        "Productivity Multiplier" : attribute.Attribute(level=1.0, minimum=1.0, maximum=3.5),
         }
     
     def AddNewItemInventory(self, item) -> None:

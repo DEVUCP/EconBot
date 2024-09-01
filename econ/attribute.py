@@ -6,8 +6,10 @@ class Attribute:
     maximum = 100
     minimum = 0
 
-    def __init__(self, level : float = 0.0) -> None:
+    def __init__(self, level : float = 0.0, minimum : float = 0.0, maximum : float = 100.0) -> None:
         self.level = level
+        self.minimum = minimum
+        self.maximum = maximum
 
     def __str__(self) -> str:
         """Returns the attribute as a percentage."""
