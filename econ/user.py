@@ -1,4 +1,5 @@
-from econ import bank, energy, attribute
+from econ import bank, energy, attribute, jobs
+from econ.jobs import job, jobs
 from econ.items import item
 import constants
 
@@ -6,6 +7,7 @@ class User:
     uid : int # Unique ID of the user.
 
     bank_acc : bank.BankAccount
+    occupation : job.Job
     networth : float
     attributes : dict[str, attribute.Attribute]
     energy : energy.EnergyBar
@@ -16,6 +18,8 @@ class User:
         self.inventory = [[]]
         self.uid = uid
         self.bank_acc = bank.BankAccount()
+        #self.occupation = jobs.jobs["economist"] 
+        self.occupation = job.Job(name="Unemployed", description="Loser", requirements={})
         self.energy = energy.EnergyBar(max_energy=10, current_energy=10)
         self.networth = 0.0
         self.attributes = {
@@ -42,6 +46,11 @@ class User:
                 networth += item.GetCost() * item.GetQuantity()
         self.SetNetWorth(networth=networth)
     
+    def GetIncome(self) -> float:
+        """Returns the income of the user."""
+        print(self.occupation.GetHourlyPay(), self.attributes["Productivity Multiplier"].GetLevel())
+        return self.occupation.GetHourlyPay() * self.attributes["Productivity Multiplier"].GetLevel()
+
     def GetNetWorth(self) -> float:
         self.UpdateNetWorth()
         return self.networth
