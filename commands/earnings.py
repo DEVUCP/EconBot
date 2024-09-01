@@ -15,12 +15,18 @@ async def Work(message : discord.Message) -> None:
         await utils.ReplyWithException(message=message, exception_msg="Energy insufficient.", exception_desc="Try waiting a bit to replenish your energy.")
         return
 
-    outcome = random.choice(list(constants.OUTCOMES_WORK.keys())) # Get outcome string.
-    value_1, value_2 = constants.OUTCOMES_WORK[outcome] # Get outcome money range.
+    if user.occupation.GetName() == "Unemployed":
+        outcome = random.choice(list(constants.OUTCOMES_WORK.keys())) # Get outcome string.
+        value_1, value_2 = constants.OUTCOMES_WORK[outcome] # Get outcome money range.
 
     # Randomize cash.
-    cash = random.uniform(value_1, value_2)
-    cash = float(f"{cash:,.2f}")
+        cash = random.uniform(value_1, value_2)
+        cash = float(f"{cash:,.2f}")
+
+        final_outcome = outcome.replace("#", str(cash))
+    else:
+        cash = user.GetIncome()
+        final_outcome = f"You worked as a {user.occupation.GetName()} and earned ${cash:,.2f}."
 
     # Add cash to user.
     user.bank_acc.AddCash(cash=cash)
@@ -28,7 +34,6 @@ async def Work(message : discord.Message) -> None:
     # Take energy from user.
     user.energy.DecrEnergy(amount=1)
 
-    final_outcome = outcome.replace("#", str(cash))
 
     embed = discord.Embed(description=final_outcome,color=discord.Color.brand_green())
     embed.set_footer(text=user.energy.GetEnergyBar())
