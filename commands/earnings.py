@@ -26,6 +26,7 @@ async def Work(message : discord.Message) -> None:
         final_outcome = outcome.replace("#", str(cash))
     else:
         cash = user.GetIncome()
+        user.attributes["Employability"].IncrLevel(amount=0.5)
         final_outcome = f"You worked as a {user.occupation.GetName()} and earned ${cash:,.2f}."
 
     # Add cash to user.
