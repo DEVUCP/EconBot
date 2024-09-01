@@ -12,14 +12,14 @@ class Job:
         self.description = description
         self.requirements = requirements
 
-    def GetName() -> str:
+    def GetName(self) -> str:
         return self.name
     
-    def GetDescription() -> str:
+    def GetDescription(self) -> str:
         return self.description
     
-    def GetRequirements() -> dict[str, float]:
+    def GetRequirements(self) -> dict[str, float]:
         return self.requirements
     
-    def GetHourlyPay() -> float:
+    def GetHourlyPay(self) -> float:
         return self.hourly_pay
