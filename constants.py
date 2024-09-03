@@ -14,23 +14,31 @@ INSULT_BAG_COST = 150.0
 ADDERAL_COST = 600.0
 
 COMMANDS = {
+    "training":{
+        "study": "Raises your intellect",
+        "socalize": "Raises your charisma",
+        "workout": "Raises your strength",
+        "paint": "Raises your dexterity & creativity"
+    },
+
     "earnings": {
         "description": "Example: `$help Earnings`",
         "work": "Work to earn some money",
         "crime": "Commit a crime to earn money illegally",
         "beg": "Beg for money on the streets",
-        "rob": "Attempt to rob another user",
+        "rob": "Attempt to rob another user\n example : ``$rob @myfriend``",
     },
 
     "bank": {
         "description": "Example: `$help Bank`",
-        "deposit": "Deposit money into your bank account",
-        "withdraw": "Withdraw money from your bank account",
-        "pay": "Send money to another user",
+        "deposit": "Deposit money into your bank account\n example : ``$dep 500``",
+        "withdraw": "Withdraw money from your bank account\n example : ``$with 500``",
+        "pay": "Send money to another user\n example : ``$pay @myfriend 500``",
     },
     
     "user": {
         "description": "Example: `$help User`",
+        "profile": "View all your stats",
         "balance": "Check your current balance",
         "inventory": "View your inventory",
         "use": "Use an item from your inventory",
@@ -40,13 +48,20 @@ COMMANDS = {
     "market": {
         "description": "Example: `$help Market`",
         "shop": "View the available items in the shop",
-        "buy": "Purchase an item from the shop",
-        "sell": "Sell an item from your inventory",
+        "buy": "Purchase an item from the shop\n example : ``$buy complement bag | 4``",
+        "sell": "Sell an item from your inventory\n example : ``$sell complement bag | 4``",
+    },
+    "jobs":{
+        "description": "Example: `$help jobs`",
+        "jobs": "Shows you all available jobs this (ingame) week",
+        "apply": "Applies for a specific job\n example : ``$apply Economist``",
+        "info": "Gives details on a specific job\n example : ``$info Economist``",
     },
 
     "misc": {
         "description": "Example: `$help Misc`",
         "clock":"Dislpays current ingame time",
+
     },
 }
 OUTCOMES_WORK = {
