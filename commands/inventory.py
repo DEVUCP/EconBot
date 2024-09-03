@@ -76,21 +76,40 @@ async def Sell(message : discord.Message, command : list[str]) -> None:
     
     user = FindUser(uid=message.author.id, sid=message.guild.id)
 
-    if FindItem(name=command[0], item_list=user.inventory, user=user) == None: # Tries to find item.
+    if FindItemInList(name=command[0], item_list=user.inventory, user=user) == None: # Tries to find item.
         await ReplyWithException(message=message, exception_msg="Item Not found in Inventory. Recheck your spelling?")
         return
     
-    sell_item = FindItem(name=command[0], item_list=user.inventory, user=user)
-    item_for_deletion = sell_item.GetQuantity() == 1
+    quantity = 1
+
+    try:
+        quantity = int(command[1])
+
+    except TypeError: # Quantity argument given wasn't an int.
+        await ReplyWithException(message=message, exception_msg="Invalid quantity provided. Must be a whole number.")
+        return
     
-    user.bank_acc.AddCash(sell_item.GetCost() - sell_item.GetCost()*0.1) # 10% loss on selling.
+    except IndexError: # This means that no quantity argument was even given, so just use the default (1).
+        pass
 
-    embed = discord.Embed(title="SOLD!!",color=discord.Color.green())
-    embed.description = (f"Sold for {sell_item.GetCost() - sell_item.GetCost()*0.1}") # 10% loss on selling.
+    sell_item = FindItemInList(name=command[0], item_list=user.inventory, user=user)
 
-    if item_for_deletion:
+    if sell_item.GetQuantity() < quantity:
+        await ReplyWithException(message=message, exception_msg=f"You don't have that many {sell_item.GetQuantity()}", exception_desc=f"You only have {sell_item.GetQuantity(), sell_item.GetName()}, not {quantity}.")
+
+    item_for_deletion = (sell_item.GetQuantity() - quantity) == 0 # delete only if after selling the quantity will be zero
+    
+    sell_price = (sell_item.GetCost() - sell_item.GetCost()*0.1) * quantity # 10% loss on selling.
+
+    user.bank_acc.AddCash(sell_price)
+    sell_item.DecrQuantity(quantity)
+
+    embed = discord.Embed(title=f"Sold {sell_item.GetName()}" if quantity == 1 else f"Sold {quantity} {sell_item.GetName()}s" ,color=discord.Color.green())
+    embed.description = (f"Sold for ${sell_price:,.2f}") # 10% loss on selling.
+
+    if item_for_deletion: # deletes item from user's inventory
         for page in user.inventory:
-            item = FindItem(name=sell_item.GetName(), item_list=user.inventory, user=user)
+            item = FindItemInList(name=sell_item.GetName(), item_list=user.inventory, user=user)
             index = page.index(item)
             del page[index]
     
