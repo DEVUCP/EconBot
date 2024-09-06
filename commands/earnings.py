@@ -35,7 +35,6 @@ async def Work(message : discord.Message) -> None:
     # Take energy from user.
     user.energy.DecrEnergy(amount=1)
 
-
     embed = discord.Embed(description=final_outcome,color=discord.Color.brand_green())
     embed.set_footer(text=user.energy.GetEnergyBar())
     await message.reply(embed=embed)
@@ -63,6 +62,9 @@ async def Crime(message : discord.Message) -> None:
 
     # Take energy from user.
     user.energy.DecrEnergy(amount=1)
+
+    # Reduce user's employability.
+    user.attributes["Employability"].DecrLevel(amount=1)
 
     final_outcome = outcome.replace("#", str(cash))
 
@@ -92,6 +94,9 @@ async def Beg(message : discord.Message) -> None:
 
     # Take energy from user.
     user.energy.DecrEnergy(amount=1)
+
+    # Reduce user's employability.
+    user.attributes["Employability"].DecrLevel(amount=0.5)
 
     final_outcome = outcome.replace("#", str(cash))
 
