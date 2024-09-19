@@ -38,7 +38,6 @@ def FindUser(uid : int, sid: int) -> user.User:
     for i in server:
         if i.uid == uid:
             return i
-        
     # If the user is not in the list, add the user to the list and return the user.
     singletons.user_dict[sid].append(user.User(uid=uid))
 
@@ -53,9 +52,9 @@ async def IsValidMention(mention : str) -> bool:
     except:
         return False    
 
-def StripMention(mention : str) -> str:
+def StripMention(mention : str) -> int:
     """Returns the user ID from the mention."""
-    return mention.strip("<@>").strip()
+    return int(mention.strip("<@>").strip())
 
 async def ReplyWithException(message: discord.Message, exception_msg: str = "Exception!", exception_desc: str = "") -> None:
     """Replies to message that caused an exception with exception detail."""
