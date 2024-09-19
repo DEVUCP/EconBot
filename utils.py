@@ -12,7 +12,7 @@ def ToMoney(amount: float) -> str:
 def GetCommand(message : str) -> list[str]:
     """Returns a list of words from the message."""
     command = message
-    command = command.strip("$") # Removes Prefix from str
+    command = command.strip(constants.PREFIX) # Removes Prefix from str
     command = command.rstrip() # Removes trailing spaces
     command = command.split(" ") # Converts into list of words
 

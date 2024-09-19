@@ -1,4 +1,4 @@
-PREFIX = "$"
+PREFIX = "!"
 
 PAGE_LEN = 5 # Max number of items in a market page
 LISTING_LEN = 5 # Max number of job listings
@@ -22,22 +22,22 @@ COMMANDS = {
     },
 
     "earnings": {
-        "description": "Example: `$help Earnings`",
+        "description": f"Example: `{PREFIX}help Earnings`",
         "work": "Work to earn some money",
         "crime": "Commit a crime to earn money illegally",
         "beg": "Beg for money on the streets",
-        "rob": "Attempt to rob another user\n example : ``$rob @myfriend``",
+        "rob": f"Attempt to rob another user\n example : ``{PREFIX}rob @myfriend``",
     },
 
     "bank": {
-        "description": "Example: `$help Bank`",
-        "deposit": "Deposit money into your bank account\n example : ``$dep 500``",
-        "withdraw": "Withdraw money from your bank account\n example : ``$with 500``",
-        "pay": "Send money to another user\n example : ``$pay @myfriend 500``",
+        "description": f"Example: `{PREFIX}help Bank`",
+        "deposit": f"Deposit money into your bank account\n example : ``{PREFIX}dep 500``",
+        "withdraw": f"Withdraw money from your bank account\n example : ``{PREFIX}with 500``",
+        "pay": f"Send money to another user\n example : ``{PREFIX}pay @myfriend 500``",
     },
     
     "user": {
-        "description": "Example: `$help User`",
+        "description": f"Example: `{PREFIX}help User`",
         "profile": "View all your stats",
         "balance": "Check your current balance",
         "inventory": "View your inventory",
@@ -46,20 +46,20 @@ COMMANDS = {
     },
 
     "market": {
-        "description": "Example: `$help Market`",
+        "description": f"Example: `{PREFIX}help Market`",
         "shop": "View the available items in the shop",
-        "buy": "Purchase an item from the shop\n example : ``$buy complement bag | 4``",
-        "sell": "Sell an item from your inventory\n example : ``$sell complement bag | 4``",
+        "buy": f"Purchase an item from the shop\n example : ``{PREFIX}buy complement bag | 4``",
+        "sell": f"Sell an item from your inventory\n example : ``{PREFIX}sell complement bag | 4``",
     },
     "jobs":{
-        "description": "Example: `$help jobs`",
+        "description": f"Example: `{PREFIX}help jobs`",
         "jobs": "Shows you all available jobs this (ingame) week",
-        "apply": "Applies for a specific job\n example : ``$apply Economist``",
-        "info": "Gives details on a specific job\n example : ``$info Economist``",
+        "apply": f"Applies for a specific job\n example : ``{PREFIX}apply Economist``",
+        "info": f"Gives details on a specific job\n example : ``{PREFIX}info Economist``",
     },
 
     "misc": {
-        "description": "Example: `$help Misc`",
+        "description": f"Example: `{PREFIX}help Misc`",
         "clock":"Dislpays current ingame time",
 
     },

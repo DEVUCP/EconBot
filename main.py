@@ -105,7 +105,7 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "bj":
             await blackjack(message=message)
         case _: # None of the above.
-            embed = discord.Embed(title="   Invalid Command..",description="do ``$help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)
+            embed = discord.Embed(title="   Invalid Command..",description=f"do ``{constants.PREFIX}help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)
             await message.reply(embed=embed)
 
 
