@@ -11,11 +11,23 @@ import commands
 from commands import bank, earnings, inventory, display, training, apply
 from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs
 
+import atexit
+
+def cleanup():
+    saveload.SaveUserDict()
+    print("Cleanup process sucessful.")
+
+atexit.register(cleanup)
+
+
 # Client Event Functions
 @singletons.client.event
 async def on_ready():
     # Loads first
     listings.GenerateListings()
+    if not os.path.exists(saveload.save_path):
+        saveload.SaveUserDict()
+
     if os.path.exists(saveload.save_path) and saveload.LoadAll():
         print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
 

@@ -10,8 +10,8 @@ start_time = datetime.datetime.now() # Start time of the bot
 class Client(discord.Client):
     async def Save(self):
         # Save accounts before closing
-        saveload.SaveUserDict()
-        print("Saved!")
+        # saveload.SaveUserDict()
+        print("Client disconnected.")
 
     async def close(self):
         # Perform cleanup before closing

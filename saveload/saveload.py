@@ -30,6 +30,7 @@ def LoadAll() -> bool:
 def SaveUserDict() -> bool:
     with open(save_path, 'wb') as file:
         pickle.dump(singletons.user_dict, file=file)
+        print("Saved Userdata Successfully!")
         return True
 
 def LoadUserDict() -> bool:
