@@ -5,6 +5,7 @@ import constants
 import pickle
 
 loaded = False
+save_path = os.getcwd() + '/saveload/userdata.pkl'
 
 
 def LoadAll() -> bool:
@@ -21,14 +22,14 @@ def LoadAll() -> bool:
 
 
 def SaveUserDict() -> bool:
-    with open('saveload/userdata.pkl', 'wb') as file:
+    with open(save_path, 'wb') as file:
         pickle.dump(singletons.user_dict, file=file)
         return True
 
 def LoadUserDict() -> bool:
-    if not os.path.exists("saveload/userdata.pkl"):
-        os.mknod("saveload/userdata.pkl")
-    with open('saveload/userdata.pkl','rb') as file:
+    if not os.path.exists(save_path):
+        os.mknod(save_path)
+    with open(save_path,'rb') as file:
        singletons.user_dict = pickle.load(file=file)
        return True
 
