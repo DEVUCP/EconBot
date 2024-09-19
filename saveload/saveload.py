@@ -5,8 +5,14 @@ import constants
 import pickle
 
 loaded = False
-save_path = os.getcwd() + '/saveload/userdata.pkl'
 
+# Get the directory where the script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the full path to the save file
+save_path = os.path.join(script_dir, 'userdata.pkl')
+
+print(save_path)
 
 def LoadAll() -> bool:
     global loaded

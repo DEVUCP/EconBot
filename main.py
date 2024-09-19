@@ -102,47 +102,9 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.display.clock.DisplayClock(message=message)
         case "energy":
             await commands.display.energy.DisplayEnergy(message=message)
-        case "bj":
-            await blackjack(message=message)
         case _: # None of the above.
             embed = discord.Embed(title="   Invalid Command..",description=f"do ``{constants.PREFIX}help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)
             await message.reply(embed=embed)
 
 
 singletons.client.run(os.getenv("econtoken"))
-
-
-
-from commands.display.interactables import interactable
-
-class BlackJackGame(interactable.interactable):
-    def __init__(self, original_user, timeout=360):
-        super().__init__(original_user=original_user, timeout=timeout)
-    
-    @discord.ui.button(label="<<", style=discord.ButtonStyle.green)
-    async def FirstButton(self, interaction: discord.Interaction, button: discord.ui.Button):
-        # Checks if the original user.
-        if not self.IsOriginalUser(user=interaction.user):
-            return
-
-def blackjack(message : discord.Message) ->None:
-    import random
-    # TODO : generate the dealers hand (1 card face up, 1 card face down)
-    dealer_hand = [random.randint(1,10)]
-    # TODO : generate the user's hand (2 cards face up)
-    player_hand = [random.randint(1,10), random.randint(1,10)]
-    # DISPLAY BOARD
-    print(f"DEALER : {dealer_hand[0]} {dealer_hand[1]}")
-    # TODO : Check Win/loss
-    if (player_hand[0] + player_hand[1]) == 21:
-        # WIN()
-        pass
-    
-    # TODO : Player turn (Player can hit any amount. or stand.)
-    # TODO : Check Win/loss (If got blackjack)
-    # DISPLAY BOARD
-    # TODO : Flip dealer's card
-    # TODO ? dealer has 16 or less, generate a third card.
-    # TODO : Check Win/loss
-    # DISPLAY BOARD
-    # TODO : End Game
