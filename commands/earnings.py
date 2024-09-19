@@ -113,7 +113,7 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     if await utils.IsValidMention(command[1]):
         mentioned_user_id = utils.StripMention(command[1])
     else:
-        await ReplyWithException(message=message, exception_msg="Invalid user!")
+        await utils.ReplyWithException(message=message, exception_msg="Invalid user!")
         return
     
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
