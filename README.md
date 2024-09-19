@@ -18,6 +18,7 @@
 
 + [Installation](#installation)
   + [Running](#running)
+  + [Discord App Deployment](#discord-application-deployment)
 + [Player Manual](#player-manual)
   + [Earning Money](#earning-money)
   + [Day/Night cycle](#day-night-cycle-in-game-time)
@@ -48,27 +49,72 @@
 
 <img src="assets\spraybg1-export.png" alt="spray bg" align="right" width="300" height="300">
 
-   ```bash
-   git clone https://github.com/DEVUCP/EconBot
-   ```
+```bash
+git clone https://github.com/DEVUCP/EconBot
+```
 
 
 - Make sure you have Python 3.12 or higher installed.
   You can check your version with :
-  ```bash
-   python --version
-   ```
+```bash
+python --version
+```
 
 - Install the required dependencies:
-  ```bash
-   pip install discord
-   ```
+```bash
+pip install discord
+```
 
+## Discord Application Deployment
+  
 
-- Create a Discord bot and get the token from the [Discord Developer Portal](https://discord.com/developers/applications)
+1. Sign into your discord account on the [Discord Developer Portal](https://discord.com/developers/applications)
 
+2. Create a new application by clicking the `New Application` button in the top right of the page.
 
-- Set up an environment variable named `econtoken` with your bot token . . .
+    <img src="assets/screenshots/ss0.png" alt="new app Screenshot" width="600" height="">
+
+    _After creating your application, it will redirect you to its setting's page._
+
+3. Click the `OAuth2` section.
+
+    <img src="assets/screenshots/ss1.png" alt="OAuth2 Screenshot" width="" height="400">
+
+4. Scroll down to the `OAuth2 URL Generator`.
+
+5. Tick on the `Bot` option.
+
+    <img src="assets/screenshots/ss4.png" alt="URL Gen Screenshot" width="600" height="">
+
+    _After that, the URL Generator panel will expand downward._
+
+6. Scroll down to `Bot permissions` and under "General permissions" tick `Administrator`.
+
+    <img src="assets/screenshots/ss2.png" alt="Admin perms Screenshot" width="" height="">
+
+7. Scroll further down to `Integration type` and make sure its on `Guild Install`
+
+    <img src="assets/screenshots/ss3.png" alt="URL Screenshot" width="" height="">
+
+8. You may use the Generated URL to invite your bot into your servers.
+
+---
+
+<strong>Token Setup & Environment Variable Setup</strong>
+
+1. Get your bot token from going to the `Bot` section in your application settings.
+
+    <img src="assets/screenshots/ss5.png" alt="Bot Screenshot" width="" height="">
+
+2. Press on `Reset Token` to create your bot token. (__NOTE__: You will only be able to view it once after reseting, otherwise you'll have to reset it again)
+
+    <img src="assets/screenshots/ss6.png" alt="Reset token Screenshot" width="" height="">
+
+3. Copy the token (its a bunch of random characters).
+
+    <img src="assets/screenshots/ss7.png" alt="Reset/Copy token Screenshot" width="" height="">
+
+4. Set up an environment variable named `econtoken` and value as your token that you copied (here are some video tutorials...)
 
    [Windows 10](https://www.youtube.com/watch?v=z84UIZy_qgE)
 
@@ -76,25 +122,38 @@
 
    [Linux (Ubuntu)](https://www.youtube.com/watch?v=Y6_7xaxkPik)
 
-  ~ *if you can't seem to figure out how to do this, you can always just type your token in the code*
-example: `client.run("your_token_here")`
+_Alternatively_ you can just directly paste the bot token into the code; however, this is __not recommended__.
 
+- To do this, go to the file `main.py` and on the last line you should see
+```py
+singletons.client.run(os.getenv("econtoken"))
+```
+- Replace it with this instead. (paste your token in place of the `YOUR TOKEN HERE`)
+```py
+singletons.client.run("YOUR TOKEN HERE")
+```
 
 ## Running
 
 - Open up terminal
 - Make sure you're in the root directory (the folder you just cloned)
+
+<note style="font-size: 1.25em;">Note : You will have to run and terminate the bot process <strong>once</strong> to generate the save file so the bot will work.
+</note>
+
 - Run the bot using
   ```bash
   py main.py
   ```
 - You can terminate it by pressing `CTRL + C` in the terminal you ran it in.
 
+Running and terminating the first time will generate a `userdata.pkl` file in `saveload` directory which is necessary for the bot to work.
+
+Run again after that and you should be good to go.
 
 ---
 ---
 ---
-
 
 
 <h1 align="center" id="player-manual">Player Manual</h1>
