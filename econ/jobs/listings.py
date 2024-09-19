@@ -11,7 +11,7 @@ last_updated = datetime.datetime.now()
 def GenerateListings() -> None:
     """Generates a new listing."""
     global listing
-    new_listing = []
+    new_listing = [jobs.jobs["janitor"]]
     for i in range(constants.LISTING_LEN):
 
         new_job = random.choice(list(jobs.jobs.values())) # Generate a random job

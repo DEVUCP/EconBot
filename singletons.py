@@ -30,6 +30,7 @@ market = [
     items.ComplementBag(quantity=1),
     items.Coffee(quantity=1),
     items.EnergyDrink(quantity=1),
+    items.LotteryTicket(quantity=1)
 ]
 
 market_pages = [

@@ -16,6 +16,8 @@ async def Work(message : discord.Message) -> None:
         return
 
     if user.occupation.GetName() == "Unemployed":
+        await utils.ReplyWithException(message=message, exception_msg="Unemployed", exception_desc=f"Can't work without being employed, Get a job from `{constants.PREFIX}jobs`")
+        return
         outcome = random.choice(list(constants.OUTCOMES_WORK.keys())) # Get outcome string.
         value_1, value_2 = constants.OUTCOMES_WORK[outcome] # Get outcome money range.
 
@@ -91,9 +93,6 @@ async def Beg(message : discord.Message) -> None:
 
     # Add cash to user.
     user.bank_acc.AddCash(cash=cash)
-
-    # Take energy from user.
-    user.energy.DecrEnergy(amount=1)
 
     # Reduce user's employability.
     user.attributes["Employability"].DecrLevel(amount=0.5)

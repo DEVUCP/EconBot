@@ -44,8 +44,8 @@ class Coffee(item.Item):
         super().__init__(quantity=quantity, cost=constants.COFFEE_COST) # Initilize parent.
 
     def CustomUse(self, user) -> str:
-        user.energy.IncrEnergy(amount=1)
-        return "Drank coffee. Energy increased by 1."
+        user.energy.IncrEnergy(amount=2)
+        return "Drank coffee. Energy increased by 2."
 
 class EnergyDrink(item.Item):
     name = "Energy Drink"
@@ -54,8 +54,25 @@ class EnergyDrink(item.Item):
         super().__init__(quantity=quantity, cost=constants.ENERGY_DRINK_COST) # Initilize parent.
     
     def CustomUse(self, user) -> str:
-        user.energy.IncrEnergy(amount=2)
-        return "Drank energy drink. Energy increased by 2."
+        user.energy.IncrEnergy(amount=1)
+        return "Drank energy drink. Energy increased by 1."
+
+class LotteryTicket(item.Item):
+    name = "Lottery Ticket"
+    description="How lucky are you?."
+    def __init__(self, quantity : int = 1, cost : float = 0):
+        super().__init__(quantity=quantity, cost=constants.LOTTERY_TICKET_COST) # Initilize parent.
+    
+    def CustomUse(self, user) -> str:
+        import random
+        ticket_no = [random.uniform(1,10), random.uniform(1,10), random.uniform(1,10), random.uniform(1,10), random.uniform(1,10),]
+        winning_no = [random.uniform(1,10), random.uniform(1,10), random.uniform(1,10), random.uniform(1,10), random.uniform(1,10),]
+        if ticket_no == winning_no:
+            return "WINNER!"
+            user.bank_acc.AddCash(15000)
+        else:
+            return "Lost. Better luck next time."
+
 
 class Adderall(item.Item):
     name = "Adderall"

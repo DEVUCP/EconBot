@@ -6,12 +6,22 @@ LISTING_UPDATE_TIME = 7 # Time in-game days for the listing to update (24 mins *
 EXCEPTION_COLOR = 0xff0000 # Exception Embed color
 
 # Market Item Costs
-COMPLEMENT_BAG_COST = 300.0
-ENERGY_DRINK_COST = 350.0
-COFFEE_COST = 100.0
+COMPLEMENT_BAG_COST = 5.0
+ENERGY_DRINK_COST = 10.0
+COFFEE_COST = 12.5
+LOTTERY_TICKET_COST = 5.0
 
-INSULT_BAG_COST = 150.0
-ADDERAL_COST = 600.0
+INSULT_BAG_COST = 2.5
+ADDERAL_COST = 52.5
+
+# Pay ranges
+
+BEG_PAY = (0.5, 2.0)
+
+# Job categories
+
+easy_jobs = ["Janitor",]
+
 
 COMMANDS = {
     "training":{
@@ -65,7 +75,7 @@ COMMANDS = {
     },
 }
 OUTCOMES_WORK = {
-    "You found a hidden treasure chest at work and earned **$#**": (50.0, 100.0),
+    "You found a hidden treasure chest at work and earned **$#**": (2.0, 25),
     "Your boss gave you a surprise bonus of **$#** for your hard work": (100.0, 150.0),
     "You discovered a new way to save the company money and got a reward of **$#**": (75.0, 125.0),
     "You won the office lottery and received **$#**": (200.0, 300.0),
@@ -99,21 +109,20 @@ OUTCOMES_CRIME = {
     "You broke into a warehouse and found **$#** worth of goods": (80.0, 150.0)
 }
 OUTCOMES_BEG = {
-    "A kind stranger felt sorry for you and gave you **$#**": (10.0, 25.0),
-    "You found **$#** in an old coat pocket while begging": (25.0, 50.0),
-    "A generous passerby handed you **$#**": (15.0, 30.0),
-    "You sang a song and someone gave you **$#** for your effort": (5.0, 20.0),
-    "You found a wallet with **$#** inside": (40.0, 60.0),
-    "A child gave you their allowance of **$#**": (2.0, 10.0),
-    "You found some loose change on the ground worth **$#**": (1.0, 5.0),
-    "A street performer shared their earnings with you, giving you **$#**": (10.0, 20.0),
-    "A tourist felt generous and gave you **$#**": (20.0, 40.0),
-    "You found a $1 bill on the sidewalk": (1.0, 1.0),
-    "A dog walker gave you some spare change worth **$#**": (3.0, 7.0),
-    "You found a hidden stash of coins worth **$#**": (5.0, 15.0),
-    "A busker gave you a portion of their earnings, totaling **$#**": (8.0, 18.0),
-    "You found a $5 bill stuck in a bush": (5.0, 5.0),
-    "A kind soul bought you a meal and gave you **$#**": (10.0, 25.0)
+    "A kind stranger felt sorry for you and gave you **$#**": BEG_PAY,
+    "You found **$#** in an old coat pocket while begging": BEG_PAY,
+    "A generous passerby handed you **$#**": BEG_PAY,
+    "You sang a song and someone gave you **$#** for your effort": BEG_PAY,
+    "You found a wallet with **$#** inside": BEG_PAY,
+    "A child gave you their allowance of **$#**": BEG_PAY,
+    "You found some loose change on the ground worth **$#**": BEG_PAY,
+    "A street performer shared their earnings with you, giving you **$#**": BEG_PAY,
+    "A tourist felt generous and gave you **$#**": BEG_PAY,
+    "A dog walker gave you some spare change worth **$#**": BEG_PAY,
+    "You found a hidden stash of coins worth **$#**": BEG_PAY,
+    "A busker gave you a portion of their earnings, totaling **$#**": BEG_PAY,
+    "You found a $5 bill stuck in a bush": BEG_PAY,
+    "A kind soul bought you a meal and gave you **$#**": BEG_PAY
 }
 OUTCOMES_WORKOUT = [
     "You went to the gym and worked out for an hour. You feel stronger and more confident.",

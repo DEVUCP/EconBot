@@ -423,6 +423,49 @@ jobs = {
             "Creativity": 40.0,
             "Employability": 60.0,
         }
-    ),
+        ),
+        "janitor": job.Job(    
+            name="Janitor",
+            hourly_pay=9.5,
+            description=("A Janitor is responsible for cleaning and maintaining buildings and facilities.\n"
+                            "They perform tasks such as sweeping, mopping, vacuuming, and ensuring overall cleanliness and sanitation."),
+            requirements={
+                "Strength": 5.0,
+                "Dexterity": 5.0,
+                "Intelligence": 1.0,
+                "Charisma": 1.0,
+                "Creativity": 0.0,
+                "Employability": 3.0,
+        }
+        ),
+        "fast food worker": job.Job(
+        name="Fast Food Worker",
+        hourly_pay=8.5,
+        description=("A Fast Food Worker prepares and serves food in a fast food restaurant.\n"
+                        "They take orders, operate cash registers, and maintain cleanliness in the work area."),
+        requirements={
+            "Strength": 5.0,
+            "Dexterity": 5.0,
+            "Intelligence": 2.5,
+            "Charisma": 3.0,
+            "Creativity": 0.0,
+            "Employability": 1.0,
+        }
+        ),
+        "box mover": job.Job(
+        name="Box Mover",
+        hourly_pay=12.0,
+        description=("A Box Mover is responsible for lifting, carrying, and transporting boxes and other items.\n"
+                        "They load and unload trucks, organize storage areas, and ensure proper handling of goods."),
+        requirements={
+            "Strength": 5.0,
+            "Dexterity": 5.0,
+            "Intelligence": 2.5,
+            "Charisma": 3.0,
+            "Creativity": 0.0,
+            "Employability": 0.0,
+        }
+        ),
+        
 }
 

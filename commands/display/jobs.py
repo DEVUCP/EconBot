@@ -1,4 +1,5 @@
 import discord
+import constants
 from utils import ReplyWithException
 from econ.jobs import listings, job, jobs
 
@@ -31,9 +32,19 @@ def GetEmbedJobs(jobs : list[job.Job]) -> discord.Embed:
     """Returns an embed with the jobs."""
     embed = discord.Embed(title="Jobs", description="Here are the week's job listings.", color=0x00ff00)
     for job in jobs:
-        embed.add_field(name=job.name, value=job.description, inline=True)
-        embed.add_field(name=f"${job.hourly_pay}/hour", value="", inline=True)
-        embed.add_field(name="", value="", inline=False)
+        # This condition is temporary.
+        if job.GetName() in constants.easy_jobs:
+            embed.add_field(name="Starter Jobs", value="Jobs easy to apply for right away.", inline=False) # Header
+            embed.add_field(name="------------------", value="", inline=False) # Seperator
+            embed.add_field(name=job.name, value=job.description, inline=True)
+            embed.add_field(name=f"${job.hourly_pay}/hour", value="", inline=True)
+            embed.add_field(name="", value="", inline=False)
+            embed.add_field(name="------------------", value="", inline=False) # Seperator
+        else:
+            embed.add_field(name=job.name, value=job.description, inline=True)
+            embed.add_field(name=f"${job.hourly_pay}/hour", value="", inline=True)
+            embed.add_field(name="", value="", inline=False)
+
     return embed
 
 def GetJobInfoEmbed(job : job.Job) -> discord.Embed:
