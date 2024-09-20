@@ -18,7 +18,7 @@ async def DisplayJobInfo(message : discord.Message, command : list[str]) -> None
     
     command.pop(0) # Removes prefix and action
         
-    job = " ".join(command)
+    job = (" ".join(command)).lower()
     
     if job not in jobs.jobs.keys():
         await ReplyWithException(message=message, exception_msg="That job does not exist.",exception_desc="use `$jobs` to see all available jobs at the moment.")

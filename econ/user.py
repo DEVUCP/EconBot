@@ -5,6 +5,7 @@ import constants
 
 class User:
     uid : int # Unique ID of the user.
+    op :  bool # Is the user an operator?
 
     bank_acc : bank.BankAccount
     occupation : job.Job
@@ -17,6 +18,7 @@ class User:
     def __init__(self, uid) -> None:
         self.inventory = [[]]
         self.uid = uid
+        self.op = False
         self.bank_acc = bank.BankAccount()
         #self.occupation = jobs.jobs["economist"] 
         self.occupation = job.Job(name="Unemployed", description="Loser", requirements={})

@@ -75,6 +75,13 @@ COMMANDS = {
         "clock":"Dislpays current ingame time",
 
     },
+
+    "operator": {
+        "description": f"Example: `{PREFIX}help Operator`",
+        "op": f"Makes a user an operator\n example : ``{PREFIX}op @myfriend``",
+        "deop": f"Removes operator status from a user\n example : ``{PREFIX}deop @myfriend``",
+        "save": f"Saves the database\n example : ``{PREFIX}save``",
+    }
 }
 OUTCOMES_WORK = {
     "You found a hidden treasure chest at work and earned **$#**": (2.0, 25),
