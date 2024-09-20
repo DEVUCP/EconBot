@@ -1,5 +1,5 @@
 import discord
-from utils import FindItem, FindUser, ToMoney, ReplyWithException, FindItemInList
+from utils import FindItem, FindUser, ToMoney, ReplyWithException, FindItemInList, StripMention, IsValidMention
 import singletons
 
 async def Buy(message : discord.Message, command : list[str]) -> None:
@@ -147,3 +147,94 @@ async def UseItem(message : discord.Message, command : list[str]) -> None:
             del page[index]
     
     await message.reply(embed=embed)
+
+async def Give(message : discord.Message, command : list[str]) -> None:
+    """Gives a specified Item to a specified User."""
+    # await message.reply("Give Command Invoked!") # Uncomment when debugging.
+
+    command.pop(0) # Removes Prefix and action.
+
+    
+    if len(command) < 2: # Checks if command is with given arguments.
+        await ReplyWithException(message=message,exception_msg="Missing Arguments.")
+        return
+
+    if await IsValidMention(command[0]): # Validates mentioned user.
+        mentioned_user_id = StripMention(command[0])
+    else:
+        await ReplyWithException(message=message, exception_msg="Invalid user!")
+        return
+
+    sender = FindUser(uid=message.author.id, sid=message.guild.id)
+    receiver = FindUser(uid=mentioned_user_id, sid=message.guild.id)
+
+    quantity = 1
+    command.pop(0) # Removes mentioned user.
+
+    # Checks optional arguments.
+    if len(command) > 2 and "|" in command:
+
+        #<item> | <quantity>
+
+        command = " ".join(command)
+        command = command.split("|")
+
+        if command[0] == "": # Checks if empty.
+            command.pop(0)
+        
+        try:
+            quantity = int(command[1])
+
+            if int(quantity) < 1:
+                await ReplyWithException(message=message, exception_msg="Quantity must be at least 1.")
+                return
+
+        except TypeError: # Quantity argument given wasn't an int.
+            await ReplyWithException(message=message, exception_msg="Invalid quantity provided. Must be a whole number.")
+            return
+        
+        except IndexError: # This means that no quantity argument was even given, so just use the default (1).
+            pass
+
+        
+        quantity = int(command[1])
+    
+    item_name = command[0]
+
+    if FindItemInList(name=item_name, item_list=sender.inventory, user=sender) == None: # Tries to find item.
+        await ReplyWithException(message=message, exception_msg="Item Not found in Inventory. Recheck your spelling?")
+        return
+        
+    sender_item = FindItemInList(name=item_name, item_list=sender.inventory, user=sender)
+    receiver_item = FindItemInList(name=item_name, item_list=singletons.item_list)
+    receiver_item.SetQuantity(0)
+        
+    if quantity > sender_item.GetQuantity(): # Checks if quantity is more than the item's quantity.
+        await ReplyWithException(message=message, exception_msg="Insufficient quantity.", exception_desc=f"You cant give {quantity} {sender_item.GetName()}s, you only have {sender_item.GetQuantity()}.")
+        return
+    
+    sender_item.DecrQuantity(decramount=quantity)
+    receiver_item.IncrQuantity(incramount=quantity)
+   
+    if FindItemInList(name=item_name, item_list=receiver.inventory, user=receiver) == None: # Checks if user already has the item.
+        receiver.AddNewItemInventory(item=receiver_item)
+
+    else:
+        receiver_item = FindItemInList(name=item_name, item_list=receiver.inventory, user=receiver)
+        receiver_item.IncrQuantity(incramount=quantity)
+
+    item_for_deletion = sender_item.GetQuantity() == 0
+
+    reciever_disc_user = await singletons.client.fetch_user(receiver.uid)
+    sender_disc_user = await singletons.client.fetch_user(sender.uid)
+
+    embed = discord.Embed(title=f"You gave {quantity} {sender_item.GetName()}s to {reciever_disc_user.display_name}!",color=discord.Color.green())
+
+    if item_for_deletion:
+        for page in sender.inventory:
+            item = FindItemInList(name=sender_item.GetName(), item_list=sender.inventory, user=sender)
+            index = page.index(item)
+            del page[index]
+    
+    await message.reply(embed=embed)
+

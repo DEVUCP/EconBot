@@ -52,6 +52,7 @@ COMMANDS = {
         "profile": "View all your stats",
         "balance": "Check your current balance",
         "inventory": "View your inventory",
+        "give": f"Give an item to another user\n example : ``{PREFIX}give @myfriend complement bag | 4``",
         "use": "Use an item from your inventory",
         "energy":"Displays energy bar",
     },

@@ -75,6 +75,8 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.display.balance.DisplayBalance(message=message, command=command)
         case "profile":
             await commands.display.profile.DisplayProfile(message=message, command=command)
+        case "prof":
+            await commands.display.profile.DisplayProfile(message=message, command=command)
         case "withdraw":
             await commands.bank.Withdraw(message=message, command=command)
         case "with":
@@ -123,8 +125,8 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.display.inventory.DisplayInventory(message=message, command=command)
         case "use":
             await commands.inventory.UseItem(message=message, command=command)
-#        case "give":
-#           await commands.inventory.Give(message=message, command=command)
+        case "give":
+           await commands.inventory.Give(message=message, command=command)
         case "clock":
             await commands.display.clock.DisplayClock(message=message)
         case "energy":
