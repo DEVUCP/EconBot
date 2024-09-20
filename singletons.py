@@ -10,19 +10,37 @@ start_time = datetime.datetime.now() # Start time of the bot
 class Client(discord.Client):
     async def Save(self):
         # Save accounts before closing
-        # saveload.SaveUserDict()
-        print("Client disconnected.")
 
+        await saveload.SaveUserDict()
+
+        print("--- Client disconnected ---")
+
+        exit(0)
+        
     async def close(self):
         # Perform cleanup before closing
-        await self.Save()
+        await self.async_cleanup()
         
         # Call the parent class's close method
         await super().close()
 
+    async def async_cleanup(self):
+        await self.Save()
+
+
 
 intents =  discord.Intents.all()
 client = Client(intents=intents)
+
+# Full Item list
+item_list = [
+    items.ComplementBag(quantity=1),
+    items.Coffee(quantity=1),
+    items.EnergyDrink(quantity=1),
+    items.LotteryTicket(quantity=1),
+    items.InsultBag(quantity=1),
+    items.Adderall(quantity=1),
+]
 
 
 # Market

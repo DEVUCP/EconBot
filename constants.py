@@ -1,4 +1,5 @@
 PREFIX = "!"
+SAVE_INTERVAL = 600 # in seconds
 
 PAGE_LEN = 5 # Max number of items in a market page
 LISTING_LEN = 5 # Max number of job listings

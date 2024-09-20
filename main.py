@@ -11,25 +11,21 @@ import commands
 from commands import bank, earnings, inventory, display, training, apply
 from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs
 
-import atexit
-
-def cleanup():
-    saveload.SaveUserDict()
-    print("Cleanup process sucessful.")
-
-atexit.register(cleanup)
-
 
 # Client Event Functions
 @singletons.client.event
 async def on_ready():
     # Loads first
     listings.GenerateListings()
+
+
     if not os.path.exists(saveload.save_path):
         saveload.SaveUserDict()
 
     if os.path.exists(saveload.save_path) and saveload.LoadAll():
+        await saveload.initiate_save()
         print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
+    
 
 @singletons.client.event
 async def on_message(message : discord.Message):
@@ -39,12 +35,29 @@ async def on_message(message : discord.Message):
         return
     if len(message.content) == 0: # This ignores any gif or image messages.
         return
+
+    if message.content == f"{constants.PREFIX}save":
+        if message.author.guild_permissions.administrator:
+            await saveload.SaveUserDict()
+            await message.reply("Saved!")
+            return
+        else:
+            await message.reply("You Must be an admin to do that.")
+            return
+
+    
+    if message.content == f"{constants.PREFIX}cheatmoney":
+        if message.author.guild_permissions.administrator:
+            user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
+            user.bank_acc.AddCash(5000)
+            await message.reply(f"Added $5,000 to {message.author.name}'s bank account.")
+            return
+        else:
+            await message.reply("You Must be an admin to do that.")
+            return
+
     if message.content[0] == constants.PREFIX:
         await InvokeEcon(message=message)
-    if message.content == "please??":
-        user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
-        user.bank_acc.AddCash(5000.00)
-
 
 async def InvokeEcon(message : discord.Message) -> None:
     """The Root Function of User-bot Interaction."""
@@ -110,6 +123,8 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.display.inventory.DisplayInventory(message=message, command=command)
         case "use":
             await commands.inventory.UseItem(message=message, command=command)
+#        case "give":
+#           await commands.inventory.Give(message=message, command=command)
         case "clock":
             await commands.display.clock.DisplayClock(message=message)
         case "energy":

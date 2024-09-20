@@ -3,8 +3,12 @@ import singletons
 import math
 import constants
 import pickle
+import threading
+import time
+import asyncio
 
 loaded = False
+save_task : asyncio.Task
 
 # Get the directory where the script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -13,6 +17,20 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 save_path = os.path.join(script_dir, 'userdata.pkl')
 
 print(save_path)
+
+async def timed_save(interval):
+    while True:
+        await asyncio.sleep(interval)
+        print("Auto-Saving...")
+        await SaveUserDict()
+
+# Start the timed save in a separate thread
+
+async def initiate_save():
+    global save_task
+    print("Initiating timed save..")
+    save_task = asyncio.create_task(timed_save(constants.SAVE_INTERVAL))
+
 
 def LoadAll() -> bool:
     global loaded
@@ -27,11 +45,13 @@ def LoadAll() -> bool:
     return True
 
 
-def SaveUserDict() -> bool:
-    with open(save_path, 'wb') as file:
-        pickle.dump(singletons.user_dict, file=file)
-        print("Saved Userdata Successfully!")
-        return True
+async def SaveUserDict() -> None:
+    try:
+        with open(save_path, 'wb') as file:
+            pickle.dump(singletons.user_dict, file=file)
+            print("--- Saved Userdata Successfully ---")
+    except Exception as err:
+        print(f"Error: {err}")
 
 def LoadUserDict() -> bool:
     if not os.path.exists(save_path):
