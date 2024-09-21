@@ -5,6 +5,16 @@ from econ import user
 import constants
 import datetime
 
+def GetFilePath(filename : str) -> str:
+    import os
+    # Get the directory where the script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Construct the full path to the save file
+    save_path = os.path.join(script_dir, filename)
+
+    return save_path
+
 def ToMoney(amount: float) -> str:
     """Returns the amount in money format."""
     return f"${amount:.2f}"
