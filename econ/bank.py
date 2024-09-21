@@ -1,6 +1,5 @@
 import enum
 from econ.cards import bankcard
-import constants
 
 class BankAccount:
     

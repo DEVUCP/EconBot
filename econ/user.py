@@ -1,7 +1,6 @@
 from econ import bank, energy, attribute, jobs
 from econ.jobs import job, jobs
 from econ.items import item
-import constants
 
 class User:
     uid : int # Unique ID of the user.
@@ -34,8 +33,9 @@ class User:
         }
     
     def AddNewItemInventory(self, item) -> None:
+        from constants import PAGE_LEN
         """Adds a new item to the inventory."""
-        if len(self.inventory[-1]) == constants.PAGE_LEN:
+        if len(self.inventory[-1]) == PAGE_LEN:
             self.inventory.append([item])
         else:
             self.inventory[-1].append(item)
