@@ -12,7 +12,7 @@ loaded = False
 save_task : asyncio.Task
 
 
-save_path = GetFilePath(filename='userdata.pkl')
+save_path = GetFilePath(filename='saveload/userdata.pkl')
 
 print(save_path)
 
