@@ -27,8 +27,7 @@ async def on_ready():
 
 @singletons.client.event
 async def on_message(message : discord.Message):
-    if not saveload.loaded:
-        return
+
     if message.author.id == singletons.client.user.id: # This ignores bot's own messages.
         return
     if len(message.content) == 0: # This ignores any gif or image messages.
