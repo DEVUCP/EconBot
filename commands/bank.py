@@ -43,14 +43,14 @@ async def Deposit(message : discord.Message, command : list[str]) -> None:
 
     user = utils.FindUser(uid=message.author.id, sid=message.guild.id)
 
+    if user.bank_acc.GetCashOnHand() <= 0.0:
+        await utils.ReplyWithException(message=message,exception_msg="You have no cash on hand to deposit.")
+        return
+
     if len(command) == 1:
 
         funds = user.bank_acc.GetCashOnHand()
 
-        if funds == 0.0:
-            await utils.ReplyWithException(message=message,exception_msg="You have no cash on hand to deposit.")
-            return
-        
         old_dep = user.bank_acc.GetDeposit()
         
         deposit_status = user.bank_acc.DepositAmount(funds)

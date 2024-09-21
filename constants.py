@@ -1,5 +1,6 @@
 PREFIX = "!"
 SAVE_INTERVAL = 600 # in seconds
+CRIME_FAIL_PERCENTAGE = 65 # chance of failing a crime
 
 PAGE_LEN = 5 # Max number of items in a market page
 LISTING_LEN = 5 # Max number of job listings
@@ -18,6 +19,7 @@ ADDERAL_COST = 52.5
 # Pay ranges
 
 BEG_PAY = (0.5, 2.0)
+CRIME_PAY = (50.0, 150.0)
 
 # Job categories
 
@@ -101,22 +103,29 @@ OUTCOMES_WORK = {
     "You found a stash of petty cash and took **$#**": (5.0, 15.0)
 }
 OUTCOMES_CRIME = {
-    "You successfully hacked into a bank and stole **$#**": (50.0, 100.0),
-    "You pulled off a heist and got away with **$#**": (100.0, 150.0),
-    "You pickpocketed a wealthy businessman and got **$#**": (30.0, 70.0),
-    "You sold some 'hot' merchandise and earned **$#**": (80.0, 130.0),
-    "You ran a successful scam and made **$#**": (60.0, 110.0),
-    "You robbed a convenience store and got away with **$#**": (40.0, 90.0),
-    "You mugged a tourist and found **$#** in their wallet": (20.0, 50.0),
-    "You broke into a car and found **$#** in the glove compartment": (15.0, 35.0),
-    "You stole a bike and sold it for **$#**": (25.0, 60.0),
-    "You ran a counterfeit money operation and made **$#**": (70.0, 120.0),
-    "You robbed a jewelry store and got away with **$#**": (200.0, 300.0),
-    "You hijacked a truck and sold the goods for **$#**": (150.0, 250.0),
-    "You ran an illegal gambling ring and earned **$#**": (100.0, 200.0),
-    "You stole a purse and found **$#** inside": (10.0, 40.0),
-    "You broke into a warehouse and found **$#** worth of goods": (80.0, 150.0)
+    "You successfully hacked into a bank and stole **$#**": CRIME_PAY,
+    "You pulled off a heist and got away with **$#**": CRIME_PAY,
+    "You pickpocketed a wealthy businessman and got **$#**": CRIME_PAY,
+    "You sold some 'hot' merchandise and earned **$#**": CRIME_PAY,
+    "You ran a successful scam and made **$#**": CRIME_PAY,
+    "You robbed a convenience store and got away with **$#**": CRIME_PAY,
+    "You mugged a tourist and found **$#** in their wallet": CRIME_PAY,
+    "You broke into a car and found **$#** in the glove compartment": CRIME_PAY,
+    "You stole a bike and sold it for **$#**": CRIME_PAY,
+    "You ran a counterfeit money operation and made **$#**": CRIME_PAY,
+    "You robbed a jewelry store and got away with **$#**": CRIME_PAY,
+    "You hijacked a truck and sold the goods for **$#**": CRIME_PAY,
+    "You ran an illegal gambling ring and earned **$#**": CRIME_PAY,
+    "You stole a purse and found **$#** inside": CRIME_PAY,
+    "You broke into a warehouse and found **$#** worth of goods": CRIME_PAY
+    }
+
+OUTCOMES_FAIL_CRIME = {
+    "you were caught by the police and fined **$#**": (-50.0, -100.0),
 }
+
+
+
 OUTCOMES_BEG = {
     "A kind stranger felt sorry for you and gave you **$#**": BEG_PAY,
     "You found **$#** in an old coat pocket while begging": BEG_PAY,

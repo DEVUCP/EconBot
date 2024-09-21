@@ -52,9 +52,21 @@ async def Crime(message : discord.Message) -> None:
         await utils.ReplyWithException(message=message, exception_msg="Energy insufficient.", exception_desc="Try waiting a bit to replenish your energy.")
         return
 
-    outcome = random.choice(list(constants.OUTCOMES_CRIME.keys())) # Get outcome string.
-    value_1, value_2 = constants.OUTCOMES_CRIME[outcome] # Get outcome money range.
+    crime_check = random.randint(0, 100)
+    outcome_pool = constants.OUTCOMES_CRIME
+    crime_success = True
 
+    if crime_check <= constants.CRIME_FAIL_PERCENTAGE:
+        crime_success = False
+        outcome_pool = constants.OUTCOMES_FAIL_CRIME
+
+        # Reduce user's employability.
+        user.attributes["Employability"].DecrLevel(amount=1)
+    
+    outcome = random.choice(list(outcome_pool.keys())) # Get outcome string.
+    value_1, value_2 = outcome_pool[outcome] # Get outcome money range.
+
+    
     # Randomize cash.
     cash = random.uniform(value_1, value_2)
     cash = float(f"{cash:,.2f}")
@@ -65,12 +77,9 @@ async def Crime(message : discord.Message) -> None:
     # Take energy from user.
     user.energy.DecrEnergy(amount=1)
 
-    # Reduce user's employability.
-    user.attributes["Employability"].DecrLevel(amount=1)
+    final_outcome = outcome.replace("#", str(abs(cash)))
 
-    final_outcome = outcome.replace("#", str(cash))
-
-    embed = discord.Embed(description=final_outcome,color=discord.Color.brand_green())
+    embed = discord.Embed(description=final_outcome,color=discord.Color.brand_green() if crime_success else discord.Color.brand_red())
     embed.set_footer(text=user.energy.GetEnergyBar())
     await message.reply(embed=embed)
 
