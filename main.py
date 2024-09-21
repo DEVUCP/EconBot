@@ -11,6 +11,8 @@ from econ.jobs import listings
 
 import commands
 
+import startup
+
 from commands import bank, earnings, inventory, display, training, apply, operator
 from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs
 from commands.operator import permissions, management
@@ -20,17 +22,8 @@ from commands.earnings import work, crime, rob, beg
 # Client Event Functions
 @singletons.client.event
 async def on_ready():
-    # Loads first
-    listings.GenerateListings()
-
-
-    if not os.path.exists(saveload.save_path):
-        await saveload.SaveUserDict()
-
-    if os.path.exists(saveload.save_path) and saveload.LoadAll():
-        await saveload.initiate_save()
-        print(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---')
     
+    await startup.StartUp()
 
 @singletons.client.event
 async def on_message(message : discord.Message):

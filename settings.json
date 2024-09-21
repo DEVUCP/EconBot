@@ -1,0 +1,38 @@
+  {
+
+    "startup": 
+    {
+      "update-old-users": true
+    },
+
+    "general":
+    {
+      "prefix": "$",
+      "auto-save": true,
+      "saving-interval": 600
+    },
+
+    "game": 
+    {
+    
+      "toggleables":
+      {
+        "enable-crime": true,
+        "enable-beg": true,
+        "enable-jobs": true,
+        "enable-unemployed-work": true,
+        "enable-rob": true
+      },
+
+      "pay":
+      {
+        "beg-pay": [0.5,2.0],
+        "crime-pay": [50.0,150.0],
+        "crime-penalty" : [-100.0,-50.0],
+        "work-pay": [15.0,65.0]
+      },
+    
+      "crime-fail-percentage": 65,
+      "job-listing-length": 5
+    }
+  }
