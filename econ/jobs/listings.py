@@ -10,6 +10,8 @@ last_updated = datetime.datetime.now()
 
 def GenerateListings() -> None:
     """Generates a new listing."""
+    if not constants.ENABLE_JOBS:
+        return
     global listing
     new_listing = [jobs.jobs["janitor"]]
     for i in range(constants.LISTING_LEN):

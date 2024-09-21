@@ -1,11 +1,25 @@
+from utils import GetFilePath
+
 PREFIX = "!"
 SAVE_INTERVAL = 600 # in seconds
 CRIME_FAIL_PERCENTAGE = 65 # chance of failing a crime
+
+
+SETTINGS_PATH = GetFilePath(filename="settings.json")
 
 PAGE_LEN = 5 # Max number of items in a market page
 LISTING_LEN = 5 # Max number of job listings
 LISTING_UPDATE_TIME = 7 # Time in-game days for the listing to update (24 mins * 7 = real world time)
 EXCEPTION_COLOR = 0xff0000 # Exception Embed color
+
+# Toggleables
+ENABLE_CRIME = True
+ENABLE_BEG = True
+ENABLE_JOBS = True
+ENABLE_UNEMPLOYED_WORK = False
+ENABLE_ROB = True
+AUTOSAVE = True
+
 
 # Market Item Costs
 COMPLEMENT_BAG_COST = 5.0
@@ -20,10 +34,14 @@ ADDERAL_COST = 52.5
 
 BEG_PAY = (0.5, 2.0)
 CRIME_PAY = (50.0, 150.0)
+CRIME_PENALTY = (-100.0, -50.0)
+WORK_PAY = (15.0, 65.0)
 
 # Job categories
 
-easy_jobs = ["Janitor",]
+# TODO : Add more job categories
+
+easy_jobs = ["Janitor",] # TODO : Add more jobs to the list
 
 
 COMMANDS = {
@@ -86,22 +104,22 @@ COMMANDS = {
     }
 }
 OUTCOMES_WORK = {
-    "You found a hidden treasure chest at work and earned **$#**": (2.0, 25),
-    "Your boss gave you a surprise bonus of **$#** for your hard work": (100.0, 150.0),
-    "You discovered a new way to save the company money and got a reward of **$#**": (75.0, 125.0),
-    "You won the office lottery and received **$#**": (200.0, 300.0),
-    "You fixed the coffee machine and everyone chipped in to give you **$#**": (20.0, 50.0),
-    "You found a winning scratch-off ticket in the break room and won **$#**": (30.0, 60.0),
-    "You helped a colleague with a project and they gave you **$#** as a thank you": (40.0, 80.0),
-    "You found some extra cash in the vending machine and kept it, earning **$#**": (10.0, 25.0),
-    "You completed a big project ahead of schedule and received a bonus of **$#**": (150.0, 250.0),
-    "You found a forgotten envelope with **$#** in your desk drawer": (20.0, 40.0),
-    "You organized the office party and got a tip of **$#**": (10.0, 30.0),
-    "You won the 'Employee of the Month' award and received **$#**": (50.0, 100.0),
-    "You found a valuable item at work and sold it for **$#**": (60.0, 120.0),
-    "You helped fix a major issue and got a reward of **$#**": (80.0, 150.0),
-    "You found a stash of petty cash and took **$#**": (5.0, 15.0)
-}
+    "You found a hidden treasure chest at work and earned **$#**": WORK_PAY,
+    "Your boss gave you a surprise bonus of **$#** for your hard work": WORK_PAY,
+    "You discovered a new way to save the company money and got a reward of **$#**": WORK_PAY,
+    "You won the office lottery and received **$#**": WORK_PAY,
+    "You fixed the coffee machine and everyone chipped in to give you **$#**": WORK_PAY,
+    "You found a winning scratch-off ticket in the break room and won **$#**": WORK_PAY,
+    "You helped a colleague with a project and they gave you **$#** as a thank you": WORK_PAY,
+    "You found some extra cash in the vending machine and kept it, earning **$#**": WORK_PAY,
+    "You completed a big project ahead of schedule and received a bonus of **$#**": WORK_PAY,
+    "You found a forgotten envelope with **$#** in your desk drawer": WORK_PAY,
+    "You organized the office party and got a tip of **$#**": WORK_PAY,
+    "You won the 'Employee of the Month' award and received **$#**": WORK_PAY,
+    "You found a valuable item at work and sold it for **$#**": WORK_PAY,
+    "You helped fix a major issue and got a reward of **$#**": WORK_PAY,
+    "You found a stash of petty cash and took **$#**": WORK_PAY
+    }
 OUTCOMES_CRIME = {
     "You successfully hacked into a bank and stole **$#**": CRIME_PAY,
     "You pulled off a heist and got away with **$#**": CRIME_PAY,
@@ -121,7 +139,7 @@ OUTCOMES_CRIME = {
     }
 
 OUTCOMES_FAIL_CRIME = {
-    "you were caught by the police and fined **$#**": (-50.0, -100.0),
+    "you were caught by the police and fined **$#**": CRIME_PENALTY,
 }
 
 

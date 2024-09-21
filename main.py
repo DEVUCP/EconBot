@@ -72,14 +72,31 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.bank.Deposit(message=message, command=command)
         case "pay":
             await commands.bank.Pay(message=message, command=command)
+            
         case "work":
+            if constants.ENABLE_JOBS and constants.ENABLE_UNEMPLOYED_WORK:
                 await commands.earnings.work.Work(message=message)
+                
+            elif constants.ENABLE_JOBS and not constants.ENABLE_UNEMPLOYED_WORK:
+                await commands.earnings.work.JobOnlyWork(message=message)
+            
+            elif not constants.ENABLE_JOBS and constants.ENABLE_UNEMPLOYED_WORK:
+                await commands.earnings.work.WorkNoJob(message=message)
+            else:
+                await utils.ReplyWithException(message=message, exception_msg="Conflicting setting! Notify Bot operator.", exception_desc="Jobs and Unemployed work are **both** disabled.")
+        
         case "crime":
+            if not constants.ENABLE_CRIME:
+                return
             await commands.earnings.crime.Crime(message=message)
         case "beg":
+            if not constants.ENABLE_BEG:
+                return
             await commands.earnings.beg.Beg(message=message)
         case "rob":
-            await commands.earnings.rob.Rob(message=message, command=command)
+            if not constants.ENABLE_ROB:
+                return
+            await commands.earnings.rob.Rob(message=message)
         case "workout":
             await commands.training.Workout(message=message)
         case "excercise":
@@ -95,11 +112,14 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "market":
             await commands.display.markets.DisplayMarket(message=message, command=command)
         case "jobs":
-            await commands.display.jobs.DisplayJobs(message=message)
+            if constants.ENABLE_JOBS:
+                await commands.display.jobs.DisplayJobs(message=message)
         case "apply":
-            await commands.apply.Apply(message=message, command=command)
+            if constants.ENABLE_JOBS:
+                await commands.apply.Apply(message=message, command=command)
         case "info":
-            await commands.display.jobs.DisplayJobInfo(message=message, command=command)
+            if constants.ENABLE_JOBS:
+                await commands.display.jobs.DisplayJobInfo(message=message, command=command)
         case "buy":
             await commands.inventory.Buy(message=message, command=command)
         case "sell":
