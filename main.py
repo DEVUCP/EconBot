@@ -5,12 +5,16 @@ import os
 import singletons
 import constants
 import utils
+
 from saveload import saveload
 from econ.jobs import listings
+
 import commands
+
 from commands import bank, earnings, inventory, display, training, apply, operator
 from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs
 from commands.operator import permissions, management
+from commands.earnings import work, crime, rob, beg
 
 
 # Client Event Functions
@@ -69,13 +73,13 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "pay":
             await commands.bank.Pay(message=message, command=command)
         case "work":
-            await commands.earnings.Work(message=message)
+                await commands.earnings.work.Work(message=message)
         case "crime":
-            await commands.earnings.Crime(message=message)
+            await commands.earnings.crime.Crime(message=message)
         case "beg":
-            await commands.earnings.Beg(message=message)
+            await commands.earnings.beg.Beg(message=message)
         case "rob":
-            await commands.earnings.Rob(message=message, command=command)
+            await commands.earnings.rob.Rob(message=message, command=command)
         case "workout":
             await commands.training.Workout(message=message)
         case "excercise":
