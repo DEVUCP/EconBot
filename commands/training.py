@@ -60,9 +60,9 @@ async def Paint(message : discord.Message) -> None:
     # await message.reply("Train Dexterity Command Invoked!") # Uncomment when debugging.
     user = FindUser(uid=message.author.id, sid=message.guild.id)
 
-    if user.attributes["Dexterity"].IsMaxLevel():
-        await ReplyWithException(message=message, exception_msg="You have already reached the maximum level for Dexterity.")
-        return
+    # if user.attributes["Dexterity"].IsMaxLevel():
+    #     await ReplyWithException(message=message, exception_msg="You have already reached the maximum level for Dexterity.")
+    #     return
     
     if user.attributes["Creativity"].IsMaxLevel():
         await ReplyWithException(message=message, exception_msg="You have already reached the maximum level for Creativity.")
