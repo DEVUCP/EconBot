@@ -26,8 +26,8 @@ async def Crime(message : discord.Message) -> None:
         # Reduce user's employability.
         user.attributes["Employability"].DecrLevel(amount=1)
     
-    outcome = random.choice(list(outcome_pool.keys())) # Get outcome string.
-    value_1, value_2 = outcome_pool[outcome] # Get outcome money range.
+    outcome = random.choice(outcome_pool) # Get outcome string.
+    value_1, value_2 = constants.CRIME_PAY # Get outcome money range.
 
     
     # Randomize cash.

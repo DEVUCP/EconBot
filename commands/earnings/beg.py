@@ -14,8 +14,8 @@ async def Beg(message : discord.Message) -> None:
         await utils.ReplyWithException(message=message, exception_msg="Energy insufficient.", exception_desc="Try waiting a bit to replenish your energy.")
         return
 
-    outcome = random.choice(list(constants.OUTCOMES_BEG.keys())) # Get outcome string.
-    value_1, value_2 = constants.OUTCOMES_BEG[outcome] # Get outcome money range.
+    outcome = random.choice(constants.OUTCOMES_BEG) # Get outcome string.
+    value_1, value_2 = constants.BEG_PAY # Get outcome money range.
 
     # Randomize cash.
     cash = random.uniform(value_1, value_2)

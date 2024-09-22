@@ -41,7 +41,7 @@ class BankAccount:
         else:
             return 0  
     
-    def WithdrawAmount(self, amount : float):
+    def WithdrawAmount(self, amount : float) -> None:
         """Withdraws amount from the bank account.
             Returns True if successful, False otherwise.
         """
@@ -61,13 +61,21 @@ class BankAccount:
         else:
             return False
 
-    def AddCash(self, cash: float):
+    def AddCash(self, cash: float) -> None:
         """Adds cash to the cash on hand."""
         self.cash_on_hand += cash
 
-    def RemoveCash(self, cash: float):
+    def RemoveCash(self, cash: float) -> None:
         """Removes cash from the cash on hand."""
         self.cash_on_hand -= cash
+    
+    def AddDeposit(self, dep : float) -> None:
+        """Adds deposit to the deposit."""
+        self.deposit += dep
+    
+    def RemoveDeposit(self, dep : float) -> None:
+        """Removes deposit from the deposit."""
+        self.deposit -= dep
 
     def GetCashOnHand(self) -> float:
         """Returns the cash on hand."""
@@ -77,7 +85,7 @@ class BankAccount:
         """Returns the deposit."""
         return self.deposit
 
-    def SetDeposit(self, newdep : float):
+    def SetDeposit(self, newdep : float) -> None:
         """Sets the deposit.
             Returns False if newdep exceeds the max balance of the bank card, True otherwise.
         """
@@ -86,6 +94,6 @@ class BankAccount:
         self.deposit = newdep
         return True
 
-    def SetCashOnHand(self, newcash : float):
+    def SetCashOnHand(self, newcash : float) -> None:
         """Sets the cash on hand"""
         self.cash_on_hand = newcash

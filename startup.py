@@ -25,6 +25,8 @@ async def StartUp() -> None:
     if LoadSettings():
         ApplySettings()
     
+    GenerateHelpCommand()
+    
     listings.GenerateListings() # Generates the job listings
 
     await GenerateSaveFile() # Generates a save file if it does not exist.
@@ -39,6 +41,70 @@ async def StartUp() -> None:
 
     print_colored(f'--- LOGGED IN AS {singletons.client.user.name} ({singletons.client.user.id}) ---', 'magenta')
 
+def GenerateHelpCommand():
+    constants.COMMANDS = {
+    "training":{
+        "study": "Raises your intellect",
+        "socalize": "Raises your charisma",
+        "workout": "Raises your strength",
+        "paint": "Raises your dexterity & creativity"
+    },
+
+    "earnings": {
+        "description": f"Example: `{constants.PREFIX}help Earnings`",
+        "work": "Work to earn some money",
+        "crime": "Commit a crime to earn money illegally",
+        "beg": "Beg for money on the streets",
+        "rob": f"Attempt to rob another user\n example : ``{constants.PREFIX}rob @myfriend``",
+    },
+
+    "bank": {
+        "description": f"Example: `{constants.PREFIX}help Bank`",
+        "deposit": f"Deposit money into your bank account\n example : ``{constants.PREFIX}dep 500``",
+        "withdraw": f"Withdraw money from your bank account\n example : ``{constants.PREFIX}with 500``",
+        "pay": f"Send money to another user\n example : ``{constants.PREFIX}pay @myfriend 500``",
+    },
+    
+    "user": {
+        "description": f"Example: `{constants.PREFIX}help User`",
+        "profile": "View all your stats",
+        "balance": "Check your current balance",
+        "inventory": "View your inventory",
+        "give": f"Give an item to another user\n example : ``{constants.PREFIX}give @myfriend complement bag | 4``",
+        "use": "Use an item from your inventory",
+        "energy":"Displays energy bar",
+    },
+
+    "market": {
+        "description": f"Example: `{constants.PREFIX}help Market`",
+        "shop": "View the available items in the shop",
+        "buy": f"Purchase an item from the shop\n example : ``{constants.PREFIX}buy complement bag | 4``",
+        "sell": f"Sell an item from your inventory\n example : ``{constants.PREFIX}sell complement bag | 4``",
+    },
+    "jobs":{
+        "description": f"Example: `{constants.PREFIX}help jobs`",
+        "jobs": "Shows you all available jobs this (ingame) week",
+        "apply": f"Applies for a specific job\n example : ``{constants.PREFIX}apply Economist``",
+        "info": f"Gives details on a specific job\n example : ``{constants.PREFIX}info Economist``",
+    },
+
+    "misc": {
+        "description": f"Example: `{constants.PREFIX}help Misc`",
+        "clock":"Dislpays current ingame time",
+
+    },
+
+    "operator": {
+        "description": f"Example: `{constants.PREFIX}help Operator`",
+        "op": f"Makes a user an operator\n example : ``{constants.PREFIX}op @myfriend``",
+        "deop": f"Removes operator status from a user\n example : ``{constants.PREFIX}deop @myfriend``",
+        "save": f"Saves the database\n example : ``{constants.PREFIX}save``",
+        "addcash": f"Adds cash to a user\n example : ``{constants.PREFIX}ac @myfriend 500``",
+        "remcash": f"Removes cash from a user\n example : ``{constants.PREFIX}rc @myfriend 500``",
+        "adddeposit": f"Adds cash to a user's bank account\n example : ``{constants.PREFIX}ad @myfriend 500``",
+        "removedeposit": f"Removes cash from a user's bank account\n example : ``{constants.PREFIX}rd @myfriend 500``",
+    }
+}
 
 async def StartAutoSave() -> None:
     '''Starts the auto save thread.'''

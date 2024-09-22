@@ -46,8 +46,8 @@ async def WorkNoJob(message : discord.Message) -> None:
         await utils.ReplyWithException(message=message, exception_msg="Energy insufficient.", exception_desc="Try waiting a bit to replenish your energy.")
         return
 
-    outcome = random.choice(list(constants.OUTCOMES_WORK.keys())) # Get outcome string.
-    value_1, value_2 = constants.OUTCOMES_WORK[outcome] # Get outcome money range.
+    outcome = random.choice(constants.OUTCOMES_WORK) # Get outcome string.
+    value_1, value_2 = constants.WORK_PAY # Get outcome money range.
 
     # Randomize cash.
     cash = random.uniform(value_1, value_2)
@@ -77,8 +77,8 @@ async def Work(message : discord.Message) -> None:
         return
 
     if user.occupation.GetName() == "Unemployed":
-        outcome = random.choice(list(constants.OUTCOMES_WORK.keys())) # Get outcome string.
-        value_1, value_2 = constants.OUTCOMES_WORK[outcome] # Get outcome money range.
+        outcome = random.choice(constants.OUTCOMES_WORK) # Get outcome string.
+        value_1, value_2 = constants.WORK_PAY # Get outcome money range.
 
     # Randomize cash.
         cash = random.uniform(value_1, value_2)

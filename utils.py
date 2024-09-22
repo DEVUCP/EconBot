@@ -17,7 +17,7 @@ def GetFilePath(filename : str) -> str:
 
 def ToMoney(amount: float) -> str:
     """Returns the amount in money format."""
-    return f"${amount:.2f}"
+    return f"${amount:,.2f}"
 
 def GetCommand(message : str) -> list[str]:
     """Returns a list of words from the message."""

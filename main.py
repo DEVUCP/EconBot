@@ -15,14 +15,14 @@ import startup
 
 from commands import bank, earnings, inventory, display, training, apply, operator
 from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs
-from commands.operator import permissions, management
+from commands.operator import permissions, management, cheats
 from commands.earnings import work, crime, rob, beg
-
+from commands.operator.cheats import money
 
 # Client Event Functions
 @singletons.client.event
 async def on_ready():
-    
+
     await startup.StartUp()
 
 @singletons.client.event
@@ -30,6 +30,7 @@ async def on_message(message : discord.Message):
 
     if message.author.id == singletons.client.user.id: # This ignores bot's own messages.
         return
+
     if len(message.content) == 0: # This ignores any gif or image messages.
         return
 
@@ -43,17 +44,20 @@ async def InvokeEcon(message : discord.Message) -> None:
     command = utils.GetCommand(message=message.content)
     action = command[0].lower()
     command = utils.StripEmpty(_list=command)
+
     match action:
         case "help":
             await commands.display.help.Help(message=message, command=command)
-        case "balance":
-            await commands.display.balance.DisplayBalance(message=message, command=command)
-        case "bal":
-            await commands.display.balance.DisplayBalance(message=message, command=command)
         case "profile":
             await commands.display.profile.DisplayProfile(message=message, command=command)
         case "prof":
             await commands.display.profile.DisplayProfile(message=message, command=command)
+        
+        # Bank Commands
+        case "balance":
+            await commands.display.balance.DisplayBalance(message=message, command=command)
+        case "bal":
+            await commands.display.balance.DisplayBalance(message=message, command=command)
         case "withdraw":
             await commands.bank.Withdraw(message=message, command=command)
         case "with":
@@ -65,6 +69,7 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "pay":
             await commands.bank.Pay(message=message, command=command)
             
+        # Earnings commands
         case "work":
             if constants.ENABLE_JOBS and constants.ENABLE_UNEMPLOYED_WORK:
                 await commands.earnings.work.Work(message=message)
@@ -88,7 +93,9 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "rob":
             if not constants.ENABLE_ROB:
                 return
-            await commands.earnings.rob.Rob(message=message)
+            await commands.earnings.rob.Rob(message=message, command=command)
+        
+        # Training commands
         case "workout":
             await commands.training.Workout(message=message)
         case "excercise":
@@ -99,10 +106,14 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.training.Paint(message=message)
         case "socialize":
             await commands.training.Socialize(message=message)
+        
+
         case "shop":
             await commands.display.markets.DisplayMarket(message=message, command=command)
         case "market":
             await commands.display.markets.DisplayMarket(message=message, command=command)
+        
+        # Job commands
         case "jobs":
             if constants.ENABLE_JOBS:
                 await commands.display.jobs.DisplayJobs(message=message)
@@ -112,6 +123,8 @@ async def InvokeEcon(message : discord.Message) -> None:
         case "info":
             if constants.ENABLE_JOBS:
                 await commands.display.jobs.DisplayJobInfo(message=message, command=command)
+
+        # Item commands
         case "buy":
             await commands.inventory.Buy(message=message, command=command)
         case "sell":
@@ -128,6 +141,8 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.display.clock.DisplayClock(message=message)
         case "energy":
             await commands.display.energy.DisplayEnergy(message=message)
+        
+        # OPERATOR COMMANDS
         case "operator":
             await commands.operator.permissions.AddOperator(message=message, command=command)
         case "op":
@@ -136,6 +151,22 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.operator.permissions.RemoveOperator(message=message, command=command)
         case "save":
             await commands.operator.management.ManualSave(message=message)
+        case "addcash":
+            await commands.operator.cheats.money.AddCash(message=message, command=command)
+        case "ac":
+            await commands.operator.cheats.money.AddCash(message=message, command=command)
+        case "removecash":
+            await commands.operator.cheats.money.RemoveCash(message=message, command=command)
+        case "rc":
+            await commands.operator.cheats.money.RemoveCash(message=message, command=command)
+        case "adddeposit":
+            await commands.operator.cheats.money.AddDeposit(message=message, command=command)
+        case "ad":
+            await commands.operator.cheats.money.AddDeposit(message=message, command=command)
+        case "removedeposit":
+            await commands.operator.cheats.money.RemoveDeposit(message=message, command=command)
+        case "rd":
+            await commands.operator.cheats.money.RemoveDeposit(message=message, command=command)
         case _: # None of the above.
             embed = discord.Embed(title="   Invalid Command..",description=f"do ``{constants.PREFIX}help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)
             await message.reply(embed=embed)

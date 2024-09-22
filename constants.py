@@ -1,6 +1,6 @@
 from utils import GetFilePath
 
-PREFIX = "!"
+PREFIX = "%"
 SAVE_INTERVAL = 600 # in seconds
 CRIME_FAIL_PERCENTAGE = 65 # chance of failing a crime
 
@@ -101,65 +101,68 @@ COMMANDS = {
         "op": f"Makes a user an operator\n example : ``{PREFIX}op @myfriend``",
         "deop": f"Removes operator status from a user\n example : ``{PREFIX}deop @myfriend``",
         "save": f"Saves the database\n example : ``{PREFIX}save``",
+        "addcash": f"Adds cash to a user\n example : ``{PREFIX}ac @myfriend 500``",
+        "remcash": f"Removes cash from a user\n example : ``{PREFIX}rc @myfriend 500``",
+        "adddeposit": f"Adds cash to a user's bank account\n example : ``{PREFIX}ad @myfriend 500``",
+        "removedeposit": f"Removes cash from a user's bank account\n example : ``{PREFIX}rd @myfriend 500``",
     }
 }
-OUTCOMES_WORK = {
-    "You found a hidden treasure chest at work and earned **$#**": WORK_PAY,
-    "Your boss gave you a surprise bonus of **$#** for your hard work": WORK_PAY,
-    "You discovered a new way to save the company money and got a reward of **$#**": WORK_PAY,
-    "You won the office lottery and received **$#**": WORK_PAY,
-    "You fixed the coffee machine and everyone chipped in to give you **$#**": WORK_PAY,
-    "You found a winning scratch-off ticket in the break room and won **$#**": WORK_PAY,
-    "You helped a colleague with a project and they gave you **$#** as a thank you": WORK_PAY,
-    "You found some extra cash in the vending machine and kept it, earning **$#**": WORK_PAY,
-    "You completed a big project ahead of schedule and received a bonus of **$#**": WORK_PAY,
-    "You found a forgotten envelope with **$#** in your desk drawer": WORK_PAY,
-    "You organized the office party and got a tip of **$#**": WORK_PAY,
-    "You won the 'Employee of the Month' award and received **$#**": WORK_PAY,
-    "You found a valuable item at work and sold it for **$#**": WORK_PAY,
-    "You helped fix a major issue and got a reward of **$#**": WORK_PAY,
-    "You found a stash of petty cash and took **$#**": WORK_PAY
-    }
-OUTCOMES_CRIME = {
-    "You successfully hacked into a bank and stole **$#**": CRIME_PAY,
-    "You pulled off a heist and got away with **$#**": CRIME_PAY,
-    "You pickpocketed a wealthy businessman and got **$#**": CRIME_PAY,
-    "You sold some 'hot' merchandise and earned **$#**": CRIME_PAY,
-    "You ran a successful scam and made **$#**": CRIME_PAY,
-    "You robbed a convenience store and got away with **$#**": CRIME_PAY,
-    "You mugged a tourist and found **$#** in their wallet": CRIME_PAY,
-    "You broke into a car and found **$#** in the glove compartment": CRIME_PAY,
-    "You stole a bike and sold it for **$#**": CRIME_PAY,
-    "You ran a counterfeit money operation and made **$#**": CRIME_PAY,
-    "You robbed a jewelry store and got away with **$#**": CRIME_PAY,
-    "You hijacked a truck and sold the goods for **$#**": CRIME_PAY,
-    "You ran an illegal gambling ring and earned **$#**": CRIME_PAY,
-    "You stole a purse and found **$#** inside": CRIME_PAY,
-    "You broke into a warehouse and found **$#** worth of goods": CRIME_PAY
-    }
+OUTCOMES_WORK = [
+    "You found a hidden treasure chest at work and earned **$#**",
+    "Your boss gave you a surprise bonus of **$#** for your hard work",
+    "You discovered a new way to save the company money and got a reward of **$#**",
+    "You won the office lottery and received **$#**",
+    "You fixed the coffee machine and everyone chipped in to give you **$#**",
+    "You found a winning scratch-off ticket in the break room and won **$#**",
+    "You helped a colleague with a project and they gave you **$#** as a thank you",
+    "You found some extra cash in the vending machine and kept it, earning **$#**",
+    "You completed a big project ahead of schedule and received a bonus of **$#**",
+    "You found a forgotten envelope with **$#** in your desk drawer",
+    "You organized the office party and got a tip of **$#**",
+    "You won the 'Employee of the Month' award and received **$#**",
+    "You found a valuable item at work and sold it for **$#**",
+    "You helped fix a major issue and got a reward of **$#**",
+    "You found a stash of petty cash and took **$#**"
+]
 
-OUTCOMES_FAIL_CRIME = {
-    "you were caught by the police and fined **$#**": CRIME_PENALTY,
-}
+OUTCOMES_CRIME = [
+    "You successfully hacked into a bank and stole **$#**",
+    "You pulled off a heist and got away with **$#**",
+    "You pickpocketed a wealthy businessman and got **$#**",
+    "You sold some 'hot' merchandise and earned **$#**",
+    "You ran a successful scam and made **$#**",
+    "You robbed a convenience store and got away with **$#**",
+    "You mugged a tourist and found **$#** in their wallet",
+    "You broke into a car and found **$#** in the glove compartment",
+    "You stole a bike and sold it for **$#**",
+    "You ran a counterfeit money operation and made **$#**",
+    "You robbed a jewelry store and got away with **$#**",
+    "You hijacked a truck and sold the goods for **$#**",
+    "You ran an illegal gambling ring and earned **$#**",
+    "You stole a purse and found **$#** inside",
+    "You broke into a warehouse and found **$#** worth of goods"
+]
 
+OUTCOMES_FAIL_CRIME = [
+    "you were caught by the police and fined **$#**"
+]
 
-
-OUTCOMES_BEG = {
-    "A kind stranger felt sorry for you and gave you **$#**": BEG_PAY,
-    "You found **$#** in an old coat pocket while begging": BEG_PAY,
-    "A generous passerby handed you **$#**": BEG_PAY,
-    "You sang a song and someone gave you **$#** for your effort": BEG_PAY,
-    "You found a wallet with **$#** inside": BEG_PAY,
-    "A child gave you their allowance of **$#**": BEG_PAY,
-    "You found some loose change on the ground worth **$#**": BEG_PAY,
-    "A street performer shared their earnings with you, giving you **$#**": BEG_PAY,
-    "A tourist felt generous and gave you **$#**": BEG_PAY,
-    "A dog walker gave you some spare change worth **$#**": BEG_PAY,
-    "You found a hidden stash of coins worth **$#**": BEG_PAY,
-    "A busker gave you a portion of their earnings, totaling **$#**": BEG_PAY,
-    "You found a $5 bill stuck in a bush": BEG_PAY,
-    "A kind soul bought you a meal and gave you **$#**": BEG_PAY
-}
+OUTCOMES_BEG = [
+    "A kind stranger felt sorry for you and gave you **$#**",
+    "You found **$#** in an old coat pocket while begging",
+    "A generous passerby handed you **$#**",
+    "You sang a song and someone gave you **$#** for your effort",
+    "You found a wallet with **$#** inside",
+    "A child gave you their allowance of **$#**",
+    "You found some loose change on the ground worth **$#**",
+    "A street performer shared their earnings with you, giving you **$#**",
+    "A tourist felt generous and gave you **$#**",
+    "A dog walker gave you some spare change worth **$#**",
+    "You found a hidden stash of coins worth **$#**",
+    "A busker gave you a portion of their earnings, totaling **$#**",
+    "You found a $5 bill stuck in a bush",
+    "A kind soul bought you a meal and gave you **$#**"
+]
 OUTCOMES_WORKOUT = [
     "You went to the gym and worked out for an hour. You feel stronger and more confident.",
     "You went for a run and burned some calories. You feel energized and refreshed.",
