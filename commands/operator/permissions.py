@@ -45,8 +45,7 @@ async def RemoveOperator(message : discord.Message, command : list[str] ) -> Non
         else:
             await utils.ReplyWithException(message=message, exception_msg="Invalid user!")
             return
-    
-    removed_operator = utils.FindUser(uid=mentioned_user_id, sid=message.guild.id)
+        removed_operator = utils.FindUser(uid=mentioned_user_id, sid=message.guild.id)
 
     if not removed_operator.op:
         await message.reply("That user is not an operator.")
