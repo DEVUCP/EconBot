@@ -1,15 +1,22 @@
 import discord
 import constants
+from utils import FindUser
 
 async def Help(message : discord.Message, command : list[str]) -> None:
     """Displays all valid commands."""
     # await message.reply("Help Command Invoked!") # Uncomment when debugging.
+
+    user = FindUser(uid=message.author.id, sid=message.guild.id)
     
     if len(command) < 2:
 
         embed = discord.Embed(title="Bot Commands", color=discord.Color.blue())
 
         for group, commands in constants.COMMANDS.items():
+
+            # Skips op command group if not op invoking command
+            if not user.op and not message.author.guild_permissions.administrator and group == "operator":
+                continue
 
             for command, description in commands.items():
 

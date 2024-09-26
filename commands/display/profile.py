@@ -1,5 +1,6 @@
 import discord
 import singletons
+import constants
 from utils import FindUser, ReplyWithException, IsValidMention, StripMention
 
 async def DisplayProfile(message : discord.Message, command : list[str]) -> None:
@@ -23,8 +24,12 @@ async def DisplayProfile(message : discord.Message, command : list[str]) -> None
 async def GetEmbedProfile(user) -> discord.Embed:
     """Returns an Embed with the User's Profile."""
     message_author = await singletons.client.fetch_user(user.uid)
-
-    embed = discord.Embed(title=f"{message_author.display_name}'s Profile", description=f"Occupation : `{user.occupation.GetName()}`" if not user.op else f"`[OPERATOR]`\nOccupation : `{user.occupation.GetName()}`", color=discord.Color.green())
+    
+    if constants.ENABLE_JOBS: # Display occupation if jobs are enabled
+        embed = discord.Embed(title=f"{message_author.display_name}'s Profile", description=f"Occupation : `{user.occupation.GetName()}`" if not user.op else f"`[OPERATOR]`\nOccupation : `{user.occupation.GetName()}`", color=discord.Color.green())
+    else:
+        embed = discord.Embed(title=f"{message_author.display_name}'s Profile", description="", color=discord.Color.green())
+   
     embed.set_thumbnail(url=message_author.avatar.url)
 
     embed.add_field(name="Energy", value=f"{user.energy.GetEnergyBar()}", inline=False)
@@ -35,7 +40,10 @@ async def GetEmbedProfile(user) -> discord.Embed:
     embed.add_field(name="Attributes", value=f"", inline=False)
 
     for attribute in user.attributes:
+        if not constants.ENABLE_JOBS and attribute == "Employability":
+            continue
         embed.add_field(name=attribute, value=f"{user.attributes[attribute].GetLevelPercentage():.1%}", inline=True)
+    
     embed.add_field(name="", value=f"", inline=False)
 
     return embed

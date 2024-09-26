@@ -27,7 +27,8 @@ async def StartUp() -> None:
     
     GenerateHelpCommand()
     
-    listings.GenerateListings() # Generates the job listings
+    if constants.ENABLE_JOBS:
+        listings.GenerateListings() # Generates the job listings
 
     await GenerateSaveFile() # Generates a save file if it does not exist.
 
@@ -105,6 +106,17 @@ def GenerateHelpCommand():
         "removedeposit": f"Removes cash from a user's bank account\n example : ``{constants.PREFIX}rd @myfriend 500``",
     }
 }
+    if not constants.ENABLE_JOBS:
+        del constants.COMMANDS["jobs"]
+
+    if not constants.ENABLE_BEG:
+        del constants.COMMANDS["earnings"]["beg"]
+
+    if not constants.ENABLE_CRIME:
+        del constants.COMMANDS["earnings"]["crime"]
+    
+    if not constants.ENABLE_ROB:
+        del constants.COMMANDS["earnings"]["rob"]
 
 async def StartAutoSave() -> None:
     '''Starts the auto save thread.'''
