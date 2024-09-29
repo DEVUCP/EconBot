@@ -13,7 +13,7 @@ import commands
 
 import startup
 
-from commands import bank, earnings, inventory, display, training, apply, operator
+from commands import bank, earnings, inventory, display, training, apply, operator, gambling
 from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs
 from commands.operator import permissions, management, cheats
 from commands.earnings import work, crime, rob, beg
@@ -167,6 +167,16 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.operator.cheats.money.RemoveDeposit(message=message, command=command)
         case "rd":
             await commands.operator.cheats.money.RemoveDeposit(message=message, command=command)
+        
+        # Gambling commands
+
+        case "blackjack":
+            await commands.gambling.BlackJack(message=message, command=command)
+        case "bj":
+            await commands.gambling.BlackJack(message=message, command=command)
+        case "slots":
+            await commands.gambling.SlotMachine(message=message, command=command)
+
         case _: # None of the above.
             embed = discord.Embed(title="   Invalid Command..",description=f"do ``{constants.PREFIX}help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)
             await message.reply(embed=embed)
