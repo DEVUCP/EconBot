@@ -18,6 +18,8 @@ from commands.display import balance, markets, inventory, clock, energy, help, p
 from commands.operator import permissions, management, cheats
 from commands.earnings import work, crime, rob, beg
 from commands.operator.cheats import money
+from commands.gambling import slots, blackjack
+from commands.gambling.blackjack import blackjack
 
 # Client Event Functions
 @singletons.client.event
@@ -171,11 +173,11 @@ async def InvokeEcon(message : discord.Message) -> None:
         # Gambling commands
 
         case "blackjack":
-            await commands.gambling.BlackJack(message=message, command=command)
+            await commands.gambling.blackjack.BlackJack(message=message, command=command)
         case "bj":
-            await commands.gambling.BlackJack(message=message, command=command)
+            await commands.gambling.blackjack.blackjack.BlackJack(message=message, command=command)
         case "slots":
-            await commands.gambling.SlotMachine(message=message, command=command)
+            await commands.gambling.slots.SlotMachine(message=message, command=command)
 
         case _: # None of the above.
             embed = discord.Embed(title="   Invalid Command..",description=f"do ``{constants.PREFIX}help`` to see all commands and command groups.", color=constants.EXCEPTION_COLOR)

@@ -93,6 +93,11 @@ COMMANDS = {
         "apply": f"Applies for a specific job\n example : ``{PREFIX}apply Economist``",
         "info": f"Gives details on a specific job\n example : ``{PREFIX}info Economist``",
     },
+    "gambling": {
+        "description": f"Example: `{PREFIX}help Gambling`",
+        "slots": f"Play the slots game\n example : ``{PREFIX}slots 100``",
+        "blackjack": f"Play the blackjack game\n example : ``{PREFIX}blackjack 10``",
+    },
 
     "misc": {
         "description": f"Example: `{PREFIX}help Misc`",

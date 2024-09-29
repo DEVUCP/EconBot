@@ -89,6 +89,12 @@ def GenerateHelpCommand():
         "info": f"Gives details on a specific job\n example : ``{constants.PREFIX}info Economist``",
     },
 
+    "gambling": {
+        "description": f"Example: `{constants.PREFIX}help Gambling`",
+        "slots": f"Play the slots game\n example : ``{constants.PREFIX}slots 100``",
+        "blackjack": f"Play the blackjack game\n example : ``{constants.PREFIX}blackjack 10``",
+    },
+
     "misc": {
         "description": f"Example: `{constants.PREFIX}help Misc`",
         "clock":"Dislpays current ingame time",
