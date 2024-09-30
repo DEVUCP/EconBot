@@ -42,7 +42,7 @@ class BlackJackInteractable(interactable):
     
     async def on_timeout(self) -> None:
         self.Tie()
-        self.UpdateBoard(interaction=self)
+        await self.UpdateBoard(interaction=self)
     
 
     # Game Ending Functions
