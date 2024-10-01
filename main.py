@@ -14,7 +14,7 @@ import commands
 import startup
 
 from commands import bank, earnings, inventory, display, training, apply, operator, gambling
-from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs
+from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs, leaderboard
 from commands.operator import permissions, management, cheats
 from commands.earnings import work, crime, rob, beg
 from commands.operator.cheats import money
@@ -54,6 +54,10 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.display.profile.DisplayProfile(message=message, command=command)
         case "prof":
             await commands.display.profile.DisplayProfile(message=message, command=command)
+        case "leaderboard":
+            await commands.display.leaderboard.DisplayLeaderboard(message=message)
+        case "lb":
+            await commands.display.leaderboard.DisplayLeaderboard(message=message)
         
         # Bank Commands
         case "balance":

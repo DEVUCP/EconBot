@@ -101,6 +101,7 @@ COMMANDS = {
 
     "misc": {
         "description": f"Example: `{PREFIX}help Misc`",
+        "leaderboard": f"Shows the top 10 users with the highest networth\n example : ``{PREFIX}leaderboard``",
         "clock":"Dislpays current ingame time",
 
     },

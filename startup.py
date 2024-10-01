@@ -97,6 +97,7 @@ def GenerateHelpCommand():
 
     "misc": {
         "description": f"Example: `{constants.PREFIX}help Misc`",
+        "leaderboard": f"Shows the top 10 users with the highest networth\n example : ``{constants.PREFIX}leaderboard``",
         "clock":"Dislpays current ingame time",
 
     },
