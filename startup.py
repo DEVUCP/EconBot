@@ -93,6 +93,7 @@ def GenerateHelpCommand():
         "description": f"Example: `{constants.PREFIX}help Gambling`",
         "slots": f"Play the slots game\n example : ``{constants.PREFIX}slots 100``",
         "blackjack": f"Play the blackjack game\n example : ``{constants.PREFIX}blackjack 10``",
+        "roulette": f"Enter a roulette bet, you can bet on 3 different colors, or if the number will be even or odd, or you can bet on the exact number.\n example 1: ``{constants.PREFIX}roulette 130 green``\n example 2: ``{constants.PREFIX}roulette 120 31``\n example 3: ``{constants.PREFIX}roulette 50 even``"
     },
 
     "misc": {

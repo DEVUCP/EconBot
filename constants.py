@@ -21,9 +21,11 @@ ENABLE_ROB = True
 AUTOSAVE = True
 
 #
-MIN_BJ_BET = 9.99
+MIN_BJ_BET = 9.99 # Users will most likely use int, so make this a float incase floating point inaccuracy
 MIN_SLOTS_BET = 9.99
-
+MIN_ROULETTE_BET = 9.99
+ROULETTE_SLOT_RANGE = (0,37)
+ROULETTE_INTERVAL = 30 # in seconds
 
 # Market Item Costs
 COMPLEMENT_BAG_COST = 5.0
@@ -97,6 +99,7 @@ COMMANDS = {
         "description": f"Example: `{PREFIX}help Gambling`",
         "slots": f"Play the slots game\n example : ``{PREFIX}slots 100``",
         "blackjack": f"Play the blackjack game\n example : ``{PREFIX}blackjack 10``",
+        "roulette": f"Enter a roulette bet, you can bet on 3 different colors, or if the number will be even or odd, or you can bet on the exact number.\n example 1: ``{PREFIX}roulette 130 green``\n example 2: ``{PREFIX}roulette 120 31``\n example 3: ``{PREFIX}roulette 50 even``"
     },
 
     "misc": {

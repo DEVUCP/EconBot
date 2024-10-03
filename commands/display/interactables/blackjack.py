@@ -42,7 +42,6 @@ class BlackJackInteractable(interactable):
     
     async def on_timeout(self) -> None:
         self.Tie()
-        await self.UpdateBoard(interaction=self)
     
 
     # Game Ending Functions
@@ -169,7 +168,6 @@ class BlackJackInteractable(interactable):
             return
         
 
-        #TODO: check if the player has enough money to double down
         user = utils.FindUser(uid=self.original_user.id, sid=self.sid)
 
         if user.bank_acc.GetCashOnHand() < self.amount * 2:

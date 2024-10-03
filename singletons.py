@@ -78,3 +78,5 @@ black_market_pages = [
 ]
 
 user_dict = {} # {serverid : list[user.User], serverid : list[user.User] }
+
+active_roulettes = {} # serverid : roulette object
