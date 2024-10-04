@@ -34,7 +34,6 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
         return
     
     amount = random.uniform(user_robbed.bank_acc.cash_on_hand/4, user_robbed.bank_acc.cash_on_hand/2)
-    amount = float(f"{amount:,.2f}")
     
     # Rob the user.
     user.bank_acc.AddCash(cash=amount)
@@ -43,6 +42,6 @@ async def Rob(message : discord.Message, command : list[str]) -> None:
     # Take energy from user.
     user.energy.DecrEnergy(amount=1)
 
-    embed = discord.Embed(description=f"You have successfully robbed ${amount} from <@{user_robbed_id}>",color=discord.Color.green())
+    embed = discord.Embed(description=f"You have successfully robbed ${utils.ToMoney(amount)} from <@{user_robbed_id}>",color=discord.Color.green())
     embed.set_footer(text=user.energy.GetEnergyBar())
     await message.reply(embed=embed)
