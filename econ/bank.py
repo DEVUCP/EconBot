@@ -89,6 +89,8 @@ class BankAccount:
         """Sets the deposit.
             Returns False if newdep exceeds the max balance of the bank card, True otherwise.
         """
+        if self.bank_card.GetCardMax() == None: # If card has no max, then it is not maxed.
+            return True
         if newdep > self.bank_card.GetCardMax():
             return False
         self.deposit = newdep

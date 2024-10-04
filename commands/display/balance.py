@@ -40,7 +40,7 @@ async def GetEmbedBalance(user) -> discord.Embed:
 
     embed.add_field(name="Cash:",value=f"{ToMoney(user.bank_acc.GetCashOnHand())}")
     embed.add_field(name="Bank:",value=f"{ToMoney(user.bank_acc.GetDeposit())}")
-    embed.add_field(name=user.bank_acc.bank_card.GetCardName(), value=f"Max -> {ToMoney(user.bank_acc.bank_card.GetCardMax())}", inline=False)
+    embed.add_field(name=user.bank_acc.bank_card.GetCardName(), value=f"Max -> {ToMoney(user.bank_acc.bank_card.GetCardMax())}" if user.bank_acc.bank_card.GetCardMax() else f"Max -> Infinite", inline=False)
 
     embed.set_footer(text=f"Networth: {ToMoney(user.GetNetWorth())}")
 
