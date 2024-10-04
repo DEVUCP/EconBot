@@ -14,7 +14,7 @@ import commands
 import startup
 
 from commands import bank, earnings, inventory, display, training, apply, operator, gambling
-from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs, leaderboard
+from commands.display import balance, markets, inventory, clock, energy, help, profile, jobs, leaderboard, changelog
 from commands.operator import permissions, management, cheats
 from commands.earnings import work, crime, rob, beg
 from commands.operator.cheats import money
@@ -143,10 +143,20 @@ async def InvokeEcon(message : discord.Message) -> None:
             await commands.inventory.UseItem(message=message, command=command)
         case "give":
            await commands.inventory.Give(message=message, command=command)
+        
+
         case "clock":
             await commands.display.clock.DisplayClock(message=message)
         case "energy":
             await commands.display.energy.DisplayEnergy(message=message)
+        case "changelogs":
+            await commands.display.changelog.DisplayChangelog(message=message)
+        case "changelog":
+            await commands.display.changelog.DisplayChangelog(message=message)
+        case "changes":
+            await commands.display.changelog.DisplayChangelog(message=message)
+        case "cl":
+            await commands.display.changelog.DisplayChangelog(message=message)
         
         # OPERATOR COMMANDS
         case "operator":

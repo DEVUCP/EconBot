@@ -6,6 +6,7 @@ CRIME_FAIL_PERCENTAGE = 65 # chance of failing a crime
 
 
 SETTINGS_PATH = GetFilePath(filename="settings.json")
+CHANGELOGS_PATH = GetFilePath(filename="CHANGELOGS.md")
 
 PAGE_LEN = 5 # Max number of items in a market page
 LISTING_LEN = 5 # Max number of job listings
