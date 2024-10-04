@@ -177,12 +177,20 @@ async def InvokeEcon(message : discord.Message) -> None:
         # Gambling commands
 
         case "blackjack":
+            if not constants.ENABLE_BJ:
+                return
             await commands.gambling.blackjack.BlackJack(message=message, command=command)
         case "bj":
+            if not constants.ENABLE_BJ:
+                return
             await commands.gambling.blackjack.blackjack.BlackJack(message=message, command=command)
         case "slots":
+            if not constants.ENABLE_SLOTS:
+                return
             await commands.gambling.slots.SlotMachine(message=message, command=command)
         case "roulette":
+            if not constants.ENABLE_ROULETTE:
+                return
             await commands.gambling.roulette.Roulette(message=message, command=command)
 
         case _: # None of the above.

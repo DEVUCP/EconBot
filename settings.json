@@ -21,7 +21,11 @@
         "enable-beg": true,
         "enable-jobs": true,
         "enable-unemployed-work": true,
-        "enable-rob": true
+        "enable-rob": true,
+
+        "enable-slots": true,
+        "enable-blackjack": true,
+        "enable-roulette": true
       },
 
       "pay":
@@ -31,7 +35,16 @@
         "crime-penalty" : [-100.0,-50.0],
         "work-pay": [15.0,65.0]
       },
-    
+
+      "gambling":
+      {
+        "min-blackjack-bet": 9.99,
+        "min-slots-bet": 9.99,
+        "min-roulette-bet": 9.99,
+        "roulette-countdown-time": 60,
+        "roulette-slot-range": [0, 37]
+      },
+
       "crime-fail-percentage": 65,
       "job-listing-length": 5
     }

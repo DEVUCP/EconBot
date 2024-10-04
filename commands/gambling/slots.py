@@ -5,16 +5,11 @@ import utils
 import random
 
 slot_symbol_list = [
-    ":apple:",
     ":guitar:",
     ":basketball:",
     ":fire_engine:",
-    ":pizza:",
     ":anchor:",
-    ":microphone:",
     ":trophy:",
-    ":rocket:",
-    ":chocolate_bar:"
 ]
 
 async def SlotMachine(message : discord.Message, command : list[str]) -> None:
