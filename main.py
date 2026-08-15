@@ -1,6 +1,13 @@
 # Libraries
 import discord
 import os
+import sys
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv() # Loads a local .env file if one exists, system env vars still take priority.
+except ImportError:
+    pass # python-dotenv is optional, a system environment variable works just as well.
 
 import singletons
 import constants
@@ -208,4 +215,11 @@ async def InvokeEcon(message : discord.Message) -> None:
             await message.reply(embed=embed)
 
 
-singletons.client.run(os.getenv("econtoken"))
+token = os.getenv("econtoken")
+
+if not token:
+    singletons.print_colored("[ NO TOKEN FOUND ! ]", "red")
+    print("Set an environment variable named 'econtoken', or put econtoken=<your token> in a .env file next to main.py.")
+    sys.exit(1)
+
+singletons.client.run(token)

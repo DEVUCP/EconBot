@@ -62,8 +62,9 @@ python --version
 
 - Install the required dependencies:
 ```bash
-pip install discord
+pip install discord python-dotenv
 ```
+(`python-dotenv` is optional, it only lets you keep your token in a `.env` file instead of a system environment variable.)
 
 ## Discord Application Deployment
   
@@ -98,6 +99,12 @@ pip install discord
 
 8. You may use the Generated URL to invite your bot into your servers.
 
+9. Go to the `Bot` section and scroll down to `Privileged Gateway Intents`, then turn **all three** of them on:
+   `Presence Intent`, `Server Members Intent` and `Message Content Intent`.
+
+   EconBot reads normal chat messages to catch its `!` commands, and Discord keeps that behind a switch you have to flip yourself.
+   If you skip this step the bot will crash on startup with `PrivilegedIntentsRequired`.
+
 ---
 
 <strong>Token Setup & Environment Variable Setup</strong>
@@ -121,6 +128,14 @@ pip install discord
    [Windows 11](https://www.youtube.com/watch?v=ow2jROvxyH4&t=2s)
 
    [Linux (Ubuntu)](https://www.youtube.com/watch?v=Y6_7xaxkPik)
+
+_Alternatively_, if you installed `python-dotenv`, you can create a file named `.env` next to `main.py` containing:
+
+```
+econtoken=YOUR TOKEN HERE
+```
+
+`.env` is already in `.gitignore`, so your token won't be committed by accident.
 
 _Alternatively_ you can just directly paste the bot token into the code; however, this is __not recommended__.
 
