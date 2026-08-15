@@ -27,8 +27,6 @@ class Client(discord.Client):
 
         print_colored("--- Client disconnected ---", "red")
 
-        exit(0)
-        
     async def close(self):
         # Perform cleanup before closing
         await self.async_cleanup()

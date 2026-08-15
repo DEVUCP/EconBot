@@ -52,8 +52,9 @@ async def SaveUserDict() -> None:
         print(f"Error: {err}")
 
 def LoadUserDict() -> bool:
-    if not os.path.exists(save_path):
-        os.mknod(save_path)
+    if not os.path.exists(save_path) or os.path.getsize(save_path) == 0:
+        singletons.user_dict = {} # Fresh install, nothing saved yet. SaveUserDict creates the file later.
+        return True
     with open(save_path,'rb') as file:
        singletons.user_dict = pickle.load(file=file)
        return True
